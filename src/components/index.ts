@@ -9,3 +9,4 @@ export { StoryGrid } from './StoryGrid';
 export { CastCard } from './CastCard';
 export { PhotoGallery } from './PhotoGallery';
 export { SEO } from './SEO';
+export { ScrollToTop } from './ScrollToTop';
