@@ -2,6 +2,7 @@ export interface CastMember {
   castName: string;
   characterName: string;
   role: string;
+  photo?: string;
 }
 
 export interface Story {
