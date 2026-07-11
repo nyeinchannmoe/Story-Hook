@@ -49,10 +49,22 @@ export function StoryCard({ story }: StoryCardProps) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <RatingBadge rating={story.rating} size="sm" />
+          <span className="text-sm text-text-muted">{story.country}</span>
+          <span className="text-sm text-text-muted" aria-hidden="true">
+            ·
+          </span>
+          <span className="text-sm text-text-muted">
+            {story.episodes} eps
+          </span>
           {year && (
-            <span className="text-sm text-text-muted">{year}</span>
+            <>
+              <span className="text-sm text-text-muted" aria-hidden="true">
+                ·
+              </span>
+              <span className="text-sm text-text-muted">{year}</span>
+            </>
           )}
         </div>
 

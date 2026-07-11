@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { APP_NAME, ROUTES } from '@/constants';
+import { SearchIconLink } from './SearchIconLink';
 
 export function Header() {
   return (
@@ -21,13 +22,14 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Main navigation">
+        <nav aria-label="Main navigation" className="flex items-center gap-1 sm:gap-2">
           <Link
             to={ROUTES.HOME}
-            className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+            className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary sm:px-4"
           >
             Browse Dramas
           </Link>
+          <SearchIconLink />
         </nav>
       </div>
     </header>

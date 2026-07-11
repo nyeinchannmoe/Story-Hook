@@ -108,4 +108,73 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* Dual range slider thumbs */
+.dual-range-thumb {
+  pointer-events: none;
+}
+
+.dual-range-thumb::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  margin-top: -7px;
+}
+
+.dual-range-thumb::-moz-range-thumb {
+  pointer-events: auto;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.dual-range-thumb::-webkit-slider-runnable-track {
+  appearance: none;
+  height: 6px;
+  background: transparent;
+}
+
+.dual-range-thumb::-moz-range-track {
+  appearance: none;
+  height: 6px;
+  background: transparent;
+  border: none;
+}
+
+.dual-range-thumb:focus-visible {
+  outline: none;
+}
+
+.dual-range-thumb:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.dual-range-thumb:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }

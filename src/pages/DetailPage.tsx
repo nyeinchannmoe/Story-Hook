@@ -7,6 +7,7 @@ import {
   PhotoGallery,
   DetailSkeleton,
   EmptyState,
+  SearchIconLink,
 } from '@/components';
 import { ROUTES } from '@/constants';
 import { useStory } from '@/hooks/useStories';
@@ -90,16 +91,19 @@ export default function DetailPage() {
         </div>
 
         <PageContainer className="relative -mt-32 sm:-mt-40">
-          <Link
-            to={ROUTES.HOME}
-            className="mb-6 inline-flex items-center gap-2 rounded-lg glass px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
-            aria-label="Go back to home"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </Link>
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <Link
+              to={ROUTES.HOME}
+              className="inline-flex items-center gap-2 rounded-lg glass px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+              aria-label="Go back to home"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+            </Link>
+            <SearchIconLink className="glass" />
+          </div>
 
           <div className="flex flex-col gap-8 lg:flex-row">
             <div className="shrink-0">

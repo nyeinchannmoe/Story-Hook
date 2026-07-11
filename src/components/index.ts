@@ -10,3 +10,5 @@ export { CastCard } from './CastCard';
 export { PhotoGallery } from './PhotoGallery';
 export { SEO } from './SEO';
 export { ScrollToTop } from './ScrollToTop';
+export { DualRangeSlider } from './DualRangeSlider';
+export { SearchIconLink } from './SearchIconLink';

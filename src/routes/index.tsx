@@ -10,6 +10,7 @@ import { ROUTES } from '@/constants';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const DetailPage = lazy(() => import('@/pages/DetailPage'));
+const AdvancedSearchPage = lazy(() => import('@/pages/AdvancedSearchPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 function PageLoader() {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: 'detail/:uuid',
         element: withSuspense(DetailPage),
+      },
+      {
+        path: 'advanced-search',
+        element: withSuspense(AdvancedSearchPage),
       },
       {
         path: '*',
