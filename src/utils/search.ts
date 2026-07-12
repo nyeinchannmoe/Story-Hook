@@ -4,10 +4,12 @@ import {
   SEARCH_RATING_MIN,
   SEARCH_YEAR_MAX,
   SEARCH_YEAR_MIN,
+  WATCHED_FILTER_OPTIONS,
   type SearchCountry,
 } from '@/constants';
 import type { SearchFilters } from '@/types/search';
-import type { Story } from '@/types/story';
+import type { WatchedFilter } from '@/types/watched';
+import type { Cast, OriginalNetwork, Story } from '@/types/story';
 import { extractYear } from '@/utils/story';
 
 export function createDefaultFilters(): SearchFilters {
@@ -20,6 +22,7 @@ export function createDefaultFilters(): SearchFilters {
     episodesMax: '',
     yearFrom: SEARCH_YEAR_MIN,
     yearTo: SEARCH_YEAR_MAX,
+    watched: 'all',
   };
 }
 
@@ -28,18 +31,31 @@ export function parseRatingValue(rating: string): number {
   return match ? parseFloat(match[1]) : 0;
 }
 
-function matchesKeyword(story: Story, keyword: string): boolean {
+function matchesKeyword(
+  story: Story,
+  keyword: string,
+  castByUuid: Map<string, Cast>,
+  networkByUuid: Map<string, OriginalNetwork>,
+): boolean {
   const q = keyword.trim().toLowerCase();
   if (!q) return true;
 
   if (story.title.toLowerCase().includes(q)) return true;
   if (story.mmTitle.toLowerCase().includes(q)) return true;
 
-  return story.cast.some(
-    (member) =>
-      member.castName.toLowerCase().includes(q) ||
-      member.characterName.toLowerCase().includes(q),
-  );
+  const matchesNetwork = story.orginalNetworks.some((uuid) => {
+    const networkName = networkByUuid.get(uuid)?.name ?? '';
+    return networkName.toLowerCase().includes(q);
+  });
+  if (matchesNetwork) return true;
+
+  return story.cast.some((member) => {
+    const castName = castByUuid.get(member.castUuid)?.name ?? '';
+    return (
+      castName.toLowerCase().includes(q) ||
+      member.characterName.toLowerCase().includes(q)
+    );
+  });
 }
 
 function matchesCountry(story: Story, countries: SearchCountry[]): boolean {
@@ -92,17 +108,36 @@ function matchesAiredYear(
   return year >= yearFrom && year <= yearTo;
 }
 
+function matchesWatchedStatus(
+  story: Story,
+  watchedFilter: WatchedFilter,
+  watchedSeries: ReadonlySet<string>,
+): boolean {
+  if (watchedFilter === 'all') return true;
+
+  const uuid = typeof story.uuid === 'string' ? story.uuid.trim() : '';
+  const isWatched = uuid !== '' && watchedSeries.has(uuid);
+
+  if (watchedFilter === 'watched') return isWatched;
+  if (watchedFilter === 'not_watched') return !isWatched;
+  return true;
+}
+
 export function filterStories(
   stories: Story[],
   filters: SearchFilters,
+  castByUuid: Map<string, Cast> = new Map(),
+  networkByUuid: Map<string, OriginalNetwork> = new Map(),
+  watchedSeries: ReadonlySet<string> = new Set(),
 ): Story[] {
   return stories.filter(
     (story) =>
-      matchesKeyword(story, filters.keyword) &&
+      matchesKeyword(story, filters.keyword, castByUuid, networkByUuid) &&
       matchesCountry(story, filters.countries) &&
       matchesRating(story, filters.ratingFrom, filters.ratingTo) &&
       matchesEpisodes(story, filters.episodesMin, filters.episodesMax) &&
-      matchesAiredYear(story, filters.yearFrom, filters.yearTo),
+      matchesAiredYear(story, filters.yearFrom, filters.yearTo) &&
+      matchesWatchedStatus(story, filters.watched, watchedSeries),
   );
 }
 
@@ -116,7 +151,7 @@ export function filtersToSearchParams(filters: SearchFilters): URLSearchParams {
 
   const keyword = filters.keyword.trim();
   if (keyword) {
-    params.set('keyword', keyword);
+    params.set('q', keyword);
   }
 
   const allSelected =
@@ -150,6 +185,10 @@ export function filtersToSearchParams(filters: SearchFilters): URLSearchParams {
     params.set('yearTo', String(filters.yearTo));
   }
 
+  if (filters.watched !== defaults.watched) {
+    params.set('watched', filters.watched);
+  }
+
   return params;
 }
 
@@ -158,7 +197,8 @@ export function searchParamsToFilters(
 ): SearchFilters {
   const defaults = createDefaultFilters();
 
-  const keyword = params.get('keyword')?.trim() ?? '';
+  const keyword =
+    params.get('q')?.trim() || params.get('keyword')?.trim() || '';
 
   const countryParams = params.getAll('country');
   let countries: SearchCountry[] = [...defaults.countries];
@@ -217,6 +257,13 @@ export function searchParamsToFilters(
     [yearFrom, yearTo] = [yearTo, yearFrom];
   }
 
+  const watchedRaw = params.get('watched')?.trim().toLowerCase() ?? '';
+  const watched: WatchedFilter = (
+    WATCHED_FILTER_OPTIONS as readonly string[]
+  ).includes(watchedRaw)
+    ? (watchedRaw as WatchedFilter)
+    : defaults.watched;
+
   return {
     keyword,
     countries,
@@ -226,5 +273,6 @@ export function searchParamsToFilters(
     episodesMax,
     yearFrom,
     yearTo,
+    watched,
   };
 }

@@ -1,0 +1,20 @@
+{
+  "failedTitle": "Failed to Load Drama",
+  "notFoundTitle": "Drama Not Found",
+  "notFoundDescription": "The drama you're looking for doesn't exist or may have been removed.",
+  "back": "Back",
+  "goBackHome": "Go back to home",
+  "aired": "Aired",
+  "country": "Country",
+  "type": "Type",
+  "format": "Format",
+  "duration": "Duration",
+  "originalNetworks": "Original Networks",
+  "watchNow": "Watch Now",
+  "markAsWatched": "Mark as Watched",
+  "alreadyWatched": "Already Watched",
+  "story": "Story",
+  "episodeLinks": "Episode Links",
+  "cast": "Cast",
+  "photos": "Photos"
+}

@@ -1,0 +1,22 @@
+{
+  "appName": "Story Hook",
+  "appDescription": "Discover and explore the best Asian dramas with reviews, cast info, and more.",
+  "tryAgain": "Try Again",
+  "backToHome": "Back to Home",
+  "browseAllDramas": "Browse All Dramas",
+  "loading": "Loading…",
+  "resetFilters": "Reset Filters",
+  "search": "Search",
+  "episodes": "Episodes",
+  "episodesShort": "eps",
+  "episodesCount": "{{count}} Episodes",
+  "coverAlt": "{{title}} cover",
+  "viewDetails": "View Details",
+  "mainRole": "Main Role",
+  "supportRole": "Support Role",
+  "asCharacter": "as {{character}}",
+  "unknownCast": "Unknown Cast",
+  "rangeSeparator": "–",
+  "watched": "Watched",
+  "markWatched": "Mark watched"
+}

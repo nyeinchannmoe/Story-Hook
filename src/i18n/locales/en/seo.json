@@ -1,0 +1,13 @@
+{
+  "homeTitle": "Story Hook",
+  "homeDescription": "Discover and explore the best Asian dramas with reviews, cast info, and more.",
+  "advancedSearchTitle": "Advanced Search",
+  "advancedSearchDescription": "Search Asian dramas by keyword, country, rating, episodes, and aired year.",
+  "settingsTitle": "Settings",
+  "settingsDescription": "Manage your language preference and other Story Hook settings.",
+  "aboutTitle": "About",
+  "aboutDescription": "Learn about Story Hook — a curated catalog of Asian dramas with multilingual support.",
+  "notFoundTitle": "Page Not Found",
+  "notFoundDescription": "The page you are looking for does not exist.",
+  "titleTemplate": "{{title}} | {{appName}}"
+}

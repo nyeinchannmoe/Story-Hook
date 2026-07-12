@@ -1,0 +1,20 @@
+{
+  "failedTitle": "加载剧集失败",
+  "notFoundTitle": "未找到剧集",
+  "notFoundDescription": "您要查找的剧集不存在或可能已被移除。",
+  "back": "返回",
+  "goBackHome": "返回首页",
+  "aired": "播出时间",
+  "country": "国家/地区",
+  "type": "类型",
+  "format": "形式",
+  "duration": "时长",
+  "originalNetworks": "原播平台",
+  "watchNow": "立即观看",
+  "story": "剧情",
+  "episodeLinks": "分集链接",
+  "cast": "演员",
+  "photos": "剧照",
+  "markAsWatched": "标记为已看过",
+  "alreadyWatched": "已看过"
+}

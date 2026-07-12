@@ -11,6 +11,8 @@ import { ROUTES } from '@/constants';
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const DetailPage = lazy(() => import('@/pages/DetailPage'));
 const AdvancedSearchPage = lazy(() => import('@/pages/AdvancedSearchPage'));
+const SettingsPage = lazy(() => import('@/pages/SettingsPage'));
+const AboutPage = lazy(() => import('@/pages/AboutPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 function PageLoader() {
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
       {
         path: 'advanced-search',
         element: withSuspense(AdvancedSearchPage),
+      },
+      {
+        path: 'settings',
+        element: withSuspense(SettingsPage),
+      },
+      {
+        path: 'about',
+        element: withSuspense(AboutPage),
       },
       {
         path: '*',

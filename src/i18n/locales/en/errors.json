@@ -1,0 +1,11 @@
+{
+  "pageNotFoundTitle": "Page Not Found",
+  "pageNotFoundBody": "The page you're looking for doesn't exist or has been moved.",
+  "backToApp": "Back to {{appName}}",
+  "invalidStoriesFormat": "Invalid stories data format",
+  "failedLoadStories": "Failed to load stories",
+  "invalidCastsFormat": "Invalid casts data format",
+  "failedLoadCasts": "Failed to load casts",
+  "invalidNetworksFormat": "Invalid networks data format",
+  "failedLoadNetworks": "Failed to load networks"
+}

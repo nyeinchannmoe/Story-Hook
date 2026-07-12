@@ -1,0 +1,22 @@
+{
+  "dramaCollection": "ဒရာမာစုစည်းမှု",
+  "loadingDramas": "ဒရာမာများဖွင့်နေသည်",
+  "loadingDramasSr": "ဒရာမာများဖွင့်နေသည်…",
+  "loadingDramaDetails": "ဒရာမာအသေးစိတ်ဖွင့်နေသည်",
+  "loadingDramaDetailsSr": "ဒရာမာအသေးစိတ်ဖွင့်နေသည်…",
+  "viewDetailsFor": "{{title}} အသေးစိတ်ကြည့်ရန်",
+  "searchFeaturing": "{{name}} ပါဝင်သော ဒရာမာများ ရှာရန်",
+  "photoGallery": "{{title}} ဓာတ်ပုံပြခန်း",
+  "viewPhoto": "ဓာတ်ပုံ {{current}} / {{total}} ကြည့်ရန်",
+  "photoStill": "{{title}} စတီး {{index}}",
+  "ratingOutOf": "အဆင့်: {{value}} / {{max}}",
+  "sliderMinimum": "{{label}} အနည်းဆုံး",
+  "sliderMaximum": "{{label}} အများဆုံး",
+  "sliderFrom": "{{label}} မှ",
+  "sliderTo": "{{label}} သို့",
+  "openSettings": "ဆက်တင်များဖွင့်ရန်",
+  "markSeriesWatched": "{{title}} ကို ကြည့်ပြီးအဖြစ် မှတ်ရန်",
+  "markSeriesUnwatched": "{{title}} ၏ ကြည့်ပြီး အခြေအနေကို ဖယ်ရှားရန်",
+  "markEpisodeWatched": "အပိုင်း {{index}} ({{title}}) ကို ကြည့်ပြီးအဖြစ် မှတ်ရန်",
+  "markEpisodeUnwatched": "အပိုင်း {{index}} ({{title}}) ကို မကြည့်ရသေးအဖြစ် မှတ်ရန်"
+}

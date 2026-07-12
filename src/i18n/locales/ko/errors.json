@@ -1,0 +1,11 @@
+{
+  "pageNotFoundTitle": "페이지를 찾을 수 없음",
+  "pageNotFoundBody": "찾으시는 페이지가 없거나 이동되었습니다.",
+  "backToApp": "{{appName}}(으)로 돌아가기",
+  "invalidStoriesFormat": "드라마 데이터 형식이 올바르지 않습니다",
+  "failedLoadStories": "드라마를 불러오지 못했습니다",
+  "invalidCastsFormat": "출연진 데이터 형식이 올바르지 않습니다",
+  "failedLoadCasts": "출연진을 불러오지 못했습니다",
+  "invalidNetworksFormat": "방송사 데이터 형식이 올바르지 않습니다",
+  "failedLoadNetworks": "방송사를 불러오지 못했습니다"
+}

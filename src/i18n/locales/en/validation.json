@@ -1,0 +1,4 @@
+{
+  "invalidNumber": "Please enter a valid number",
+  "minGreaterThanMax": "Minimum cannot be greater than maximum"
+}

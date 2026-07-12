@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants';
 
 interface SearchIconLinkProps {
@@ -6,12 +7,15 @@ interface SearchIconLinkProps {
 }
 
 export function SearchIconLink({ className = '' }: SearchIconLinkProps) {
+  const { t } = useTranslation('navigation');
+  const label = t('advancedSearch');
+
   return (
     <Link
       to={ROUTES.ADVANCED_SEARCH}
       className={`inline-flex items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${className}`}
-      aria-label="Advanced search"
-      title="Advanced search"
+      aria-label={label}
+      title={label}
     >
       <svg
         className="h-5 w-5"

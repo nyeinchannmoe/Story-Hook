@@ -1,4 +1,5 @@
 import { useId, type FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   PageContainer,
   SEO,
@@ -8,21 +9,37 @@ import {
   DualRangeSlider,
 } from '@/components';
 import {
-  APP_NAME,
   SEARCH_COUNTRIES,
   SEARCH_RATING_MAX,
   SEARCH_RATING_MIN,
   SEARCH_YEAR_MAX,
   SEARCH_YEAR_MIN,
+  WATCHED_FILTER_OPTIONS,
   type SearchCountry,
 } from '@/constants';
 import { useStories } from '@/hooks/useStories';
+import { useCasts } from '@/hooks/useCasts';
+import { useNetworks } from '@/hooks/useNetworks';
 import { useAdvancedSearch } from '@/hooks/useAdvancedSearch';
+import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
+import type { WatchedFilter } from '@/types/watched';
 
 export default function AdvancedSearchPage() {
+  const { t } = useTranslation([
+    'advancedSearch',
+    'common',
+    'seo',
+    'filters',
+    'errors',
+  ]);
   const { stories, loading, error, refetch } = useStories();
-  const { draft, results, updateDraft, search, reset } =
-    useAdvancedSearch(stories);
+  const { castByUuid } = useCasts();
+  const { networkByUuid } = useNetworks();
+  const { draft, results, updateDraft, search, reset } = useAdvancedSearch(
+    stories,
+    castByUuid,
+    networkByUuid,
+  );
 
   const formId = useId();
   const keywordId = `${formId}-keyword`;
@@ -45,31 +62,32 @@ export default function AdvancedSearchPage() {
     search();
   };
 
-  const resultLabel =
-    results.length === 1 ? '1 Result Found' : `${results.length} Results Found`;
+  const resultLabel = t('advancedSearch:resultsFound', {
+    count: results.length,
+  });
 
   return (
     <>
       <SEO
-        title={`Advanced Search | ${APP_NAME}`}
-        description="Search Asian dramas by keyword, country, rating, episodes, and aired year."
+        title={t('seo:advancedSearchTitle')}
+        description={t('seo:advancedSearchDescription')}
       />
 
       <PageContainer>
         <header className="mb-8 sm:mb-10">
           <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-            Advanced <span className="text-accent">Search</span>
+            {t('advancedSearch:titlePrefix')}{' '}
+            <span className="text-accent">{t('advancedSearch:titleAccent')}</span>
           </h1>
           <p className="mt-3 max-w-2xl text-base text-text-secondary sm:text-lg">
-            Filter curated dramas by keyword, country, rating, episode count,
-            and aired year.
+            {t('advancedSearch:subtitle')}
           </p>
         </header>
 
         <form
           onSubmit={handleSubmit}
           className="mb-10 rounded-2xl border border-white/5 bg-bg-card p-5 sm:p-6 lg:p-8"
-          aria-label="Advanced search filters"
+          aria-label={t('advancedSearch:formAriaLabel')}
         >
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="space-y-6 lg:col-span-2">
@@ -78,7 +96,7 @@ export default function AdvancedSearchPage() {
                   htmlFor={keywordId}
                   className="mb-2 block text-sm font-medium text-text-primary"
                 >
-                  Keyword
+                  {t('advancedSearch:keyword')}
                 </label>
                 <input
                   id={keywordId}
@@ -86,19 +104,19 @@ export default function AdvancedSearchPage() {
                   name="keyword"
                   value={draft.keyword}
                   onChange={(e) => updateDraft({ keyword: e.target.value })}
-                  placeholder="Search title, Myanmar title, cast, or character…"
+                  placeholder={t('advancedSearch:keywordPlaceholder')}
                   autoComplete="off"
                   className="w-full rounded-xl border border-white/10 bg-bg-secondary px-4 py-3 text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                 />
                 <p className="mt-2 text-xs text-text-muted">
-                  Searches title, Myanmar title, cast name, and character name.
+                  {t('advancedSearch:keywordHelp')}
                 </p>
               </div>
             </div>
 
             <fieldset>
               <legend className="mb-3 text-sm font-medium text-text-primary">
-                Country
+                {t('advancedSearch:country')}
               </legend>
               <div className="flex flex-wrap gap-3">
                 {SEARCH_COUNTRIES.map((country) => {
@@ -121,7 +139,54 @@ export default function AdvancedSearchPage() {
                         onChange={() => toggleCountry(country)}
                         className="h-4 w-4 rounded border-white/20 bg-bg-primary text-accent focus:ring-accent focus:ring-offset-0"
                       />
-                      {country}
+                      {translateCountry(t, country)}
+                    </label>
+                  );
+                })}
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend className="mb-3 text-sm font-medium text-text-primary">
+                {t('advancedSearch:watchedStatus')}
+              </legend>
+              <div
+                className="flex flex-wrap gap-2"
+                role="radiogroup"
+                aria-label={t('advancedSearch:watchedStatus')}
+              >
+                {WATCHED_FILTER_OPTIONS.map((option) => {
+                  const selected = draft.watched === option;
+                  const optionId = `${formId}-watched-${option}`;
+                  const optionLabel =
+                    option === 'all'
+                      ? t('advancedSearch:watchedAll')
+                      : option === 'watched'
+                        ? t('advancedSearch:watchedOnly')
+                        : t('advancedSearch:watchedNot');
+
+                  return (
+                    <label
+                      key={option}
+                      htmlFor={optionId}
+                      className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border px-3.5 py-2.5 text-sm transition-colors ${
+                        selected
+                          ? 'border-accent/40 bg-accent-muted text-text-primary'
+                          : 'border-white/10 bg-bg-secondary text-text-secondary hover:border-white/20'
+                      }`}
+                    >
+                      <input
+                        id={optionId}
+                        type="radio"
+                        name={`${formId}-watched`}
+                        value={option}
+                        checked={selected}
+                        onChange={() =>
+                          updateDraft({ watched: option as WatchedFilter })
+                        }
+                        className="h-4 w-4 border-white/20 bg-bg-primary text-accent focus:ring-accent focus:ring-offset-0"
+                      />
+                      {optionLabel}
                     </label>
                   );
                 })}
@@ -131,7 +196,7 @@ export default function AdvancedSearchPage() {
             <div className="space-y-6">
               <DualRangeSlider
                 id={`${formId}-rating`}
-                label="Rating"
+                label={t('advancedSearch:rating')}
                 min={SEARCH_RATING_MIN}
                 max={SEARCH_RATING_MAX}
                 step={0.1}
@@ -145,7 +210,7 @@ export default function AdvancedSearchPage() {
 
               <DualRangeSlider
                 id={`${formId}-year`}
-                label="Aired Year"
+                label={t('advancedSearch:airedYear')}
                 min={SEARCH_YEAR_MIN}
                 max={SEARCH_YEAR_MAX}
                 step={1}
@@ -159,7 +224,7 @@ export default function AdvancedSearchPage() {
 
             <div className="lg:col-span-2">
               <p className="mb-3 text-sm font-medium text-text-primary">
-                Episodes
+                {t('advancedSearch:episodes')}
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
@@ -167,7 +232,7 @@ export default function AdvancedSearchPage() {
                     htmlFor={episodesMinId}
                     className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted"
                   >
-                    Min Episodes
+                    {t('advancedSearch:minEpisodes')}
                   </label>
                   <input
                     id={episodesMinId}
@@ -179,7 +244,7 @@ export default function AdvancedSearchPage() {
                     onChange={(e) =>
                       updateDraft({ episodesMin: e.target.value })
                     }
-                    placeholder="e.g. 16"
+                    placeholder={t('advancedSearch:episodesMinPlaceholder')}
                     className="w-full rounded-xl border border-white/10 bg-bg-secondary px-4 py-3 text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   />
                 </div>
@@ -188,7 +253,7 @@ export default function AdvancedSearchPage() {
                     htmlFor={episodesMaxId}
                     className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted"
                   >
-                    Max Episodes
+                    {t('advancedSearch:maxEpisodes')}
                   </label>
                   <input
                     id={episodesMaxId}
@@ -200,7 +265,7 @@ export default function AdvancedSearchPage() {
                     onChange={(e) =>
                       updateDraft({ episodesMax: e.target.value })
                     }
-                    placeholder="e.g. 40"
+                    placeholder={t('advancedSearch:episodesMaxPlaceholder')}
                     className="w-full rounded-xl border border-white/10 bg-bg-secondary px-4 py-3 text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                   />
                 </div>
@@ -214,13 +279,13 @@ export default function AdvancedSearchPage() {
               onClick={reset}
               className="rounded-lg border border-white/10 bg-transparent px-6 py-2.5 text-sm font-semibold text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              Reset Filters
+              {t('common:resetFilters')}
             </button>
             <button
               type="submit"
               className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-red-900/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-card"
             >
-              Search
+              {t('common:search')}
             </button>
           </div>
         </form>
@@ -229,15 +294,15 @@ export default function AdvancedSearchPage() {
 
         {!loading && error && (
           <EmptyState
-            title="Failed to Load Dramas"
-            description={error}
+            title={t('advancedSearch:failedTitle')}
+            description={translateErrorMessage(t, error)}
             action={
               <button
                 type="button"
                 onClick={refetch}
                 className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-red-900/30"
               >
-                Try Again
+                {t('common:tryAgain')}
               </button>
             }
           />
@@ -254,15 +319,15 @@ export default function AdvancedSearchPage() {
             {results.length === 0 ? (
               <EmptyState
                 icon="search"
-                title="No dramas found"
-                description="Try adjusting your filters"
+                title={t('advancedSearch:emptyTitle')}
+                description={t('advancedSearch:emptyDescription')}
                 action={
                   <button
                     type="button"
                     onClick={reset}
                     className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-red-900/30"
                   >
-                    Reset Filters
+                    {t('common:resetFilters')}
                   </button>
                 }
               />

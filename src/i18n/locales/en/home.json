@@ -1,0 +1,8 @@
+{
+  "titlePrefix": "Discover",
+  "titleAccent": "Dramas",
+  "subtitle": "Explore curated Asian drama reviews with cast details, ratings, and full story synopses.",
+  "failedTitle": "Failed to Load Dramas",
+  "emptyTitle": "No Dramas Found",
+  "emptyDescription": "There are no dramas available at the moment. Check back later for new additions."
+}

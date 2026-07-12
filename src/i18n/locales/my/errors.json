@@ -1,0 +1,11 @@
+{
+  "pageNotFoundTitle": "စာမျက်နှာမတွေ့ပါ",
+  "pageNotFoundBody": "သင်ရှာနေသောစာမျက်နှာ မရှိပါ သို့မဟုတ် ရွှေ့ပြောင်းခံရသည်။",
+  "backToApp": "{{appName}} သို့ ပြန်သွားရန်",
+  "invalidStoriesFormat": "ဒရာမာဒေတာပုံစံ မမှန်ကန်ပါ",
+  "failedLoadStories": "ဒရာမာများဖွင့်၍မရပါ",
+  "invalidCastsFormat": "သရုပ်ဆောင်ဒေတာပုံစံ မမှန်ကန်ပါ",
+  "failedLoadCasts": "သရုပ်ဆောင်များဖွင့်၍မရပါ",
+  "invalidNetworksFormat": "ကွန်ရက်ဒေတာပုံစံ မမှန်ကန်ပါ",
+  "failedLoadNetworks": "ကွန်ရက်များဖွင့်၍မရပါ"
+}

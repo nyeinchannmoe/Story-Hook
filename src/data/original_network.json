@@ -1,0 +1,34 @@
+[
+    {
+        "uuid": "795365a6-779a-4aaa-8fea-f21181a9032b",
+        "name": "Netflix"
+    },
+    {
+        "uuid": "a5964301-937e-4d38-8b25-e5107541c4c0",
+        "name": "Hunan TV"
+    },
+    {
+        "uuid": "18ddb832-ddae-4433-9718-3946327bf7b4",
+        "name": "Mango TV"
+    },
+    {
+        "uuid": "84e4e230-6607-4568-86bf-a8c82ce9bf97",
+        "name": "Youku"
+    },
+    {
+        "uuid": "518fb874-bdc5-4dc6-8861-3683450dc630",
+        "name": "CCTV"
+    },
+    {
+        "uuid": "b22104be-932a-4069-bb27-f6c820096a20",
+        "name": "iQiyi"
+    },
+    {
+        "uuid": "7d588361-e0f3-499f-94da-9c744655dfdd",
+        "name": "Tencent Video"
+    },
+    {
+        "uuid": "ae4b70f1-a0c6-4715-90b7-84fe3b080160",
+        "name": "ZJTV"
+    }
+]

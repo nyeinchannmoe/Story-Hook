@@ -22,13 +22,24 @@ export function useStories(): UseStoriesResult {
       const data = storiesData as Story[];
 
       if (!Array.isArray(data)) {
-        throw new Error('Invalid stories data format');
+        throw new Error('invalidStoriesFormat');
       }
 
-      setStories(data);
+      setStories(
+        data.map((story) => ({
+          ...story,
+          type: story.type ?? '',
+          format: story.format ?? '',
+          duration: story.duration ?? '',
+          episodeLinks: story.episodeLinks ?? [],
+          orginalNetworks: story.orginalNetworks ?? [],
+          cast: story.cast ?? [],
+          photos: story.photos ?? [],
+        })),
+      );
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : 'Failed to load stories';
+        err instanceof Error ? err.message : 'failedLoadStories';
       setError(message);
       setStories([]);
     } finally {

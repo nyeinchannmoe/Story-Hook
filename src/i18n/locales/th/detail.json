@@ -1,0 +1,20 @@
+{
+  "failedTitle": "โหลดซีรีส์ไม่สำเร็จ",
+  "notFoundTitle": "ไม่พบซีรีส์",
+  "notFoundDescription": "ซีรีส์ที่คุณกำลังค้นหาไม่มีอยู่หรืออาจถูกลบแล้ว",
+  "back": "กลับ",
+  "goBackHome": "กลับหน้าแรก",
+  "aired": "ออกอากาศ",
+  "country": "ประเทศ",
+  "type": "ประเภท",
+  "format": "รูปแบบ",
+  "duration": "ความยาว",
+  "originalNetworks": "ช่อง/แพลตฟอร์มต้นฉบับ",
+  "watchNow": "รับชมเลย",
+  "story": "เรื่องย่อ",
+  "episodeLinks": "ลิงก์ตอน",
+  "cast": "นักแสดง",
+  "photos": "ภาพนิ่ง",
+  "markAsWatched": "ทำเครื่องหมายว่าดูแล้ว",
+  "alreadyWatched": "ดูแล้ว"
+}

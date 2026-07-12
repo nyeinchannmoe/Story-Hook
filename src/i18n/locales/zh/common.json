@@ -1,0 +1,22 @@
+{
+  "appName": "Story Hook",
+  "appDescription": "发现并探索优质亚洲剧集，包含影评、演员信息等更多内容。",
+  "tryAgain": "重试",
+  "backToHome": "返回首页",
+  "browseAllDramas": "浏览全部剧集",
+  "loading": "加载中…",
+  "resetFilters": "重置筛选",
+  "search": "搜索",
+  "episodes": "集",
+  "episodesShort": "集",
+  "episodesCount": "{{count}} 集",
+  "coverAlt": "{{title}} 封面",
+  "viewDetails": "查看详情",
+  "mainRole": "主演",
+  "supportRole": "配角",
+  "asCharacter": "饰 {{character}}",
+  "unknownCast": "未知演员",
+  "rangeSeparator": "–",
+  "watched": "已看过",
+  "markWatched": "标记已看"
+}

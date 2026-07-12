@@ -1,6 +1,6 @@
 # Story Hook
 
-Story Hook is a bilingual (English / Myanmar) web application for discovering and exploring curated Asian dramas. Users can browse a drama catalog, open detailed synopses, view cast information and stills, and follow external watch links.
+Story Hook is a multilingual web application for discovering and exploring curated Asian dramas. Users can browse a drama catalog, open detailed synopses, view cast information and stills, and follow external watch links. The UI supports **English**, **Chinese**, **Thai**, **Korean**, and **Myanmar**, while drama content retains English titles alongside Myanmar (`mmTitle`) titles and synopses.
 
 **Version:** 1.0.0 · **Package name:** `story-hook`
 
@@ -8,8 +8,10 @@ Story Hook is a bilingual (English / Myanmar) web application for discovering an
 
 - Browse a curated grid of Asian dramas with cover art, ratings, and story previews
 - View full drama detail pages (synopsis, cast, photo gallery, metadata, watch link)
-- Bilingual presentation: English titles plus Myanmar (`mmTitle`) titles and synopses
-- Client-side SEO helpers (document title, Open Graph, Twitter meta tags)
+- Advanced search with keyword, country, rating, episode, and year filters
+- Multilingual UI (en / zh / th / ko / my) with language settings and persistence
+- Bilingual catalog content: English titles plus Myanmar (`mmTitle`) titles and synopses
+- Localized SEO helpers (document title, Open Graph, Twitter meta, `html lang`)
 - Responsive dark UI with glassmorphism accents and Tailwind CSS v4 design tokens
 - Route-level code splitting and a dedicated 404 page
 - Image fallbacks to a local placeholder when remote assets fail
@@ -22,6 +24,9 @@ Story Hook is a bilingual (English / Myanmar) web application for discovering an
 |------|-------------|
 | Home | Drama discovery grid at `/home` |
 | Detail | Full drama page at `/detail/:uuid` |
+| Advanced Search | Filterable search at `/advanced-search` |
+| Settings | Language preference at `/settings` |
+| About | App overview at `/about` |
 | 404 | Not-found state for unknown routes |
 
 ---
@@ -30,35 +35,49 @@ Story Hook is a bilingual (English / Myanmar) web application for discovering an
 
 ## Business purpose
 
-Story Hook helps readers discover Asian dramas with rich, Myanmar-language story summaries alongside English titles and metadata. Content is maintained as static JSON in the repository (no backend API in the current implementation).
+Story Hook helps readers discover Asian dramas with rich, Myanmar-language story summaries alongside English titles and metadata. The chrome UI is fully localized across five languages. Content is maintained as static JSON in the repository (no backend API in the current implementation).
+
+## Localization support
+
+| Code | Language | Native name |
+|------|----------|-------------|
+| `en` | English | English |
+| `zh` | Chinese | 中文 |
+| `th` | Thai | ไทย |
+| `ko` | Korean | 한국어 |
+| `my` | Myanmar | မြန်မာ |
+
+Language preference is detected from (1) saved `localStorage` choice, (2) browser language, then (3) English fallback. Routes stay language-agnostic (`/home`, `/detail/:uuid`, …) so existing URLs remain stable; only UI strings and SEO metadata switch with the locale.
 
 ## Target users
 
 - Myanmar-speaking drama fans who want synopses and cast context in Myanmar script
+- Multilingual browsers who prefer Chinese, Thai, Korean, English, or Myanmar UI chrome
 - Casual browsers looking for ratings, episode counts, air dates, and watch links
-- Developers extending the catalog by editing `src/data/stories.json`
+- Developers extending the catalog via the Excel import tool or by editing `src/data/*.json`
 
 ## Main workflows
 
 ```text
 Landing (/) ──redirect──► Home (/home)
                               │
-                              ▼
-                     Story grid (cards)
-                              │
-                              ▼
-                   Detail (/detail/:uuid)
-                     ├── Story synopsis
-                     ├── Cast list
-                     ├── Photo gallery (+ lightbox)
-                     └── Watch Now (external URL)
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+     Advanced Search    Detail/:uuid      Settings
+     (/advanced-search)                   (/settings)
+                              │               │
+                              ▼               ▼
+                     Story / Cast / Photos   Language
+                     Watch Now (external)    preference
 ```
 
 1. **Browse** — Open `/home`, wait for the short loading skeleton, then scan drama cards.
 2. **Open details** — Click a card or “View Details” to load `/detail/:uuid`.
-3. **Explore media** — Read the synopsis, review cast roles, open stills in the lightbox.
-4. **Watch** — If `watchLink` is a valid absolute URL, use “Watch Now” (opens in a new tab).
-5. **Recover** — Unknown routes show the 404 page; missing UUIDs show an empty state with a link home.
+3. **Search** — Use `/advanced-search` to filter by keyword, country, rating, episodes, and year.
+4. **Explore media** — Read the synopsis, review cast roles, open stills in the lightbox.
+5. **Watch** — If `watchLink` is a valid absolute URL, use “Watch Now” (opens in a new tab).
+6. **Language** — Open Settings and pick a display language; the choice persists on the device.
+7. **Recover** — Unknown routes show the 404 page; missing UUIDs show an empty state with a link home.
 
 ## Feature summary
 
@@ -66,8 +85,11 @@ Landing (/) ──redirect──► Home (/home)
 |---------|----------------|
 | Drama catalog | `useStories` + `stories.json` |
 | Detail view | `useStory(uuid)` + `DetailPage` |
+| Advanced search | `useAdvancedSearch` + URL query sync |
+| Localization | `i18next` + `react-i18next` + `src/i18n/` |
+| Language settings | `SettingsPage` + `localStorage` (`story-hook-language`) |
 | Photo lightbox | Local state in `PhotoGallery` |
-| SEO meta | `SEO` component (`useEffect` DOM updates) |
+| SEO meta | `SEO` component (`useEffect` DOM updates, localized) |
 | Scroll reset | `ScrollToTop` on pathname change |
 | SPA hosting | `vercel.json` rewrite to `index.html` |
 
@@ -84,6 +106,9 @@ Landing (/) ──redirect──► Home (/home)
 | Build tool | Vite | ^6.3.5 |
 | React plugin | `@vitejs/plugin-react` | ^4.5.2 |
 | Routing | react-router-dom | ^7.6.3 |
+| Localization | i18next + react-i18next | See `package.json` |
+| Language detection | i18next-browser-languagedetector | See `package.json` |
+| Lazy locale loading | i18next-resources-to-backend | See `package.json` |
 | Styling | Tailwind CSS | ^4.1.11 |
 | Tailwind Vite plugin | `@tailwindcss/vite` | ^4.1.11 |
 | State management | React local state (`useState` / `useEffect` / hooks) | — |
@@ -149,11 +174,13 @@ StoryGrid → StoryCard  |  CastCard, PhotoGallery, RatingBadge, …
 | Scope | Mechanism | Examples |
 |-------|-----------|----------|
 | Story list / detail data | `useStories` / `useStory` | `stories`, `loading`, `error` |
+| Advanced search filters | `useAdvancedSearch` + URL params | draft / applied filters |
+| Active UI language | i18next + `localStorage` | `story-hook-language` |
 | Lightbox selection | `useState` in `PhotoGallery` | `selectedIndex` |
-| Document meta | `SEO` `useEffect` | `document.title`, meta tags |
+| Document meta | `SEO` `useEffect` | `document.title`, meta tags, `og:locale` |
 | Scroll position | `ScrollToTop` `useLayoutEffect` | reset on `pathname` |
 
-No Context providers, Redux, or remote cache libraries are used.
+No Redux or remote cache libraries are used. Language state is owned by i18next and synchronized via `DocumentLanguage`.
 
 ## API communication flow
 
@@ -170,6 +197,138 @@ External URLs appear only as:
 
 ---
 
+# Localization Architecture
+
+Story Hook uses **i18next** with **react-i18next** for UI chrome localization. Drama catalog fields (`title`, `mmTitle`, `story`, cast/network proper names) remain content data and are not rewritten by the UI locale.
+
+## Approach
+
+| Concern | Implementation |
+|---------|----------------|
+| Framework | `i18next` + `react-i18next` |
+| Detection | `i18next-browser-languagedetector` |
+| Loading | `i18next-resources-to-backend` + Vite dynamic `import()` per language/namespace |
+| Typing | `src/i18n/i18next.d.ts` maps English JSON modules into i18next types |
+| HTML lang | `DocumentLanguage` + `SEO` keep `<html lang>` and `og:locale` in sync |
+| Persistence | `localStorage` key `story-hook-language` |
+| Fallback | Missing keys fall back to English (`en`) |
+| Routing | Existing paths preserved (no `/en` prefix) to avoid breaking URLs |
+
+## Translation file structure
+
+Translations are organized by feature/module (i18next namespaces):
+
+```text
+src/i18n/
+├── index.ts                 # i18n init, changeAppLanguage, getCurrentLanguage
+├── config.ts                # languages, namespaces, storage key, metadata
+├── DocumentLanguage.tsx     # syncs documentElement.lang / dir
+├── helpers.ts               # country / role / error translation helpers
+├── i18next.d.ts             # TypeScript resource typings
+└── locales/
+    ├── en/                  # English (source of truth for keys)
+    ├── zh/                  # Chinese
+    ├── th/                  # Thai
+    ├── ko/                  # Korean
+    └── my/                  # Myanmar
+        ├── common.json
+        ├── navigation.json
+        ├── home.json
+        ├── detail.json
+        ├── search.json
+        ├── advancedSearch.json
+        ├── filters.json
+        ├── settings.json
+        ├── about.json
+        ├── footer.json
+        ├── errors.json
+        ├── dialogs.json
+        ├── toast.json
+        ├── forms.json
+        ├── validation.json
+        ├── seo.json
+        └── a11y.json
+```
+
+Namespaces cover: Common, Navigation, Home, Story Details, Search, Advanced Search, Filters, Settings, About, Footer, Error Pages, Dialogs, Toast Messages, Forms, Validation Messages, SEO, and Accessibility Labels.
+
+## Language loading process
+
+1. App boots and imports `@/i18n` from `main.tsx`.
+2. Detector reads `localStorage` (`story-hook-language`), then `navigator` languages.
+3. Browser tags such as `zh-CN` / `ko-KR` map to supported codes (`zh`, `ko`, …).
+4. Only the active language’s namespace JSON chunks are loaded via dynamic import.
+5. Switching language in Settings calls `changeAppLanguage()`, updates `localStorage`, loads the new locale chunks, and re-renders without a full page reload.
+6. Unused languages stay out of the critical path; Vite emits separate locale chunks.
+
+## Language detection priority
+
+1. Saved user preference (`localStorage`)
+2. Browser language
+3. English (`en`) fallback
+
+## Language switching & persistence
+
+- **Settings UI:** `/settings` lists native names (English, 中文, ไทย, 한국어, မြန်မာ).
+- **Immediate update:** `i18n.changeLanguage` updates all `useTranslation` consumers without reload.
+- **Persistence:** preference stored under `story-hook-language`.
+- **Sync:** `DocumentLanguage` updates `document.documentElement.lang` (and `dir`) app-wide.
+
+## SEO localization
+
+The `SEO` component localizes:
+
+- Document title (via `seo:titleTemplate`)
+- Meta description
+- Open Graph title / description / type / locale / image / url
+- Twitter card / title / description / image
+
+Structured page copy for Home, Advanced Search, Settings, About, and 404 lives under the `seo` namespace.
+
+## Adding a new language
+
+1. Add the language code to `SUPPORTED_LANGUAGES` and `LANGUAGE_META` in `src/i18n/config.ts`.
+2. Create `src/i18n/locales/<code>/` and copy every namespace JSON from `en/`.
+3. Translate all values; keep keys identical to English.
+4. Ensure plural keys (`*_one` / `*_other`) and interpolation placeholders (`{{count}}`, `{{title}}`, …) remain intact.
+5. Run `npm run build` and verify Settings shows the new native name and that pages render correctly.
+
+Optional: regenerate scaffolding with `node scripts/generate-locales.mjs` (edit the script first to include the new locale).
+
+## Translation guidelines
+
+| Topic | Guideline |
+|-------|-----------|
+| Naming | camelCase keys inside namespaces (`viewDetails`, `keywordPlaceholder`) |
+| Structure | `namespace:key` or nested paths (`filters:countries.South Korea`) |
+| Interpolation | Use `{{variable}}`; never concatenate translated fragments ad hoc when a single key can hold the sentence |
+| Pluralization | Prefer i18next plural suffixes (`resultsFound_one`, `resultsFound_other`) |
+| Stable IDs | Keep filter/country **values** in English for URL params; translate **labels** only |
+| Roles | Data stores `Main Role` / `Support Role`; display via `translateRole()` |
+| Content vs chrome | Do not put drama synopses into locale files; keep them in `stories.json` |
+| Accessibility | Put aria-labels in the `a11y` (and related) namespaces |
+
+## Localization maintenance
+
+- Treat `en` JSON files as the canonical key set.
+- When adding UI copy, add the English key first, then update zh / th / ko / my.
+- Prefer `useTranslation(['namespace', …])` over hardcoding strings.
+- Use helpers in `src/i18n/helpers.ts` for dynamic keys (countries, roles, error codes).
+- After locale edits, run `npm run lint` and `npm run build`.
+
+## Localization troubleshooting
+
+| Issue | Likely cause | Solution |
+|-------|--------------|----------|
+| Raw key shown in UI | Missing translation or wrong namespace | Add the key to the active language JSON; ensure `useTranslation` includes that namespace |
+| Language resets on refresh | `localStorage` blocked or wrong key | Confirm `story-hook-language` is writable; check browser privacy settings |
+| Wrong language on first visit | Browser tag not mapped | Extend `resolveBrowserLanguage()` in `src/i18n/config.ts` |
+| Country filter breaks after locale change | Translated value written to URL | Keep `SEARCH_COUNTRIES` English codes in state/URL; translate only labels |
+| Flash of English | Async locale chunk | Expected briefly; Suspense wraps the app — avoid disabling `useSuspense` without a loader |
+| `html lang` stale | Missing `DocumentLanguage` | Ensure `<DocumentLanguage />` remains mounted in `main.tsx` |
+
+---
+
 # Project Structure
 
 ```text
@@ -181,6 +340,7 @@ Story-Hook/
 │   ├── assets/                  # Reserved for bundled static assets (.gitkeep)
 │   ├── components/              # Reusable UI components + barrel export
 │   │   ├── CastCard.tsx
+│   │   ├── DualRangeSlider.tsx
 │   │   ├── EmptyState.tsx
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
@@ -189,33 +349,58 @@ Story-Hook/
 │   │   ├── PhotoGallery.tsx
 │   │   ├── RatingBadge.tsx
 │   │   ├── ScrollToTop.tsx
+│   │   ├── SearchIconLink.tsx
 │   │   ├── SEO.tsx
 │   │   ├── StoryCard.tsx
 │   │   ├── StoryGrid.tsx
 │   │   └── index.ts
-│   ├── constants/               # APP_NAME, ROUTES, PLACEHOLDER_IMAGE, …
+│   ├── constants/               # APP_NAME, ROUTES, SEARCH_COUNTRIES, …
 │   ├── data/
-│   │   └── stories.json         # Drama catalog (source of truth)
+│   │   ├── stories.json         # Drama catalog (source of truth)
+│   │   ├── casts.json           # Actor directory (UUID-keyed)
+│   │   └── original_network.json# Broadcast / streaming networks
 │   ├── hooks/
+│   │   ├── useAdvancedSearch.ts
+│   │   ├── useCasts.ts
+│   │   ├── useNetworks.ts
 │   │   └── useStories.ts        # useStories + useStory
+│   ├── i18n/                    # Localization runtime + locale JSON
+│   │   ├── config.ts
+│   │   ├── DocumentLanguage.tsx
+│   │   ├── helpers.ts
+│   │   ├── i18next.d.ts
+│   │   ├── index.ts
+│   │   └── locales/{en,zh,th,ko,my}/*.json
 │   ├── layouts/
 │   │   └── MainLayout.tsx
 │   ├── pages/
-│   │   ├── HomePage.tsx
+│   │   ├── AboutPage.tsx
+│   │   ├── AdvancedSearchPage.tsx
 │   │   ├── DetailPage.tsx
-│   │   └── NotFoundPage.tsx
+│   │   ├── HomePage.tsx
+│   │   ├── NotFoundPage.tsx
+│   │   └── SettingsPage.tsx
 │   ├── routes/
 │   │   └── index.tsx            # createBrowserRouter + AppRouter
 │   ├── styles/
 │   │   └── index.css            # Tailwind import + @theme tokens + utilities
 │   ├── types/
-│   │   └── story.ts             # Story, CastMember
+│   │   ├── search.ts
+│   │   └── story.ts             # Story, CastMember, Cast, OriginalNetwork
 │   ├── utils/
 │   │   ├── image.ts             # getImageSrc, handleImageError
+│   │   ├── lookup.ts            # cast/network UUID resolution
+│   │   ├── search.ts            # advanced search helpers
 │   │   ├── story.ts             # preview, rating parse, URL validation, …
-│   │   └── index.ts             # Additional / overlapping helpers
-│   ├── main.tsx                 # React root + StrictMode
+│   │   └── index.ts
+│   ├── main.tsx                 # React root + StrictMode + i18n bootstrap
 │   └── vite-env.d.ts            # Vite client types
+├── scripts/
+│   ├── generate-locales.mjs     # Optional locale JSON generator
+│   └── merge_excel_into_json.py # Incremental Excel → JSON import
+├── docs/
+│   ├── excel-import-guide.md    # End-user import guide
+│   └── excel-import-developer-guide.md
 ├── dist/                        # Production build output (gitignored)
 ├── eslint.config.js
 ├── index.html
@@ -257,18 +442,29 @@ npm install
 
 # Environment Setup
 
-This project **does not define or require environment variables**.
+This project **does not define or require environment variables** for core functionality.
 
 - No `.env`, `.env.example`, or `.env.*` files are present
 - No `import.meta.env` / `VITE_*` usage appears in the source
 - `src/vite-env.d.ts` only references Vite’s default client types
 
+### Localization-related configuration
+
+| Setting | Location | Default |
+|---------|----------|---------|
+| Supported languages | `src/i18n/config.ts` → `SUPPORTED_LANGUAGES` | `en`, `zh`, `th`, `ko`, `my` |
+| Fallback language | `DEFAULT_LANGUAGE` | `en` |
+| Persistence key | `LANGUAGE_STORAGE_KEY` | `story-hook-language` |
+| Namespaces | `NAMESPACES` | See Localization Architecture |
+
+No environment variables are required to enable localization; language preference is client-side only.
+
 ### Development vs production
 
 | Mode | How it works |
 |------|----------------|
-| Development | `npm run dev` — Vite HMR; JSON imported into the client bundle |
-| Production | `npm run build` — Typecheck + Vite build to `dist/`; same static data |
+| Development | `npm run dev` — Vite HMR; JSON + locale chunks imported on demand |
+| Production | `npm run build` — Typecheck + Vite build to `dist/`; locales split into hashed chunks |
 
 If you later add secrets or API base URLs, use Vite’s `VITE_` prefix and document them here.
 
@@ -349,33 +545,74 @@ npm run preview
 ## Best practices used in the project
 
 - Lazy-load pages with `Suspense` + `LoadingSkeleton`
+- Localize all user-facing chrome via `useTranslation` / namespace JSON (never hardcode UI copy)
 - Validate external watch URLs before rendering the CTA (`isValidUrl`)
 - Soft-fail images with `handleImageError` → `/placeholder-drama.svg`
 - Use `rel="noopener noreferrer"` on external links
 - Keep SEO updates centralized in `SEO`
+- Keep search filter **values** language-stable (English country codes in URLs)
 
 ### Adding a drama
 
-Append an object to `src/data/stories.json` matching:
+**Preferred:** use the Excel import tool (see [Excel Data Import Tool](#excel-data-import-tool)) so casts, networks, and UUIDs stay consistent.
 
-```ts
-interface Story {
-  uuid: string;
-  title: string;
-  mmTitle: string;
-  story: string;
-  country: string;
-  rating: string;      // e.g. "8.8/10"
-  watchLink: string;
-  episodes: number;
-  aired: string;
-  cast: CastMember[];
-  photos: string[];
-  coverPhoto: string;
-}
+**Manual fallback:** append an object to `src/data/stories.json` matching the `Story` interface in `src/types/story.ts`. Use a unique `uuid` for the detail route `/detail/:uuid`, and reference cast / network UUIDs from `casts.json` and `original_network.json` instead of embedding names.
+
+---
+
+# Excel Data Import Tool
+
+## Purpose
+
+Story Hook stores its catalog as static JSON (`stories.json`, `casts.json`, `original_network.json`). New dramas often arrive as spreadsheet rows. Editing those JSON files by hand is error-prone: easy to break UUIDs, duplicate actors, drop existing photos, or overwrite production data.
+
+`scripts/merge_excel_into_json.py` solves this by **incrementally merging** Excel rows into the existing JSON files. It never deletes existing records, only creates missing ones and fills empty fields.
+
+## Features
+
+| Feature | Behavior |
+|---------|----------|
+| Incremental merge | Appends new dramas; updates matched dramas without replacing the catalog |
+| Existing data preservation | Never deletes stories, casts, or networks |
+| UUID generation | Creates UUID v4 only for truly new stories, casts, and networks |
+| UUID reuse | Reuses existing cast and network UUIDs when names match |
+| Story detection | Matches by title, Myanmar title (`mmTitle`), or watch link |
+| Cast normalization | Case-insensitive, whitespace-normalized actor names |
+| Network normalization | Case-insensitive, whitespace-normalized network names |
+| Relationship mapping | Stories store cast/network UUID references, not raw names |
+| Photo merging | Appends only new photo URLs; never removes existing ones |
+| Episode merging | Appends missing episode links; skips duplicates by title/link |
+| Cover photo safety | Sets `coverPhoto` only when missing or empty |
+| Validation checks | Asserts all pre-existing UUIDs remain after merge |
+| Merge statistics | Prints a JSON report (created/updated counts, titles, totals) |
+
+## Project files
+
+| File | Role |
+|------|------|
+| `src/data/stories.json` | Drama catalog consumed by the React app |
+| `src/data/casts.json` | Shared actor directory keyed by UUID |
+| `src/data/original_network.json` | Shared network directory keyed by UUID |
+| `scripts/merge_excel_into_json.py` | Incremental Excel → JSON merge script |
+
+## Quick start
+
+```bash
+# One-time dependency
+pip install openpyxl
+
+# From the repository root (Windows example)
+python scripts/merge_excel_into_json.py "C:\Downloads\Story Hook Raw Data.xlsx"
 ```
 
-Use a unique `uuid` for the detail route `/detail/:uuid`.
+Default Excel path if omitted: `~/Downloads/Story Hook Raw Data.xlsx`.
+
+## Documentation
+
+| Guide | Audience |
+|-------|----------|
+| [docs/excel-import-guide.md](docs/excel-import-guide.md) | Content editors and operators |
+| [docs/excel-import-developer-guide.md](docs/excel-import-developer-guide.md) | Developers extending the importer |
 
 ---
 
@@ -435,8 +672,8 @@ There is **no global store**. Each call to `useStories` / `useStory` owns its ow
 
 ## Data caching strategy
 
-- **Build-time:** `stories.json` is bundled by Vite
-- **Runtime:** In-memory React state only; no SWR/React Query/localStorage cache
+- **Build-time:** `stories.json` and locale JSON are bundled by Vite (locales as separate async chunks)
+- **Runtime:** In-memory React state for catalog data; i18next cache + `localStorage` for language
 - **CDN (deployed assets):** `vercel.json` sets long-cache headers for `/assets/*`
 
 ---
@@ -497,7 +734,7 @@ npm run build
 
 ### Manual chunking (`vite.config.ts`)
 
-React, React DOM, and React Router are split into a `vendor` chunk for caching.
+React, React DOM, and React Router are split into a `vendor` chunk. i18next-related packages are split into an `i18n` chunk. Locale JSON files load on demand as separate assets.
 
 ## Output artifacts
 
@@ -547,15 +784,16 @@ Detected optimizations in this codebase:
 
 | Technique | Where |
 |-----------|--------|
-| Route-level code splitting | `lazy()` for `HomePage`, `DetailPage`, `NotFoundPage` |
-| Suspense fallbacks | `PageLoader` / `LoadingSkeleton` |
-| Vendor manual chunk | `manualChunks.vendor` in `vite.config.ts` |
+| Route-level code splitting | `lazy()` for pages including Settings / About / Advanced Search |
+| Suspense fallbacks | `PageLoader` / `LoadingSkeleton` + root Suspense for i18n |
+| Vendor / i18n manual chunks | `manualChunks` in `vite.config.ts` |
+| Lazy locale resources | `i18next-resources-to-backend` dynamic imports |
 | Lazy images | `loading="lazy"` + `decoding="async"` on cards/gallery |
 | Font preconnect | `preconnect` to Google Fonts in `index.html` |
 | Long-lived hashed assets | Vite content hashes + Vercel `/assets` cache headers |
 | Image error isolation | Placeholder swap avoids broken-image layout thrash |
 
-**Not present:** React `memo` / `useMemo` / `useCallback` for list virtualization; no service worker / PWA cache.
+**Not present:** React `memo` / list virtualization; no service worker / PWA cache.
 
 ---
 
@@ -591,6 +829,8 @@ Common fit for this stack: Vitest + React Testing Library, with a `test` script 
 | Node engine errors from Vite | Unsupported Node version | Use Node 18, 20, or 22+ |
 | Port already in use | Another process on 5173 | Stop the other process or start Vite with `npx vite --port <port>` |
 | Styles missing | CSS not loaded | Ensure `@/styles/index.css` remains imported from `main.tsx` |
+| UI stuck in English | Preference not saved / detection failed | Open `/settings`, pick a language; check Localization troubleshooting above |
+| Country labels wrong after switch | Missing `filters` namespace | Confirm `filters.json` exists for the active language |
 
 ---
 
@@ -602,13 +842,15 @@ Common fit for this stack: Vitest + React Testing Library, with a `test` script 
 2. Install with `npm install`
 3. Develop with `npm run dev`
 4. Run `npm run lint` and `npm run build` before opening a PR
-5. Keep drama content changes in `src/data/stories.json` typed to `Story`
-6. Prefer small, focused PRs (UI vs content vs tooling)
+5. Prefer the Excel import tool (`scripts/merge_excel_into_json.py`) for catalog updates; keep drama content in `src/data/*.json` typed to `Story` / `Cast` / `OriginalNetwork`
+6. When changing UI copy, update **all** locale files under `src/i18n/locales/` (start with `en`)
+7. Prefer small, focused PRs (UI vs content vs tooling vs locales)
 
 ## Code review checklist
 
 - [ ] Types align with `src/types/story.ts`
 - [ ] New UI is accessible (labels, focus styles, keyboard for lightbox where applicable)
+- [ ] New user-facing strings are translated in all supported languages
 - [ ] No secrets committed (none are required today)
 - [ ] Production build succeeds
 
@@ -629,6 +871,11 @@ License information is not included in this repository yet.
 | `/` | `Navigate` → `/home` | Index redirect |
 | `/home` | `HomePage` (lazy) | Catalog |
 | `/detail/:uuid` | `DetailPage` (lazy) | Drama detail |
+| `/advanced-search` | `AdvancedSearchPage` (lazy) | Filters + results |
+| `/settings` | `SettingsPage` (lazy) | Language preference |
+| `/about` | `AboutPage` (lazy) | App overview |
 | `*` | `NotFoundPage` (lazy) | Catch-all under `MainLayout` |
 
-Defined in `src/routes/index.tsx` with constants from `src/constants/index.ts` (`ROUTES.HOME` = `/home`, `ROUTES.DETAIL` = `/detail`).
+Defined in `src/routes/index.tsx` with constants from `src/constants/index.ts` (`ROUTES.HOME` = `/home`, `ROUTES.DETAIL` = `/detail`, `ROUTES.ADVANCED_SEARCH` = `/advanced-search`, `ROUTES.SETTINGS` = `/settings`, `ROUTES.ABOUT` = `/about`).
+
+Locale prefixes such as `/en/...` are **not** used, so existing bookmarks and shared links keep working while the UI language remains an independent preference.

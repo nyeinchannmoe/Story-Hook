@@ -1,4 +1,5 @@
 import { useCallback, useId } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface DualRangeSliderProps {
   min: number;
@@ -23,6 +24,7 @@ export function DualRangeSlider({
   formatValue = (v) => String(v),
   id,
 }: DualRangeSliderProps) {
+  const { t } = useTranslation(['a11y', 'common']);
   const generatedId = useId();
   const baseId = id ?? generatedId;
   const fromId = `${baseId}-from`;
@@ -56,7 +58,8 @@ export function DualRangeSlider({
           className="rounded-md bg-white/5 px-2.5 py-1 text-sm font-medium tabular-nums text-accent"
           aria-live="polite"
         >
-          {formatValue(valueFrom)} – {formatValue(valueTo)}
+          {formatValue(valueFrom)} {t('common:rangeSeparator')}{' '}
+          {formatValue(valueTo)}
         </span>
       </div>
 
@@ -71,7 +74,7 @@ export function DualRangeSlider({
         />
 
         <label className="sr-only" htmlFor={fromId}>
-          {label} minimum
+          {t('a11y:sliderMinimum', { label })}
         </label>
         <input
           id={fromId}
@@ -86,11 +89,11 @@ export function DualRangeSlider({
           aria-valuemin={min}
           aria-valuemax={valueTo}
           aria-valuenow={valueFrom}
-          aria-label={`${label} from`}
+          aria-label={t('a11y:sliderFrom', { label })}
         />
 
         <label className="sr-only" htmlFor={toId}>
-          {label} maximum
+          {t('a11y:sliderMaximum', { label })}
         </label>
         <input
           id={toId}
@@ -104,7 +107,7 @@ export function DualRangeSlider({
           aria-valuemin={valueFrom}
           aria-valuemax={max}
           aria-valuenow={valueTo}
-          aria-label={`${label} to`}
+          aria-label={t('a11y:sliderTo', { label })}
         />
       </div>
     </div>

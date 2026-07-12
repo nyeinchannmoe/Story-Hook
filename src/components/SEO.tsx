@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { APP_NAME } from '@/constants';
+import { getCurrentLanguage } from '@/i18n';
+import { LANGUAGE_META } from '@/i18n/config';
 
 interface SEOProps {
   title: string;
@@ -26,14 +29,26 @@ export function SEO({
   url,
   type = 'website',
 }: SEOProps) {
+  const { t, i18n } = useTranslation(['seo', 'common']);
+
   useEffect(() => {
-    const fullTitle = title === APP_NAME ? title : `${title} | ${APP_NAME}`;
+    const appName = t('common:appName', { defaultValue: APP_NAME });
+    const fullTitle =
+      title === appName || title === APP_NAME
+        ? title
+        : t('seo:titleTemplate', { title, appName });
+
     document.title = fullTitle;
+
+    const language = getCurrentLanguage();
+    const ogLocale = LANGUAGE_META[language].ogLocale;
+    document.documentElement.lang = language;
 
     setMetaTag('name', 'description', description);
     setMetaTag('property', 'og:title', fullTitle);
     setMetaTag('property', 'og:description', description);
     setMetaTag('property', 'og:type', type);
+    setMetaTag('property', 'og:locale', ogLocale);
     setMetaTag('name', 'twitter:card', 'summary_large_image');
     setMetaTag('name', 'twitter:title', fullTitle);
     setMetaTag('name', 'twitter:description', description);
@@ -46,7 +61,7 @@ export function SEO({
     if (url) {
       setMetaTag('property', 'og:url', url);
     }
-  }, [title, description, image, url, type]);
+  }, [title, description, image, url, type, t, i18n.language]);
 
   return null;
 }

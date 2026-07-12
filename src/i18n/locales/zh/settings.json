@@ -1,0 +1,9 @@
+{
+  "title": "设置",
+  "subtitle": "自定义您的 Story Hook 体验。",
+  "languageHeading": "语言",
+  "languageDescription": "选择您偏好的显示语言。选择会保存在此设备上。",
+  "languageLabel": "显示语言",
+  "languageHint": "更改会立即生效，无需重新加载页面。",
+  "currentLanguage": "当前语言：{{language}}"
+}

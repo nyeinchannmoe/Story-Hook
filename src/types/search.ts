@@ -1,4 +1,7 @@
 import type { SearchCountry } from '@/constants';
+import type { WatchedFilter } from '@/types/watched';
+
+export type { WatchedFilter };
 
 export interface SearchFilters {
   keyword: string;
@@ -9,4 +12,5 @@ export interface SearchFilters {
   episodesMax: string;
   yearFrom: number;
   yearTo: number;
+  watched: WatchedFilter;
 }

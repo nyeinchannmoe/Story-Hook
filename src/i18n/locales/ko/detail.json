@@ -1,0 +1,20 @@
+{
+  "failedTitle": "드라마를 불러오지 못했습니다",
+  "notFoundTitle": "드라마를 찾을 수 없음",
+  "notFoundDescription": "찾으시는 드라마가 없거나 삭제되었을 수 있습니다.",
+  "back": "뒤로",
+  "goBackHome": "홈으로 돌아가기",
+  "aired": "방영",
+  "country": "국가",
+  "type": "유형",
+  "format": "형식",
+  "duration": "러닝타임",
+  "originalNetworks": "원작 방송사",
+  "watchNow": "지금 시청",
+  "story": "줄거리",
+  "episodeLinks": "에피소드 링크",
+  "cast": "출연진",
+  "photos": "스틸컷",
+  "markAsWatched": "시청함으로 표시",
+  "alreadyWatched": "이미 시청함"
+}

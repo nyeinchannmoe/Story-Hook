@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { SKELETON_CARD_COUNT } from '@/constants';
 
 function SkeletonCard() {
@@ -30,30 +31,34 @@ interface LoadingSkeletonProps {
 }
 
 export function LoadingSkeleton({ count = SKELETON_CARD_COUNT }: LoadingSkeletonProps) {
+  const { t } = useTranslation('a11y');
+
   return (
     <div
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       role="status"
-      aria-label="Loading dramas"
+      aria-label={t('loadingDramas')}
     >
       {Array.from({ length: count }, (_, i) => (
         <SkeletonCard key={i} />
       ))}
-      <span className="sr-only">Loading dramas…</span>
+      <span className="sr-only">{t('loadingDramasSr')}</span>
     </div>
   );
 }
 
 export function DetailSkeleton() {
+  const { t } = useTranslation('a11y');
+
   return (
-    <div role="status" aria-label="Loading drama details">
+    <div role="status" aria-label={t('loadingDramaDetails')}>
       <div className="aspect-[21/9] animate-pulse rounded-2xl bg-white/5" />
       <div className="mt-8 space-y-4">
         <div className="h-10 w-2/3 animate-pulse rounded bg-white/5" />
         <div className="h-6 w-1/3 animate-pulse rounded bg-white/5" />
         <div className="h-32 w-full animate-pulse rounded-xl bg-white/5" />
       </div>
-      <span className="sr-only">Loading drama details…</span>
+      <span className="sr-only">{t('loadingDramaDetailsSr')}</span>
     </div>
   );
 }

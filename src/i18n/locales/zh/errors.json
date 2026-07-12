@@ -1,0 +1,11 @@
+{
+  "pageNotFoundTitle": "页面未找到",
+  "pageNotFoundBody": "您要查找的页面不存在或已被移动。",
+  "backToApp": "返回 {{appName}}",
+  "invalidStoriesFormat": "剧集数据格式无效",
+  "failedLoadStories": "加载剧集失败",
+  "invalidCastsFormat": "演员数据格式无效",
+  "failedLoadCasts": "加载演员失败",
+  "invalidNetworksFormat": "平台数据格式无效",
+  "failedLoadNetworks": "加载平台失败"
+}

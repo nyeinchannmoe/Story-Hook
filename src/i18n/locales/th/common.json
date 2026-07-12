@@ -1,0 +1,22 @@
+{
+  "appName": "Story Hook",
+  "appDescription": "ค้นพบและสำรวจซีรีส์เอเชียที่ดีที่สุด พร้อมรีวิว ข้อมูลนักแสดง และอื่น ๆ",
+  "tryAgain": "ลองอีกครั้ง",
+  "backToHome": "กลับหน้าแรก",
+  "browseAllDramas": "ดูซีรีส์ทั้งหมด",
+  "loading": "กำลังโหลด…",
+  "resetFilters": "รีเซ็ตตัวกรอง",
+  "search": "ค้นหา",
+  "episodes": "ตอน",
+  "episodesShort": "ตอน",
+  "episodesCount": "{{count}} ตอน",
+  "coverAlt": "ปก {{title}}",
+  "viewDetails": "ดูรายละเอียด",
+  "mainRole": "บทนำ",
+  "supportRole": "บทสมทบ",
+  "asCharacter": "รับบท {{character}}",
+  "unknownCast": "นักแสดงไม่ทราบชื่อ",
+  "rangeSeparator": "–",
+  "watched": "ดูแล้ว",
+  "markWatched": "ทำเครื่องหมายว่าดูแล้ว"
+}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getImageSrc, handleImageError } from '@/utils/image';
 
 interface PhotoGalleryProps {
@@ -7,6 +8,7 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
+  const { t } = useTranslation(['a11y', 'dialogs']);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   if (photos.length === 0) return null;
@@ -26,7 +28,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
   };
 
   return (
-    <section aria-label={`${title} photo gallery`}>
+    <section aria-label={t('a11y:photoGallery', { title })}>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
         {photos.map((photo, index) => (
           <button
@@ -34,11 +36,14 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
             type="button"
             onClick={() => setSelectedIndex(index)}
             className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-white/5 bg-bg-card transition-all hover:border-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-            aria-label={`View photo ${index + 1} of ${photos.length}`}
+            aria-label={t('a11y:viewPhoto', {
+              current: index + 1,
+              total: photos.length,
+            })}
           >
             <img
               src={getImageSrc(photo)}
-              alt={`${title} still ${index + 1}`}
+              alt={t('a11y:photoStill', { title, index: index + 1 })}
               loading="lazy"
               decoding="async"
               onError={handleImageError}
@@ -53,7 +58,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
-          aria-label="Photo lightbox"
+          aria-label={t('dialogs:photoLightbox')}
           onClick={closeLightbox}
           onKeyDown={(e) => {
             if (e.key === 'Escape') closeLightbox();
@@ -65,7 +70,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
             type="button"
             onClick={closeLightbox}
             className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
-            aria-label="Close lightbox"
+            aria-label={t('dialogs:closeLightbox')}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -76,7 +81,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
             type="button"
             onClick={(e) => { e.stopPropagation(); goPrev(); }}
             className="absolute left-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
-            aria-label="Previous photo"
+            aria-label={t('dialogs:previousPhoto')}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -85,7 +90,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
 
           <img
             src={getImageSrc(photos[selectedIndex])}
-            alt={`${title} still ${selectedIndex + 1}`}
+            alt={t('a11y:photoStill', { title, index: selectedIndex + 1 })}
             onClick={(e) => e.stopPropagation()}
             onError={handleImageError}
             className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain"
@@ -95,7 +100,7 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
             type="button"
             onClick={(e) => { e.stopPropagation(); goNext(); }}
             className="absolute right-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 sm:right-16"
-            aria-label="Next photo"
+            aria-label={t('dialogs:nextPhoto')}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

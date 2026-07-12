@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { parseRating } from '@/utils/story';
 
 interface RatingBadgeProps {
@@ -12,12 +13,13 @@ const sizeClasses = {
 };
 
 export function RatingBadge({ rating, size = 'md' }: RatingBadgeProps) {
+  const { t } = useTranslation('a11y');
   const { value, max } = parseRating(rating);
 
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full bg-accent-muted font-semibold text-accent ${sizeClasses[size]}`}
-      aria-label={`Rating: ${value} out of ${max}`}
+      aria-label={t('ratingOutOf', { value, max })}
     >
       <svg
         className="h-3.5 w-3.5 fill-current"

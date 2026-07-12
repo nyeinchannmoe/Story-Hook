@@ -12,3 +12,4 @@ export { SEO } from './SEO';
 export { ScrollToTop } from './ScrollToTop';
 export { DualRangeSlider } from './DualRangeSlider';
 export { SearchIconLink } from './SearchIconLink';
+export { WatchedToggle } from './WatchedToggle';

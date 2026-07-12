@@ -1,0 +1,22 @@
+{
+  "dramaCollection": "剧集合集",
+  "loadingDramas": "正在加载剧集",
+  "loadingDramasSr": "正在加载剧集…",
+  "loadingDramaDetails": "正在加载剧集详情",
+  "loadingDramaDetailsSr": "正在加载剧集详情…",
+  "viewDetailsFor": "查看 {{title}} 的详情",
+  "searchFeaturing": "搜索 {{name}} 出演的剧集",
+  "photoGallery": "{{title}} 剧照库",
+  "viewPhoto": "查看第 {{current}} 张，共 {{total}} 张",
+  "photoStill": "{{title}} 剧照 {{index}}",
+  "ratingOutOf": "评分：{{value}} / {{max}}",
+  "sliderMinimum": "{{label}} 最小值",
+  "sliderMaximum": "{{label}} 最大值",
+  "sliderFrom": "{{label}} 起始",
+  "sliderTo": "{{label}} 结束",
+  "openSettings": "打开设置",
+  "markSeriesWatched": "将 {{title}} 标记为已看过",
+  "markSeriesUnwatched": "取消 {{title}} 的已看过标记",
+  "markEpisodeWatched": "将第 {{index}} 集（{{title}}）标记为已看",
+  "markEpisodeUnwatched": "将第 {{index}} 集（{{title}}）标记为未看"
+}

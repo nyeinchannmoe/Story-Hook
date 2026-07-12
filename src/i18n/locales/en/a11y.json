@@ -1,0 +1,22 @@
+{
+  "dramaCollection": "Drama collection",
+  "loadingDramas": "Loading dramas",
+  "loadingDramasSr": "Loading dramas…",
+  "loadingDramaDetails": "Loading drama details",
+  "loadingDramaDetailsSr": "Loading drama details…",
+  "viewDetailsFor": "View details for {{title}}",
+  "searchFeaturing": "Search dramas featuring {{name}}",
+  "photoGallery": "{{title}} photo gallery",
+  "viewPhoto": "View photo {{current}} of {{total}}",
+  "photoStill": "{{title}} still {{index}}",
+  "ratingOutOf": "Rating: {{value}} out of {{max}}",
+  "sliderMinimum": "{{label}} minimum",
+  "sliderMaximum": "{{label}} maximum",
+  "sliderFrom": "{{label}} from",
+  "sliderTo": "{{label}} to",
+  "openSettings": "Open settings",
+  "markSeriesWatched": "Mark {{title}} as already watched",
+  "markSeriesUnwatched": "Remove already watched status from {{title}}",
+  "markEpisodeWatched": "Mark episode {{index}} ({{title}}) as watched",
+  "markEpisodeUnwatched": "Mark episode {{index}} ({{title}}) as not watched"
+}

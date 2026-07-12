@@ -1,0 +1,4 @@
+{
+  "invalidNumber": "유효한 숫자를 입력하세요",
+  "minGreaterThanMax": "최솟값은 최댓값보다 클 수 없습니다"
+}

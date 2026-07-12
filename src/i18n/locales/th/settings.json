@@ -1,0 +1,9 @@
+{
+  "title": "การตั้งค่า",
+  "subtitle": "ปรับแต่งประสบการณ์ Story Hook ของคุณ",
+  "languageHeading": "ภาษา",
+  "languageDescription": "เลือกภาษาที่ต้องการ ตัวเลือกจะถูกบันทึกไว้ในอุปกรณ์นี้",
+  "languageLabel": "ภาษาที่แสดง",
+  "languageHint": "การเปลี่ยนแปลงมีผลทันทีโดยไม่ต้องโหลดหน้าใหม่",
+  "currentLanguage": "ภาษาปัจจุบัน: {{language}}"
+}

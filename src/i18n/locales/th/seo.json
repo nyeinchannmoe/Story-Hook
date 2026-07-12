@@ -1,0 +1,13 @@
+{
+  "homeTitle": "Story Hook",
+  "homeDescription": "ค้นพบและสำรวจซีรีส์เอเชียที่ดีที่สุด พร้อมรีวิว ข้อมูลนักแสดง และอื่น ๆ",
+  "advancedSearchTitle": "ค้นหาขั้นสูง",
+  "advancedSearchDescription": "ค้นหาซีรีส์เอเชียตามคำค้น ประเทศ คะแนน จำนวนตอน และปีที่ออกอากาศ",
+  "settingsTitle": "การตั้งค่า",
+  "settingsDescription": "จัดการภาษาที่ต้องการและการตั้งค่าอื่น ๆ ของ Story Hook",
+  "aboutTitle": "เกี่ยวกับ",
+  "aboutDescription": "เรียนรู้เกี่ยวกับ Story Hook — แคตตาล็อกซีรีส์เอเชียคัดสรรที่รองรับหลายภาษา",
+  "notFoundTitle": "ไม่พบหน้า",
+  "notFoundDescription": "หน้าที่คุณกำลังค้นหาไม่มีอยู่",
+  "titleTemplate": "{{title}} | {{appName}}"
+}

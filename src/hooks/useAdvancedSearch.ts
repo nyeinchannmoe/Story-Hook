@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { SearchFilters } from '@/types/search';
-import type { Story } from '@/types/story';
+import type { Cast, OriginalNetwork, Story } from '@/types/story';
+import { useWatchedSeriesSet } from '@/hooks/useWatched';
 import {
   createDefaultFilters,
   filterStories,
@@ -23,7 +24,11 @@ function paramsEqual(a: URLSearchParams, b: URLSearchParams): boolean {
   return true;
 }
 
-export function useAdvancedSearch(stories: Story[]) {
+export function useAdvancedSearch(
+  stories: Story[],
+  castByUuid: Map<string, Cast> = new Map(),
+  networkByUuid: Map<string, OriginalNetwork> = new Map(),
+) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlFilters = useMemo(
@@ -33,6 +38,7 @@ export function useAdvancedSearch(stories: Story[]) {
 
   const [draft, setDraft] = useState<SearchFilters>(urlFilters);
   const [applied, setApplied] = useState<SearchFilters>(urlFilters);
+  const watchedSeries = useWatchedSeriesSet();
 
   useEffect(() => {
     setDraft(urlFilters);
@@ -40,8 +46,15 @@ export function useAdvancedSearch(stories: Story[]) {
   }, [urlFilters]);
 
   const results = useMemo(
-    () => filterStories(stories, applied),
-    [stories, applied],
+    () =>
+      filterStories(
+        stories,
+        applied,
+        castByUuid,
+        networkByUuid,
+        watchedSeries,
+      ),
+    [stories, applied, castByUuid, networkByUuid, watchedSeries],
   );
 
   const updateDraft = useCallback((patch: Partial<SearchFilters>) => {
@@ -73,6 +86,7 @@ export function useAdvancedSearch(stories: Story[]) {
 
   return {
     draft,
+    applied,
     results,
     updateDraft,
     search,

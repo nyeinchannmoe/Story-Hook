@@ -1,0 +1,11 @@
+{
+  "pageNotFoundTitle": "ไม่พบหน้า",
+  "pageNotFoundBody": "หน้าที่คุณกำลังค้นหาไม่มีอยู่หรือถูกย้ายแล้ว",
+  "backToApp": "กลับไปที่ {{appName}}",
+  "invalidStoriesFormat": "รูปแบบข้อมูลซีรีส์ไม่ถูกต้อง",
+  "failedLoadStories": "โหลดซีรีส์ไม่สำเร็จ",
+  "invalidCastsFormat": "รูปแบบข้อมูลนักแสดงไม่ถูกต้อง",
+  "failedLoadCasts": "โหลดนักแสดงไม่สำเร็จ",
+  "invalidNetworksFormat": "รูปแบบข้อมูลเครือข่ายไม่ถูกต้อง",
+  "failedLoadNetworks": "โหลดเครือข่ายไม่สำเร็จ"
+}

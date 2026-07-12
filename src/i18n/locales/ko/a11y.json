@@ -1,0 +1,22 @@
+{
+  "dramaCollection": "드라마 컬렉션",
+  "loadingDramas": "드라마 로딩 중",
+  "loadingDramasSr": "드라마 로딩 중…",
+  "loadingDramaDetails": "드라마 상세 정보 로딩 중",
+  "loadingDramaDetailsSr": "드라마 상세 정보 로딩 중…",
+  "viewDetailsFor": "{{title}} 상세 보기",
+  "searchFeaturing": "{{name}} 출연 드라마 검색",
+  "photoGallery": "{{title}} 사진 갤러리",
+  "viewPhoto": "{{total}}장 중 {{current}}번째 사진 보기",
+  "photoStill": "{{title}} 스틸 {{index}}",
+  "ratingOutOf": "평점: {{value}} / {{max}}",
+  "sliderMinimum": "{{label}} 최소",
+  "sliderMaximum": "{{label}} 최대",
+  "sliderFrom": "{{label}} 시작",
+  "sliderTo": "{{label}} 끝",
+  "openSettings": "설정 열기",
+  "markSeriesWatched": "{{title}}을(를) 시청함으로 표시",
+  "markSeriesUnwatched": "{{title}}의 시청함 표시 제거",
+  "markEpisodeWatched": "{{index}}화 ({{title}})을(를) 시청함으로 표시",
+  "markEpisodeUnwatched": "{{index}}화 ({{title}})을(를) 미시청으로 표시"
+}

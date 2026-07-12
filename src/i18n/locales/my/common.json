@@ -1,0 +1,22 @@
+{
+  "appName": "Story Hook",
+  "appDescription": "သုံးသပ်ချက်များ၊ သရုပ်ဆောင်အချက်အလက်များနှင့်အတူ အကောင်းဆုံး အာရှဒရာမာများကို ရှာဖွေလေ့လာပါ။",
+  "tryAgain": "ထပ်မံကြိုးစားရန်",
+  "backToHome": "ပင်မစာမျက်နှာသို့",
+  "browseAllDramas": "ဒရာမာအားလုံးကြည့်ရန်",
+  "loading": "ဖွင့်နေသည်…",
+  "resetFilters": "စစ်ထုတ်မှုများ ပြန်သတ်မှတ်ရန်",
+  "search": "ရှာရန်",
+  "episodes": "အပိုင်းများ",
+  "episodesShort": "ပိုင်း",
+  "episodesCount": "အပိုင်း {{count}} ပိုင်း",
+  "coverAlt": "{{title}} ကာဗာ",
+  "viewDetails": "အသေးစိတ်ကြည့်ရန်",
+  "mainRole": "အဓိကဇာတ်ကောင်",
+  "supportRole": "ဇာတ်ရံ",
+  "asCharacter": "{{character}} အဖြစ်",
+  "unknownCast": "မသိသော သရုပ်ဆောင်",
+  "rangeSeparator": "–",
+  "watched": "ကြည့်ပြီး",
+  "markWatched": "ကြည့်ပြီးအဖြစ် မှတ်ရန်"
+}

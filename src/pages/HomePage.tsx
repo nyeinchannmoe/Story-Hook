@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   PageContainer,
   SEO,
@@ -5,27 +6,28 @@ import {
   LoadingSkeleton,
   EmptyState,
 } from '@/components';
-import { APP_DESCRIPTION, APP_NAME } from '@/constants';
 import { useStories } from '@/hooks/useStories';
+import { translateErrorMessage } from '@/i18n/helpers';
 
 export default function HomePage() {
+  const { t } = useTranslation(['home', 'common', 'seo', 'errors']);
   const { stories, loading, error, refetch } = useStories();
 
   return (
     <>
       <SEO
-        title={APP_NAME}
-        description={APP_DESCRIPTION}
+        title={t('seo:homeTitle')}
+        description={t('seo:homeDescription')}
       />
 
       <PageContainer>
         <header className="mb-8 sm:mb-10">
           <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
-            Discover <span className="text-accent">Dramas</span>
+            {t('home:titlePrefix')}{' '}
+            <span className="text-accent">{t('home:titleAccent')}</span>
           </h1>
           <p className="mt-3 max-w-2xl text-base text-text-secondary sm:text-lg">
-            Explore curated Asian drama reviews with cast details, ratings, and
-            full story synopses.
+            {t('home:subtitle')}
           </p>
         </header>
 
@@ -33,15 +35,15 @@ export default function HomePage() {
 
         {!loading && error && (
           <EmptyState
-            title="Failed to Load Dramas"
-            description={error}
+            title={t('home:failedTitle')}
+            description={translateErrorMessage(t, error)}
             action={
               <button
                 type="button"
                 onClick={refetch}
                 className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-red-900/30"
               >
-                Try Again
+                {t('common:tryAgain')}
               </button>
             }
           />
@@ -49,8 +51,8 @@ export default function HomePage() {
 
         {!loading && !error && stories.length === 0 && (
           <EmptyState
-            title="No Dramas Found"
-            description="There are no dramas available at the moment. Check back later for new additions."
+            title={t('home:emptyTitle')}
+            description={t('home:emptyDescription')}
           />
         )}
 

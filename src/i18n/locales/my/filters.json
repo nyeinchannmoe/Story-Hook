@@ -1,0 +1,17 @@
+{
+  "countries": {
+    "South Korea": "တောင်ကိုရီးယား",
+    "China": "တရုတ်",
+    "Japan": "ဂျပန်",
+    "Thailand": "ထိုင်း",
+    "Vietnam": "ဗီယက်နမ်",
+    "Indonesia": "အင်ဒိုနီးရှား",
+    "Malaysia": "မလေးရှား",
+    "Philippines": "ဖိလစ်ပိုင်",
+    "Singapore": "စင်္ကာပူ",
+    "Hong Kong": "ဟောင်ကောင်",
+    "Taiwan": "ထိုင်ဝမ်",
+    "Macau": "မကာအို",
+    "Myanmar": "မြန်မာ"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "dramaCollection": "คอลเลกชันซีรีส์",
+  "loadingDramas": "กำลังโหลดซีรีส์",
+  "loadingDramasSr": "กำลังโหลดซีรีส์…",
+  "loadingDramaDetails": "กำลังโหลดรายละเอียดซีรีส์",
+  "loadingDramaDetailsSr": "กำลังโหลดรายละเอียดซีรีส์…",
+  "viewDetailsFor": "ดูรายละเอียดของ {{title}}",
+  "searchFeaturing": "ค้นหาซีรีส์ที่มี {{name}}",
+  "photoGallery": "แกลเลอรีภาพ {{title}}",
+  "viewPhoto": "ดูภาพ {{current}} จาก {{total}}",
+  "photoStill": "ภาพนิ่ง {{title}} หมายเลข {{index}}",
+  "ratingOutOf": "คะแนน: {{value}} จาก {{max}}",
+  "sliderMinimum": "{{label}} ขั้นต่ำ",
+  "sliderMaximum": "{{label}} สูงสุด",
+  "sliderFrom": "{{label}} จาก",
+  "sliderTo": "{{label}} ถึง",
+  "openSettings": "เปิดการตั้งค่า",
+  "markSeriesWatched": "ทำเครื่องหมายว่าดู {{title}} แล้ว",
+  "markSeriesUnwatched": "ยกเลิกสถานะดูแล้วของ {{title}}",
+  "markEpisodeWatched": "ทำเครื่องหมายว่าดูตอนที่ {{index}} ({{title}}) แล้ว",
+  "markEpisodeUnwatched": "ทำเครื่องหมายว่ายังไม่ได้ดูตอนที่ {{index}} ({{title}})"
+}

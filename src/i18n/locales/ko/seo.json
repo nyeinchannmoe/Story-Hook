@@ -1,0 +1,13 @@
+{
+  "homeTitle": "Story Hook",
+  "homeDescription": "리뷰, 출연진 정보 등과 함께 최고의 아시아 드라마를 발견하고 탐색하세요.",
+  "advancedSearchTitle": "고급 검색",
+  "advancedSearchDescription": "키워드, 국가, 평점, 회차, 방영 연도로 아시아 드라마를 검색하세요.",
+  "settingsTitle": "설정",
+  "settingsDescription": "언어 환경설정 및 기타 Story Hook 설정을 관리하세요.",
+  "aboutTitle": "소개",
+  "aboutDescription": "Story Hook 소개 — 다국어를 지원하는 엄선된 아시아 드라마 목록.",
+  "notFoundTitle": "페이지를 찾을 수 없음",
+  "notFoundDescription": "찾으시는 페이지가 존재하지 않습니다.",
+  "titleTemplate": "{{title}} | {{appName}}"
+}
