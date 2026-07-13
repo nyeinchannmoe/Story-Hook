@@ -15,6 +15,7 @@ import { ROUTES } from '@/constants';
 import { useStory } from '@/hooks/useStories';
 import { useCasts } from '@/hooks/useCasts';
 import { useNetworks } from '@/hooks/useNetworks';
+import { useSmartBack } from '@/hooks/useSmartBack';
 import {
   useIsEpisodeWatched,
   useIsSeriesWatched,
@@ -139,6 +140,7 @@ export default function DetailPage() {
   const { networkByUuid } = useNetworks();
   const seriesWatched = useIsSeriesWatched(story?.uuid);
   const { toggleSeries } = useWatchedActions();
+  const goBack = useSmartBack();
 
   if (loading) {
     return (
@@ -221,16 +223,17 @@ export default function DetailPage() {
 
         <PageContainer className="relative -mt-32 sm:-mt-40">
           <div className="mb-6 flex items-center justify-between gap-3">
-            <Link
-              to={ROUTES.HOME}
+            <button
+              type="button"
+              onClick={goBack}
               className="inline-flex items-center gap-2 rounded-lg glass px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
-              aria-label={t('detail:goBackHome')}
+              aria-label={t('detail:goBack')}
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               {t('detail:back')}
-            </Link>
+            </button>
             <SearchIconLink className="glass" />
           </div>
 

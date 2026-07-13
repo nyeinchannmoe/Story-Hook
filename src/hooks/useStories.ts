@@ -9,48 +9,85 @@ interface UseStoriesResult {
   refetch: () => void;
 }
 
+interface StoriesCache {
+  stories: Story[];
+  error: string | null;
+}
+
+let storiesCache: StoriesCache | null = null;
+
+function normalizeStories(data: Story[]): Story[] {
+  return data.map((story) => ({
+    ...story,
+    type: story.type ?? '',
+    format: story.format ?? '',
+    duration: story.duration ?? '',
+    episodeLinks: story.episodeLinks ?? [],
+    orginalNetworks: story.orginalNetworks ?? [],
+    cast: story.cast ?? [],
+    photos: story.photos ?? [],
+  }));
+}
+
+function readStories(): StoriesCache {
+  try {
+    const data = storiesData as Story[];
+
+    if (!Array.isArray(data)) {
+      throw new Error('invalidStoriesFormat');
+    }
+
+    return { stories: normalizeStories(data), error: null };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : 'failedLoadStories';
+    return { stories: [], error: message };
+  }
+}
+
+function ensureStoriesCache(): StoriesCache {
+  if (!storiesCache) {
+    storiesCache = readStories();
+  }
+  return storiesCache;
+}
+
 export function useStories(): UseStoriesResult {
-  const [stories, setStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const hasCache = storiesCache !== null;
+  const [stories, setStories] = useState<Story[]>(
+    () => storiesCache?.stories ?? [],
+  );
+  const [loading, setLoading] = useState(!hasCache);
+  const [error, setError] = useState<string | null>(
+    () => storiesCache?.error ?? null,
+  );
+
+  const applyCache = useCallback((cache: StoriesCache) => {
+    storiesCache = cache;
+    setStories(cache.stories);
+    setError(cache.error);
+    setLoading(false);
+  }, []);
 
   const loadStories = useCallback(() => {
     setLoading(true);
     setError(null);
-
-    try {
-      const data = storiesData as Story[];
-
-      if (!Array.isArray(data)) {
-        throw new Error('invalidStoriesFormat');
-      }
-
-      setStories(
-        data.map((story) => ({
-          ...story,
-          type: story.type ?? '',
-          format: story.format ?? '',
-          duration: story.duration ?? '',
-          episodeLinks: story.episodeLinks ?? [],
-          orginalNetworks: story.orginalNetworks ?? [],
-          cast: story.cast ?? [],
-          photos: story.photos ?? [],
-        })),
-      );
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'failedLoadStories';
-      setError(message);
-      setStories([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    applyCache(readStories());
+  }, [applyCache]);
 
   useEffect(() => {
-    const timer = setTimeout(loadStories, 400);
-    return () => clearTimeout(timer);
-  }, [loadStories]);
+    if (storiesCache) {
+      applyCache(storiesCache);
+      return;
+    }
+
+    // First visit only: brief skeleton for catalog UX.
+    const timer = window.setTimeout(() => {
+      applyCache(ensureStoriesCache());
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [applyCache]);
 
   return { stories, loading, error, refetch: loadStories };
 }

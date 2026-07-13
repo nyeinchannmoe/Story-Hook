@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { Story } from '@/types/story';
 import { ROUTES } from '@/constants';
@@ -6,6 +6,7 @@ import { extractYear, getStoryPreview } from '@/utils/story';
 import { getImageSrc, handleImageError } from '@/utils/image';
 import { translateCountry } from '@/i18n/helpers';
 import { useIsSeriesWatched, useWatchedActions } from '@/hooks/useWatched';
+import type { DetailLocationState } from '@/hooks/useSmartBack';
 import { RatingBadge } from './RatingBadge';
 import { WatchedToggle } from './WatchedToggle';
 
@@ -15,7 +16,11 @@ interface StoryCardProps {
 
 export function StoryCard({ story }: StoryCardProps) {
   const { t } = useTranslation(['common', 'a11y', 'filters']);
+  const location = useLocation();
   const detailPath = `${ROUTES.DETAIL}/${story.uuid}`;
+  const detailState: DetailLocationState = {
+    from: `${location.pathname}${location.search}`,
+  };
   const year = extractYear(story.aired);
   const preview = getStoryPreview(story.story);
   const watched = useIsSeriesWatched(story.uuid);
@@ -37,6 +42,7 @@ export function StoryCard({ story }: StoryCardProps) {
       <div className="relative">
         <Link
           to={detailPath}
+          state={detailState}
           className="relative block aspect-[2/3] overflow-hidden"
           aria-label={t('a11y:viewDetailsFor', { title: story.title })}
         >
@@ -90,7 +96,7 @@ export function StoryCard({ story }: StoryCardProps) {
 
       <div className="flex flex-col gap-3 p-4 sm:p-5">
         <div>
-          <Link to={detailPath}>
+          <Link to={detailPath} state={detailState}>
             <h2 className="text-lg font-bold text-text-primary transition-colors group-hover:text-accent sm:text-xl">
               {story.title}
             </h2>
@@ -127,6 +133,7 @@ export function StoryCard({ story }: StoryCardProps) {
 
         <Link
           to={detailPath}
+          state={detailState}
           className="mt-auto inline-flex items-center justify-center rounded-lg gradient-accent px-4 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-lg hover:shadow-red-900/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
         >
           {t('common:viewDetails')}

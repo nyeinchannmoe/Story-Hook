@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Cast } from '@/types/story';
 import { createCastLookup } from '@/utils/lookup';
 import castsData from '@/data/casts.json';
@@ -10,36 +10,48 @@ interface UseCastsResult {
   error: string | null;
 }
 
-export function useCasts(): UseCastsResult {
-  const [casts, setCasts] = useState<Cast[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface CastsCache {
+  casts: Cast[];
+  error: string | null;
+}
 
-  const loadCasts = useCallback(() => {
-    setLoading(true);
-    setError(null);
+let castsCache: CastsCache | null = null;
 
-    try {
-      const data = castsData as Cast[];
+function readCasts(): CastsCache {
+  try {
+    const data = castsData as Cast[];
 
-      if (!Array.isArray(data)) {
-        throw new Error('invalidCastsFormat');
-      }
-
-      setCasts(data);
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'failedLoadCasts';
-      setError(message);
-      setCasts([]);
-    } finally {
-      setLoading(false);
+    if (!Array.isArray(data)) {
+      throw new Error('invalidCastsFormat');
     }
-  }, []);
+
+    return { casts: data, error: null };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : 'failedLoadCasts';
+    return { casts: [], error: message };
+  }
+}
+
+function ensureCastsCache(): CastsCache {
+  if (!castsCache) {
+    castsCache = readCasts();
+  }
+  return castsCache;
+}
+
+export function useCasts(): UseCastsResult {
+  const initial = ensureCastsCache();
+  const [casts, setCasts] = useState<Cast[]>(initial.casts);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(initial.error);
 
   useEffect(() => {
-    loadCasts();
-  }, [loadCasts]);
+    const cache = ensureCastsCache();
+    setCasts(cache.casts);
+    setError(cache.error);
+    setLoading(false);
+  }, []);
 
   const castByUuid = useMemo(() => createCastLookup(casts), [casts]);
 

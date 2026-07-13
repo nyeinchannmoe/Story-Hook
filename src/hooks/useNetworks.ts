@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { OriginalNetwork } from '@/types/story';
 import { createNetworkLookup } from '@/utils/lookup';
 import networksData from '@/data/original_network.json';
@@ -10,36 +10,50 @@ interface UseNetworksResult {
   error: string | null;
 }
 
-export function useNetworks(): UseNetworksResult {
-  const [networks, setNetworks] = useState<OriginalNetwork[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface NetworksCache {
+  networks: OriginalNetwork[];
+  error: string | null;
+}
 
-  const loadNetworks = useCallback(() => {
-    setLoading(true);
-    setError(null);
+let networksCache: NetworksCache | null = null;
 
-    try {
-      const data = networksData as OriginalNetwork[];
+function readNetworks(): NetworksCache {
+  try {
+    const data = networksData as OriginalNetwork[];
 
-      if (!Array.isArray(data)) {
-        throw new Error('invalidNetworksFormat');
-      }
-
-      setNetworks(data);
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'failedLoadNetworks';
-      setError(message);
-      setNetworks([]);
-    } finally {
-      setLoading(false);
+    if (!Array.isArray(data)) {
+      throw new Error('invalidNetworksFormat');
     }
-  }, []);
+
+    return { networks: data, error: null };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : 'failedLoadNetworks';
+    return { networks: [], error: message };
+  }
+}
+
+function ensureNetworksCache(): NetworksCache {
+  if (!networksCache) {
+    networksCache = readNetworks();
+  }
+  return networksCache;
+}
+
+export function useNetworks(): UseNetworksResult {
+  const initial = ensureNetworksCache();
+  const [networks, setNetworks] = useState<OriginalNetwork[]>(
+    initial.networks,
+  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(initial.error);
 
   useEffect(() => {
-    loadNetworks();
-  }, [loadNetworks]);
+    const cache = ensureNetworksCache();
+    setNetworks(cache.networks);
+    setError(cache.error);
+    setLoading(false);
+  }, []);
 
   const networkByUuid = useMemo(
     () => createNetworkLookup(networks),

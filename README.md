@@ -84,13 +84,13 @@ Landing (/) ──redirect──► Home (/home)
 | Feature | Implementation |
 |---------|----------------|
 | Drama catalog | `useStories` + `stories.json` |
-| Detail view | `useStory(uuid)` + `DetailPage` |
-| Advanced search | `useAdvancedSearch` + URL query sync |
+| Detail view | `useStory(uuid)` + `DetailPage` + `useSmartBack` |
+| Advanced search | `useAdvancedSearch` + URL query sync (`replace: true`) |
 | Localization | `i18next` + `react-i18next` + `src/i18n/` |
 | Language settings | `SettingsPage` + `localStorage` (`story-hook-language`) |
 | Photo lightbox | Local state in `PhotoGallery` |
 | SEO meta | `SEO` component (`useEffect` DOM updates, localized) |
-| Scroll reset | `ScrollToTop` on pathname change |
+| Scroll restoration | `ScrollToTop` saves/restores list scroll across detail navigation |
 | SPA hosting | `vercel.json` rewrite to `index.html` |
 
 ---
@@ -135,8 +135,8 @@ Landing (/) ──redirect──► Home (/home)
 The app is a **client-side SPA** with a **feature-oriented folder layout**:
 
 - **Presentation** — pages and reusable UI components
-- **Layout shell** — `MainLayout` (header, scroll reset, outlet, footer)
-- **Data access** — custom hooks that load typed static JSON
+- **Layout shell** — `MainLayout` (header, scroll restoration, outlet, footer)
+- **Data access** — custom hooks that load typed static JSON (module-level cache)
 - **Domain types & utils** — shared TypeScript interfaces and pure helpers
 - **Routing** — React Router data API (`createBrowserRouter` + `RouterProvider`)
 
@@ -157,7 +157,7 @@ HomePage / DetailPage
 StoryGrid → StoryCard  |  CastCard, PhotoGallery, RatingBadge, …
 ```
 
-`useStories` simulates async loading with a **400ms** `setTimeout` before assigning the imported JSON to state (loading skeleton UX). `useStory` reuses `useStories` and finds one item by `uuid`.
+`useStories` simulates async loading with a **400ms** `setTimeout` on the **first** catalog load (loading skeleton UX), then keeps a module-level in-memory cache so returning from detail does not reload JSON or flash the skeleton. `useStory` reuses `useStories` and finds one item by `uuid`. `useCasts` / `useNetworks` likewise cache static JSON after the first read.
 
 ## Component organization
 
@@ -174,11 +174,12 @@ StoryGrid → StoryCard  |  CastCard, PhotoGallery, RatingBadge, …
 | Scope | Mechanism | Examples |
 |-------|-----------|----------|
 | Story list / detail data | `useStories` / `useStory` | `stories`, `loading`, `error` |
-| Advanced search filters | `useAdvancedSearch` + URL params | draft / applied filters |
+| Advanced search filters | `useAdvancedSearch` + URL params | draft / applied; `setSearchParams(..., { replace: true })` so filter edits do not stack history |
+| Detail back navigation | `useSmartBack` + StoryCard `state.from` | history `-1` when possible; else referrer path; else `/home` |
 | Active UI language | i18next + `localStorage` | `story-hook-language` |
 | Lightbox selection | `useState` in `PhotoGallery` | `selectedIndex` |
 | Document meta | `SEO` `useEffect` | `document.title`, meta tags, `og:locale` |
-| Scroll position | `ScrollToTop` `useLayoutEffect` | reset on `pathname` |
+| Scroll position | `ScrollToTop` | restore `/home` & `/advanced-search` (incl. query) on revisit; POP for other routes |
 
 No Redux or remote cache libraries are used. Language state is owned by i18next and synchronized via `DocumentLanguage`.
 
@@ -360,6 +361,7 @@ Story-Hook/
 │   │   ├── casts.json           # Actor directory (UUID-keyed)
 │   │   └── original_network.json# Broadcast / streaming networks
 │   ├── hooks/
+│   │   ├── useSmartBack.ts
 │   │   ├── useAdvancedSearch.ts
 │   │   ├── useCasts.ts
 │   │   ├── useNetworks.ts
@@ -636,16 +638,14 @@ Story Hook is a **static-data SPA**. There is no HTTP service layer, authenticat
 Mount HomePage or DetailPage
         │
         ▼
-useStories() sets loading=true
+useStories() — if module cache hit → stories immediately, loading=false
         │
-        ▼
-setTimeout(400ms) → assign storiesData as Story[]
-        │
-        ├─ success → stories state, loading=false
-        └─ throw   → error message, stories=[], loading=false
+        └─ else first load: loading=true → setTimeout(400ms) → cache + state
+                ├─ success → stories state, loading=false
+                └─ throw   → error message, stories=[], loading=false
 ```
 
-Home exposes `refetch` (re-runs `loadStories`). Detail uses `useStory(uuid)` and shows not-found UI when the UUID is absent after load.
+Home exposes `refetch` (re-reads JSON into the module cache). Detail uses `useStory(uuid)` and shows not-found UI when the UUID is absent after load.
 
 ## Future remote API (guidance only)
 
@@ -661,20 +661,21 @@ If you introduce a backend, keep the hook signatures (`stories`, `loading`, `err
 
 ## Global state flow
 
-There is **no global store**. Each call to `useStories` / `useStory` owns its own state instance. Navigating between home and detail remounts pages and reloads data (including the 400ms delay).
+There is **no global store**. Page components remount on route changes, but catalog hooks reuse a **module-level cache** so home/detail/search do not re-hit the artificial first-load delay or show redundant loading states when navigating back.
 
 ## Local state usage
 
-- Loading / error / list in `useStories`
+- Loading / error / list in `useStories` (backed by module cache)
 - Lightbox index in `PhotoGallery`
 - Imperative document title/meta in `SEO`
-- Scroll restoration flags in `ScrollToTop`
+- Scroll positions in `ScrollToTop` (in-memory map keyed by pathname)
 
 ## Data caching strategy
 
 - **Build-time:** `stories.json` and locale JSON are bundled by Vite (locales as separate async chunks)
-- **Runtime:** In-memory React state for catalog data; i18next cache + `localStorage` for language
+- **Runtime:** Module-level cache for stories / casts / networks plus React state; i18next cache + `localStorage` for language
 - **CDN (deployed assets):** `vercel.json` sets long-cache headers for `/assets/*`
+- **Scroll:** `/home` and `/advanced-search` restore the last scroll offset when revisiting (back, forward, or in-app links); other routes restore on history POP and start at the top on PUSH
 
 ---
 

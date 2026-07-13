@@ -73,7 +73,8 @@ export function useAdvancedSearch(
 
     const params = filtersToSearchParams(next);
     if (!paramsEqual(params, searchParams)) {
-      setSearchParams(params, { replace: false });
+      // Replace so filter/query edits do not stack duplicate search history entries.
+      setSearchParams(params, { replace: true });
     }
   }, [draft, searchParams, setSearchParams]);
 
@@ -81,7 +82,7 @@ export function useAdvancedSearch(
     const defaults = createDefaultFilters();
     setDraft(defaults);
     setApplied(defaults);
-    setSearchParams({}, { replace: false });
+    setSearchParams({}, { replace: true });
   }, [setSearchParams]);
 
   return {
