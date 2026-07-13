@@ -6,6 +6,8 @@
   "loadingDramaDetailsSr": "Loading drama details…",
   "viewDetailsFor": "View details for {{title}}",
   "searchFeaturing": "Search dramas featuring {{name}}",
+  "removeCastFilter": "Remove cast filter {{name}}",
+  "removeNetworkFilter": "Remove original network filter {{name}}",
   "photoGallery": "{{title}} photo gallery",
   "viewPhoto": "View photo {{current}} of {{total}}",
   "photoStill": "{{title}} still {{index}}",

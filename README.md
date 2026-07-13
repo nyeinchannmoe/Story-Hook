@@ -7,8 +7,10 @@ Story Hook is a multilingual web application for discovering and exploring curat
 ## Key features
 
 - Browse a curated grid of Asian dramas with cover art, ratings, and story previews
+- Home catalog ordered by newest **aired start date** first (first date in the `aired` range)
 - View full drama detail pages (synopsis, cast, photo gallery, metadata, watch link)
-- Advanced search with keyword, country, rating, episode, and year filters
+- Advanced search with keyword, cast UUID, original network UUID, country, rating, episode, year, and watched filters
+- Intelligent Advanced Search sorting: aired date, rating, or combined (aired then rating) based on which range filters changed
 - Multilingual UI (en / zh / th / ko / my) with language settings and persistence
 - Bilingual catalog content: English titles plus Myanmar (`mmTitle`) titles and synopses
 - Localized SEO helpers (document title, Open Graph, Twitter meta, `html lang`)
@@ -73,7 +75,7 @@ Landing (/) ──redirect──► Home (/home)
 
 1. **Browse** — Open `/home`, wait for the short loading skeleton, then scan drama cards.
 2. **Open details** — Click a card or “View Details” to load `/detail/:uuid`.
-3. **Search** — Use `/advanced-search` to filter by keyword, country, rating, episodes, and year.
+3. **Search** — Use `/advanced-search` to filter by keyword, cast, original network, country, rating, episodes, year, and watched status. Clicking a cast or network on a detail page opens Advanced Search with that UUID filter preselected.
 4. **Explore media** — Read the synopsis, review cast roles, open stills in the lightbox.
 5. **Watch** — If `watchLink` is a valid absolute URL, use “Watch Now” (opens in a new tab).
 6. **Language** — Open Settings and pick a display language; the choice persists on the device.
@@ -83,9 +85,10 @@ Landing (/) ──redirect──► Home (/home)
 
 | Feature | Implementation |
 |---------|----------------|
-| Drama catalog | `useStories` + `stories.json` |
+| Drama catalog | `useStories` + `stories.json`; sorted by aired start date (newest first) via `sortStoriesByAiredDate` |
 | Detail view | `useStory(uuid)` + `DetailPage` + `useSmartBack` |
-| Advanced search | `useAdvancedSearch` + URL query sync (`replace: true`) |
+| Advanced search | `useAdvancedSearch` + URL query sync (`replace: true`); filter then sort (`filterAndSortStories`); `cast` / `network` UUID params; empty country = all |
+| Story sort helpers | `parseAiredStartDate` / `parseRatingValue` in `utils/story.ts`; `resolveStorySortMode` / `sortStories` in `utils/search.ts` |
 | Localization | `i18next` + `react-i18next` + `src/i18n/` |
 | Language settings | `SettingsPage` + `localStorage` (`story-hook-language`) |
 | Photo lightbox | Local state in `PhotoGallery` |
@@ -148,13 +151,17 @@ There is no server layer, GraphQL, or REST client in this repository.
 stories.json
      │  (static import at build/bundle time)
      ▼
-useStories() / useStory(uuid)
+useStories() — normalize + sort by aired start date (newest first)
      │  local React state: stories, loading, error
      ▼
-HomePage / DetailPage
+HomePage / DetailPage / AdvancedSearchPage
      │
-     ▼
-StoryGrid → StoryCard  |  CastCard, PhotoGallery, RatingBadge, …
+     ├─ HomePage → StoryGrid (already aired-sorted)
+     ├─ DetailPage → useStory(uuid)
+     └─ AdvancedSearchPage → filterAndSortStories (filter, then mode-based sort)
+            │
+            ▼
+       StoryGrid → StoryCard
 ```
 
 `useStories` simulates async loading with a **400ms** `setTimeout` on the **first** catalog load (loading skeleton UX), then keeps a module-level in-memory cache so returning from detail does not reload JSON or flash the skeleton. `useStory` reuses `useStories` and finds one item by `uuid`. `useCasts` / `useNetworks` likewise cache static JSON after the first read.
@@ -174,7 +181,7 @@ StoryGrid → StoryCard  |  CastCard, PhotoGallery, RatingBadge, …
 | Scope | Mechanism | Examples |
 |-------|-----------|----------|
 | Story list / detail data | `useStories` / `useStory` | `stories`, `loading`, `error` |
-| Advanced search filters | `useAdvancedSearch` + URL params | draft / applied; `setSearchParams(..., { replace: true })` so filter edits do not stack history |
+| Advanced search filters | `useAdvancedSearch` + URL params | draft / applied; `setSearchParams(..., { replace: true })` so filter edits do not stack history; `q`, `country`, `cast`, `network`, rating/year/episode, `watched` |
 | Detail back navigation | `useSmartBack` + StoryCard `state.from` | history `-1` when possible; else referrer path; else `/home` |
 | Active UI language | i18next + `localStorage` | `story-hook-language` |
 | Lightbox selection | `useState` in `PhotoGallery` | `selectedIndex` |
@@ -346,6 +353,7 @@ Story-Hook/
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
 │   │   ├── LoadingSkeleton.tsx  # Grid + detail skeletons
+│   │   ├── MultiSelectSuggestField.tsx  # Cast / network multi-select
 │   │   ├── PageContainer.tsx
 │   │   ├── PhotoGallery.tsx
 │   │   ├── RatingBadge.tsx
@@ -543,6 +551,7 @@ npm run preview
 - Put reusable UI in `components/`
 - Put catalog content in `data/stories.json` (keep shape aligned with `types/story.ts`)
 - Prefer `utils/story.ts` and `utils/image.ts` for helpers used by pages/components (those are the imports in use today)
+- Prefer `utils/search.ts` for filter evaluation, URL param sync, and story sorting (shared by Home and Advanced Search)
 
 ## Best practices used in the project
 
@@ -552,7 +561,33 @@ npm run preview
 - Soft-fail images with `handleImageError` → `/placeholder-drama.svg`
 - Use `rel="noopener noreferrer"` on external links
 - Keep SEO updates centralized in `SEO`
-- Keep search filter **values** language-stable (English country codes in URLs)
+- Keep search filter **values** language-stable (English country codes and cast/network UUIDs in URLs)
+
+### Advanced Search filters
+
+| Filter | URL param | Behavior |
+|--------|-----------|----------|
+| Keyword | `q` | Matches title, Myanmar title (`mmTitle`), and character names only — **not** cast or network names |
+| Cast | `cast` (repeatable) | Multi-select chips; filters stories by cast **UUID** against `stories.json` cast references |
+| Original network | `network` (repeatable) | Multi-select chips; filters stories by network **UUID** against `orginalNetworks` |
+| Country | `country` (repeatable) | Checkboxes start **unchecked**. Empty selection = all countries. Selecting one or more narrows results |
+| Rating / year / episodes / watched | `ratingFrom`, `ratingTo`, `yearFrom`, `yearTo`, `episodesMin`, `episodesMax`, `watched` | Unchanged dual-range / numeric / watched filters |
+
+Cast and network suggestion dropdowns appear only after the user types (no empty-input dropdown). Detail page cast cards and original network links navigate with `?cast=<uuid>` or `?network=<uuid>` so refresh, back/forward, and shared URLs restore the same filters.
+
+### Story sorting
+
+Sorting always runs **after** filtering. Dates and ratings are parsed to numeric timestamps / numbers (never compared as strings). The first date in an `aired` range is the start date (e.g. `January 3, 2023 - January 22, 2023` → `January 3, 2023`). Ratings like `8.8/10` use the leading number (`8.8`).
+
+| Surface | Rule |
+|---------|------|
+| Home (`/home`) | Newest aired start date first |
+| Advanced Search — default ranges (year `1980–current`, rating `0–10`) | Newest aired start date first |
+| Advanced Search — only aired year range changed | Newest aired start date first |
+| Advanced Search — only rating range changed | Highest rating first |
+| Advanced Search — both aired year and rating ranges changed | Combined: aired date primary, rating secondary |
+
+Missing or invalid `aired` / `rating` values sort last under descending order and never crash the app.
 
 ### Adding a drama
 
@@ -872,7 +907,7 @@ License information is not included in this repository yet.
 | `/` | `Navigate` → `/home` | Index redirect |
 | `/home` | `HomePage` (lazy) | Catalog |
 | `/detail/:uuid` | `DetailPage` (lazy) | Drama detail |
-| `/advanced-search` | `AdvancedSearchPage` (lazy) | Filters + results |
+| `/advanced-search` | `AdvancedSearchPage` (lazy) | Filters + results; supports `?cast=`, `?network=`, `?country=`, `?q=`, … |
 | `/settings` | `SettingsPage` (lazy) | Language preference |
 | `/about` | `AboutPage` (lazy) | App overview |
 | `*` | `NotFoundPage` (lazy) | Catch-all under `MainLayout` |

@@ -7,6 +7,7 @@ import {
   LoadingSkeleton,
   EmptyState,
   DualRangeSlider,
+  MultiSelectSuggestField,
 } from '@/components';
 import {
   SEARCH_COUNTRIES,
@@ -31,20 +32,20 @@ export default function AdvancedSearchPage() {
     'seo',
     'filters',
     'errors',
+    'a11y',
   ]);
   const { stories, loading, error, refetch } = useStories();
-  const { castByUuid } = useCasts();
-  const { networkByUuid } = useNetworks();
-  const { draft, results, updateDraft, search, reset } = useAdvancedSearch(
-    stories,
-    castByUuid,
-    networkByUuid,
-  );
+  const { casts } = useCasts();
+  const { networks } = useNetworks();
+  const { draft, results, updateDraft, search, reset } =
+    useAdvancedSearch(stories);
 
   const formId = useId();
   const keywordId = `${formId}-keyword`;
   const episodesMinId = `${formId}-episodes-min`;
   const episodesMaxId = `${formId}-episodes-max`;
+  const castFieldId = `${formId}-cast`;
+  const networkFieldId = `${formId}-network`;
 
   const toggleCountry = (country: SearchCountry) => {
     const selected = draft.countries.includes(country);
@@ -112,12 +113,47 @@ export default function AdvancedSearchPage() {
                   {t('advancedSearch:keywordHelp')}
                 </p>
               </div>
+
+              <div className="grid gap-6 lg:grid-cols-2">
+                <MultiSelectSuggestField
+                  id={castFieldId}
+                  label={t('advancedSearch:cast')}
+                  placeholder={t('advancedSearch:castPlaceholder')}
+                  helpText={t('advancedSearch:castHelp')}
+                  options={casts}
+                  selectedUuids={draft.castUuids}
+                  onChange={(castUuids) => updateDraft({ castUuids })}
+                  noResultsLabel={t('advancedSearch:noSuggestions')}
+                  removeAriaLabel={(name) =>
+                    t('a11y:removeCastFilter', { name })
+                  }
+                  listboxLabel={t('advancedSearch:castSuggestions')}
+                />
+
+                <MultiSelectSuggestField
+                  id={networkFieldId}
+                  label={t('advancedSearch:originalNetwork')}
+                  placeholder={t('advancedSearch:originalNetworkPlaceholder')}
+                  helpText={t('advancedSearch:originalNetworkHelp')}
+                  options={networks}
+                  selectedUuids={draft.networkUuids}
+                  onChange={(networkUuids) => updateDraft({ networkUuids })}
+                  noResultsLabel={t('advancedSearch:noSuggestions')}
+                  removeAriaLabel={(name) =>
+                    t('a11y:removeNetworkFilter', { name })
+                  }
+                  listboxLabel={t('advancedSearch:originalNetworkSuggestions')}
+                />
+              </div>
             </div>
 
             <fieldset>
               <legend className="mb-3 text-sm font-medium text-text-primary">
                 {t('advancedSearch:country')}
               </legend>
+              <p className="mb-3 text-xs text-text-muted">
+                {t('advancedSearch:countryHelp')}
+              </p>
               <div className="flex flex-wrap gap-3">
                 {SEARCH_COUNTRIES.map((country) => {
                   const checked = draft.countries.includes(country);

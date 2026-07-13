@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { SearchFilters } from '@/types/search';
-import type { Cast, OriginalNetwork, Story } from '@/types/story';
+import type { Story } from '@/types/story';
 import { useWatchedSeriesSet } from '@/hooks/useWatched';
 import {
   createDefaultFilters,
-  filterStories,
+  filterAndSortStories,
   filtersToSearchParams,
   searchParamsToFilters,
 } from '@/utils/search';
@@ -24,11 +24,7 @@ function paramsEqual(a: URLSearchParams, b: URLSearchParams): boolean {
   return true;
 }
 
-export function useAdvancedSearch(
-  stories: Story[],
-  castByUuid: Map<string, Cast> = new Map(),
-  networkByUuid: Map<string, OriginalNetwork> = new Map(),
-) {
+export function useAdvancedSearch(stories: Story[]) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlFilters = useMemo(
@@ -46,15 +42,8 @@ export function useAdvancedSearch(
   }, [urlFilters]);
 
   const results = useMemo(
-    () =>
-      filterStories(
-        stories,
-        applied,
-        castByUuid,
-        networkByUuid,
-        watchedSeries,
-      ),
-    [stories, applied, castByUuid, networkByUuid, watchedSeries],
+    () => filterAndSortStories(stories, applied, watchedSeries),
+    [stories, applied, watchedSeries],
   );
 
   const updateDraft = useCallback((patch: Partial<SearchFilters>) => {
@@ -62,11 +51,16 @@ export function useAdvancedSearch(
   }, []);
 
   const search = useCallback(() => {
-    const next = {
+    const next: SearchFilters = {
       ...draft,
       keyword: draft.keyword.trim(),
       episodesMin: draft.episodesMin.trim(),
       episodesMax: draft.episodesMax.trim(),
+      castUuids: [...new Set(draft.castUuids.map((u) => u.trim()).filter(Boolean))],
+      networkUuids: [
+        ...new Set(draft.networkUuids.map((u) => u.trim()).filter(Boolean)),
+      ],
+      countries: [...new Set(draft.countries)],
     };
     setDraft(next);
     setApplied(next);

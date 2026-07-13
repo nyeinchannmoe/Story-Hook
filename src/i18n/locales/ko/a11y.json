@@ -6,6 +6,8 @@
   "loadingDramaDetailsSr": "드라마 상세 정보 로딩 중…",
   "viewDetailsFor": "{{title}} 상세 보기",
   "searchFeaturing": "{{name}} 출연 드라마 검색",
+  "removeCastFilter": "배우 필터 {{name}} 제거",
+  "removeNetworkFilter": "원작 방송사 필터 {{name}} 제거",
   "photoGallery": "{{title}} 사진 갤러리",
   "viewPhoto": "{{total}}장 중 {{current}}번째 사진 보기",
   "photoStill": "{{title}} 스틸 {{index}}",

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { Story } from '@/types/story';
 import storiesData from '@/data/stories.json';
+import { sortStoriesByAiredDate } from '@/utils/search';
 
 interface UseStoriesResult {
   stories: Story[];
@@ -37,7 +38,10 @@ function readStories(): StoriesCache {
       throw new Error('invalidStoriesFormat');
     }
 
-    return { stories: normalizeStories(data), error: null };
+    return {
+      stories: sortStoriesByAiredDate(normalizeStories(data)),
+      error: null,
+    };
   } catch (err) {
     const message =
       err instanceof Error ? err.message : 'failedLoadStories';

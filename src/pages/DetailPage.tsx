@@ -27,6 +27,7 @@ import {
   resolveStoryCast,
   resolveStoryNetworks,
 } from '@/utils/lookup';
+import { buildAdvancedSearchPath } from '@/utils/search';
 import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
 import type { EpisodeLink } from '@/types/story';
 
@@ -47,7 +48,7 @@ function EpisodeLinkItem({
   const hasLink = isValidUrl(episode.link);
   const canToggle = Boolean(episode.link?.trim());
   const watched = useIsEpisodeWatched(storyUuid, episode.link);
-  const { toggleEpisode } = useWatchedActions();
+  const { toggleEpisode, markEpisode } = useWatchedActions();
   const episodeDescription = episode.description?.trim();
 
   const watchedAriaLabel = watched
@@ -59,6 +60,10 @@ function EpisodeLinkItem({
         title: episode.title || storyTitle,
         index: index + 1,
       });
+
+  const handleEpisodeLinkClick = () => {
+    markEpisode(storyUuid, episode.link, true);
+  };
 
   return (
     <li
@@ -76,6 +81,7 @@ function EpisodeLinkItem({
                 href={episode.link}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleEpisodeLinkClick}
                 className={`text-lg font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                   watched
                     ? 'text-text-secondary line-through decoration-emerald-500/50 hover:text-text-primary'
@@ -330,7 +336,9 @@ export default function DetailPage() {
                       {resolvedNetworks.map((network) => (
                         <Link
                           key={network.uuid}
-                          to={`${ROUTES.ADVANCED_SEARCH}?q=${encodeURIComponent(network.name)}`}
+                          to={buildAdvancedSearchPath({
+                            networkUuid: network.uuid,
+                          })}
                           className="text-accent transition-colors hover:text-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                         >
                           {network.name}

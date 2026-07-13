@@ -6,6 +6,8 @@
   "loadingDramaDetailsSr": "正在加载剧集详情…",
   "viewDetailsFor": "查看 {{title}} 的详情",
   "searchFeaturing": "搜索 {{name}} 出演的剧集",
+  "removeCastFilter": "移除演员筛选 {{name}}",
+  "removeNetworkFilter": "移除原播平台筛选 {{name}}",
   "photoGallery": "{{title}} 剧照库",
   "viewPhoto": "查看第 {{current}} 张，共 {{total}} 张",
   "photoStill": "{{title}} 剧照 {{index}}",

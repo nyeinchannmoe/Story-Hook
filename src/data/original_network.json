@@ -30,5 +30,21 @@
     {
         "uuid": "ae4b70f1-a0c6-4715-90b7-84fe3b080160",
         "name": "ZJTV"
+    },
+    {
+        "uuid": "f280f569-62ea-44a8-ac71-f4169af6a663",
+        "name": "MBC"
+    },
+    {
+        "uuid": "23e289fa-03d1-4b47-8ab6-6d56cb59ed74",
+        "name": "tvN"
+    },
+    {
+        "uuid": "22f70d25-5e06-4e3a-92cd-451edd35dc5a",
+        "name": "SBS"
+    },
+    {
+        "uuid": "155db295-ec13-44b5-8634-606d039c9e9d",
+        "name": "KBS2"
     }
 ]

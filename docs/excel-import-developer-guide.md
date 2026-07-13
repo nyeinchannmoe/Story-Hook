@@ -465,9 +465,27 @@ Cover Photo
 
 ### Local setup
 
+Use a project virtual environment so imports do not depend on system site-packages (Windows installs under `C:\Program Files\Python*\` can raise `PermissionError` when `openpyxl` probes `numpy`).
+
 ```bash
+python -m venv .venv
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
+# macOS / Linux
+source .venv/bin/activate
+
 pip install openpyxl
-python scripts/merge_excel_into_json.py path/to/file.xlsx
+```
+
+Run from the repository root. On Windows, the Excel file is under the user Downloads folder (not `C:\Downloads\`):
+
+```powershell
+python scripts/merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
+```
+
+```bash
+# macOS / Linux
+python scripts/merge_excel_into_json.py ~/Downloads/Story\ Hook\ Raw\ Data.xlsx
 ```
 
 No `requirements.txt` entry is required for the web app; treat `openpyxl` as a **dev/content-ops** dependency.

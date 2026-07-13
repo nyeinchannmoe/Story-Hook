@@ -11,5 +11,6 @@ export { PhotoGallery } from './PhotoGallery';
 export { SEO } from './SEO';
 export { ScrollToTop } from './ScrollToTop';
 export { DualRangeSlider } from './DualRangeSlider';
+export { MultiSelectSuggestField } from './MultiSelectSuggestField';
 export { SearchIconLink } from './SearchIconLink';
 export { WatchedToggle } from './WatchedToggle';

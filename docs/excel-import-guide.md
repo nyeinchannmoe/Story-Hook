@@ -50,19 +50,21 @@ Print JSON statistics report
 
 ### Install openpyxl
 
-```bash
-pip install openpyxl
-```
-
-Using a virtual environment (recommended):
+Prefer a project virtual environment. This avoids conflicts with system Python packages (for example a locked `numpy` under `C:\Program Files\...`).
 
 ```bash
 python -m venv .venv
-# Windows
-.venv\Scripts\activate
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
 # macOS / Linux
 source .venv/bin/activate
 
+pip install openpyxl
+```
+
+Without a venv (not recommended if you hit import/permission errors):
+
+```bash
 pip install openpyxl
 ```
 
@@ -221,15 +223,24 @@ Always run from a context where paths resolve correctly. The script locates JSON
 
 ### Windows
 
-```bash
+Downloads lives under your user profile (`%USERPROFILE%\Downloads\`), not `C:\Downloads\`. Quote the path because the filename contains spaces.
+
+```powershell
 cd C:\NCM\React\Story-Hook
-python scripts\merge_excel_into_json.py "C:\Downloads\Story Hook Raw Data.xlsx"
+.\.venv\Scripts\Activate.ps1
+python scripts\merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
 ```
 
-Or with a virtualenv:
+Or with an explicit user path (replace the username if needed):
 
-```bash
-.\.venv\Scripts\python.exe scripts\merge_excel_into_json.py "C:\Users\You\Downloads\Story Hook Raw Data.xlsx"
+```powershell
+python scripts\merge_excel_into_json.py "C:\Users\KTZ Myanmar Group 2\Downloads\Story Hook Raw Data.xlsx"
+```
+
+Without activating the venv:
+
+```powershell
+.\.venv\Scripts\python.exe scripts\merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
 ```
 
 ### macOS
@@ -412,8 +423,13 @@ If you use a virtual environment, activate it first, or call that environment’
 
 ### Excel file not found
 
+```text
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Downloads\\Story Hook Raw Data.xlsx'
+```
+
 - Confirm the path exists and quoting is correct (paths with spaces need quotes).
-- On Windows, use a full path or escape correctly in PowerShell.
+- On Windows, do **not** use `C:\Downloads\...`. Use `%USERPROFILE%\Downloads\...` or `C:\Users\<YourName>\Downloads\...`.
+- In PowerShell, `$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx` resolves to the correct folder.
 - If you relied on the default `~/Downloads/...` path, verify the file name is exactly `Story Hook Raw Data.xlsx`.
 
 ### Invalid or renamed column names
@@ -438,9 +454,20 @@ json.decoder.JSONDecodeError
 PermissionError
 ```
 
+When writing JSON:
+
 - Close the JSON files if they are open in another program that locks them.
 - Ensure you have write permission to `src/data/`.
 - Do not run against a read-only checkout or protected system folder.
+
+When importing packages (often during `import openpyxl`):
+
+```text
+PermissionError: ... 'C:\\Program Files\\Python313\\Lib\\site-packages\\numpy\\__init__.py'
+```
+
+- Create/activate a project `.venv` and install `openpyxl` there (see [Prerequisites](#prerequisites)).
+- Avoid mixing a user-installed `openpyxl` with a system-wide `numpy` under `Program Files`.
 
 ### AssertionError after merge
 

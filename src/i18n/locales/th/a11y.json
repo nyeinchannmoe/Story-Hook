@@ -6,6 +6,8 @@
   "loadingDramaDetailsSr": "กำลังโหลดรายละเอียดซีรีส์…",
   "viewDetailsFor": "ดูรายละเอียดของ {{title}}",
   "searchFeaturing": "ค้นหาซีรีส์ที่มี {{name}}",
+  "removeCastFilter": "ลบตัวกรองนักแสดง {{name}}",
+  "removeNetworkFilter": "ลบตัวกรองเครือข่ายต้นฉบับ {{name}}",
   "photoGallery": "แกลเลอรีภาพ {{title}}",
   "viewPhoto": "ดูภาพ {{current}} จาก {{total}}",
   "photoStill": "ภาพนิ่ง {{title}} หมายเลข {{index}}",

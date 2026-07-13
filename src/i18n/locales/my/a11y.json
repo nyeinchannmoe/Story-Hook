@@ -6,6 +6,8 @@
   "loadingDramaDetailsSr": "ဒရာမာအသေးစိတ်ဖွင့်နေသည်…",
   "viewDetailsFor": "{{title}} အသေးစိတ်ကြည့်ရန်",
   "searchFeaturing": "{{name}} ပါဝင်သော ဒရာမာများ ရှာရန်",
+  "removeCastFilter": "သရုပ်ဆောင် စစ်ထုတ်မှု {{name}} ဖယ်ရှားရန်",
+  "removeNetworkFilter": "မူရင်းကွန်ရက် စစ်ထုတ်မှု {{name}} ဖယ်ရှားရန်",
   "photoGallery": "{{title}} ဓာတ်ပုံပြခန်း",
   "viewPhoto": "ဓာတ်ပုံ {{current}} / {{total}} ကြည့်ရန်",
   "photoStill": "{{title}} စတီး {{index}}",
