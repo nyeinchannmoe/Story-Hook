@@ -1,7 +1,7 @@
 export const APP_NAME = 'Story Hook';
 
 export const APP_DESCRIPTION =
-  'Discover and explore the best Asian dramas with reviews, cast info, and more.';
+  'Discover and explore curated Asian dramas.';
 
 export const ROUTES = {
   HOME: '/home',
@@ -12,6 +12,11 @@ export const ROUTES = {
 } as const;
 
 export const PLACEHOLDER_IMAGE = '/placeholder-drama.svg';
+
+/** Default absolute-path social preview image (Open Graph / Twitter). */
+export const DEFAULT_OG_IMAGE = '/og-default.png';
+
+export const OG_DESCRIPTION_MAX = 200;
 
 export const SKELETON_CARD_COUNT = 6;
 

@@ -9,5 +9,7 @@
   "aboutDescription": "Learn about Story Hook — a curated catalog of Asian dramas with multilingual support.",
   "notFoundTitle": "Page Not Found",
   "notFoundDescription": "The page you are looking for does not exist.",
+  "dramaNotFoundTitle": "Drama Not Found",
+  "dramaNotFoundDescription": "The requested drama could not be found.",
   "titleTemplate": "{{title}} | {{appName}}"
 }

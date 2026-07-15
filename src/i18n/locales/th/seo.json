@@ -9,5 +9,7 @@
   "aboutDescription": "เรียนรู้เกี่ยวกับ Story Hook — แคตตาล็อกซีรีส์เอเชียคัดสรรที่รองรับหลายภาษา",
   "notFoundTitle": "ไม่พบหน้า",
   "notFoundDescription": "หน้าที่คุณกำลังค้นหาไม่มีอยู่",
+  "dramaNotFoundTitle": "ไม่พบซีรีส์",
+  "dramaNotFoundDescription": "ไม่พบซีรีส์ที่ร้องขอ",
   "titleTemplate": "{{title}} | {{appName}}"
 }

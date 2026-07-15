@@ -9,5 +9,7 @@
   "aboutDescription": "Story Hook အကြောင်း — ဘာသာစုံပံ့ပိုးမှုပါသော ရွေးချယ်အာရှဒရာမာစာရင်း။",
   "notFoundTitle": "စာမျက်နှာမတွေ့ပါ",
   "notFoundDescription": "သင်ရှာနေသောစာမျက်နှာ မရှိပါ။",
+  "dramaNotFoundTitle": "ဒရာမာမတွေ့ပါ",
+  "dramaNotFoundDescription": "တောင်းဆိုထားသော ဒရာမာကို ရှာမတွေ့ပါ။",
   "titleTemplate": "{{title}} | {{appName}}"
 }

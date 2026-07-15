@@ -9,5 +9,7 @@
   "aboutDescription": "了解 Story Hook —— 支持多语言的精选亚洲剧集目录。",
   "notFoundTitle": "页面未找到",
   "notFoundDescription": "您要查找的页面不存在。",
+  "dramaNotFoundTitle": "未找到剧集",
+  "dramaNotFoundDescription": "未找到请求的剧集。",
   "titleTemplate": "{{title}} | {{appName}}"
 }

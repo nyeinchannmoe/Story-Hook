@@ -14,6 +14,7 @@ Story Hook is a multilingual web application for discovering and exploring curat
 - Multilingual UI (en / zh / th / ko / my) with language settings and persistence
 - Bilingual catalog content: English titles plus Myanmar (`mmTitle`) titles and synopses
 - Localized SEO helpers (document title, Open Graph, Twitter meta, `html lang`)
+- **Dynamic social sharing previews** for `/detail/:uuid` (Open Graph + Twitter Cards via Vercel Edge Middleware)
 - Responsive dark UI with glassmorphism accents and Tailwind CSS v4 design tokens
 - Route-level code splitting and a dedicated 404 page
 - Image fallbacks to a local placeholder when remote assets fail
@@ -92,7 +93,8 @@ Landing (/) ──redirect──► Home (/home)
 | Localization | `i18next` + `react-i18next` + `src/i18n/` |
 | Language settings | `SettingsPage` + `localStorage` (`story-hook-language`) |
 | Photo lightbox | Local state in `PhotoGallery` |
-| SEO meta | `SEO` component (`useEffect` DOM updates, localized) |
+| SEO meta (client) | `SEO` component (`useEffect` DOM updates, localized) |
+| Social share meta (server) | Vercel Edge `middleware.ts` injects OG/Twitter tags for crawlers |
 | Scroll restoration | `ScrollToTop` saves/restores list scroll across detail navigation |
 | SPA hosting | `vercel.json` rewrite to `index.html` |
 
@@ -143,7 +145,7 @@ The app is a **client-side SPA** with a **feature-oriented folder layout**:
 - **Domain types & utils** — shared TypeScript interfaces and pure helpers
 - **Routing** — React Router data API (`createBrowserRouter` + `RouterProvider`)
 
-There is no server layer, GraphQL, or REST client in this repository.
+There is no GraphQL or REST API. Catalog data remains static JSON. On Vercel, Edge Middleware (`middleware.ts`) adds a thin server-side HTML step for social-share metadata only; the React UI stays a client-side SPA.
 
 ## Data flow
 
@@ -185,7 +187,7 @@ HomePage / DetailPage / AdvancedSearchPage
 | Detail back navigation | `useSmartBack` + StoryCard `state.from` | history `-1` when possible; else referrer path; else `/home` |
 | Active UI language | i18next + `localStorage` | `story-hook-language` |
 | Lightbox selection | `useState` in `PhotoGallery` | `selectedIndex` |
-| Document meta | `SEO` `useEffect` | `document.title`, meta tags, `og:locale` |
+| Document meta | `SEO` `useEffect` + Edge `middleware.ts` | Client title/meta; crawlers get injected OG/Twitter HTML |
 | Scroll position | `ScrollToTop` | restore `/home` & `/advanced-search` (incl. query) on revisit; POP for other routes |
 
 No Redux or remote cache libraries are used. Language state is owned by i18next and synchronized via `DocumentLanguage`.
@@ -284,14 +286,64 @@ Namespaces cover: Common, Navigation, Home, Story Details, Search, Advanced Sear
 
 ## SEO localization
 
-The `SEO` component localizes:
+The `SEO` component localizes client-side document updates:
 
 - Document title (via `seo:titleTemplate`)
 - Meta description
-- Open Graph title / description / type / locale / image / url
+- Open Graph title / description / type / locale / image / url / site_name
 - Twitter card / title / description / image
 
 Structured page copy for Home, Advanced Search, Settings, About, and 404 lives under the `seo` namespace.
+
+## Social sharing metadata (Open Graph + Twitter Cards)
+
+Social crawlers (Telegram, Viber, Facebook, Messenger, Discord, WhatsApp, X, LinkedIn) **do not execute the React app**. Client-only `SEO` updates are therefore not enough for link previews.
+
+### Production approach (Vercel Edge)
+
+| Piece | Role |
+|-------|------|
+| `middleware.ts` | Edge Middleware for `/`, `/home`, and `/detail/:uuid` |
+| `social-meta.ts` | Pure helpers: lookup, truncate (~200 chars), absolute image URL, HTML injection |
+| `src/data/stories.json` | Single source of truth (no duplicated catalog) |
+| `public/og-default.png` | Fallback share image when `coverPhoto` is missing/invalid |
+
+On each matched request the middleware:
+
+1. Loads the deployed `index.html` shell (SPA assets unchanged)
+2. For `/detail/:uuid`, finds the drama in `stories.json`
+3. Injects crawler-readable `<title>`, `description`, Open Graph, and Twitter tags into the **initial HTML**
+4. Returns that HTML so previews work before JavaScript runs
+
+### Detail preview rules (`/detail/:uuid`)
+
+| Tag | Value |
+|-----|--------|
+| `og:title` / `twitter:title` | `{title} \| Story Hook` |
+| `og:description` / `twitter:description` | Synopsis from `story` (optional `mmTitle` prefix), trimmed to ~200 characters |
+| `og:image` / `twitter:image` | Absolute `coverPhoto` URL, or `https://{host}/og-default.png` |
+| `og:type` | `article` |
+| `og:url` | Absolute detail URL |
+| `og:site_name` | `Story Hook` |
+| `twitter:card` | `summary_large_image` |
+
+Unknown UUID → `Drama Not Found \| Story Hook` with not-found description and the default image (app still renders the existing detail empty state).
+
+### Homepage previews (`/`, `/home`)
+
+Generic Story Hook title, description (“Discover and explore curated Asian dramas.”), and `og-default.png`.
+
+### Validation after deploy
+
+Re-scrape after each production deploy:
+
+- [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/)
+- Telegram (paste link in a chat)
+- [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/)
+- [X Card Validator](https://cards-dev.twitter.com/validator) (or paste into a post draft)
+- Any Open Graph debugger against `https://story-hook.vercel.app/detail/{uuid}`
+
+Local `npm run dev` does not run Edge Middleware; use a Vercel preview/production deploy (or `vercel dev`) to verify crawler HTML.
 
 ## Adding a new language
 
@@ -343,7 +395,10 @@ Optional: regenerate scaffolding with `node scripts/generate-locales.mjs` (edit 
 Story-Hook/
 ├── public/
 │   ├── favicon.svg              # Site favicon
+│   ├── og-default.png           # Default Open Graph / Twitter share image
 │   └── placeholder-drama.svg    # Fallback image for missing/broken covers
+├── middleware.ts                # Vercel Edge: inject social meta into HTML
+├── social-meta.ts               # Shared OG/Twitter meta helpers (Edge-safe)
 ├── src/
 │   ├── assets/                  # Reserved for bundled static assets (.gitkeep)
 │   ├── components/              # Reusable UI components + barrel export
@@ -407,6 +462,7 @@ Story-Hook/
 │   └── vite-env.d.ts            # Vite client types
 ├── scripts/
 │   ├── generate-locales.mjs     # Optional locale JSON generator
+│   ├── verify-social-meta.mjs   # Sanity-check sample drama OG fields
 │   └── merge_excel_into_json.py # Incremental Excel → JSON import
 ├── docs/
 │   ├── excel-import-guide.md    # End-user import guide
@@ -419,7 +475,7 @@ Story-Hook/
 ├── tsconfig.json                # Project references
 ├── tsconfig.app.json            # App TS config (strict, @ path alias)
 ├── tsconfig.node.json           # Vite config TS
-├── vercel.json                  # SPA rewrites + asset cache headers
+├── vercel.json                  # SPA rewrites + asset / OG image cache headers
 ├── vite.config.ts
 └── README.md
 ```
@@ -786,9 +842,9 @@ dist/
 
 ## Deployment requirements
 
-- Static file hosting capable of serving `index.html` for all client routes
+- Hosting that serves the SPA shell for client routes (Vercel rewrite to `index.html`)
+- **Vercel Edge Middleware** support for crawler-readable social previews on detail URLs
 - HTTPS recommended for production
-- No server-side Node process required at runtime
 
 ## Vercel deployment
 
@@ -796,6 +852,9 @@ dist/
 
 1. **SPA rewrite** — `/(.*)` → `/index.html` so `/home` and `/detail/:uuid` work on refresh
 2. **Asset caching** — `/assets/(.*)` → `Cache-Control: public, max-age=31536000, immutable`
+3. **Default OG image caching** — `/og-default.png` short CDN cache
+
+`middleware.ts` runs on Vercel Edge for `/`, `/home`, and `/detail/:uuid` so Facebook, Telegram, Discord, LinkedIn, X, and similar crawlers receive drama-specific (or default) meta tags in the first HTML response.
 
 ### Deploy steps (typical)
 
@@ -804,13 +863,17 @@ dist/
 3. Framework preset: Vite (or leave defaults; build `npm run build`, output `dist`)
 4. No environment variables required for the current app
 5. Deploy
+6. Validate a detail URL in Facebook Sharing Debugger / LinkedIn Post Inspector (use **Scrape Again** after meta changes)
 
 Local production check before deploy:
 
 ```bash
 npm run build
+node scripts/verify-social-meta.mjs
 npm run preview
 ```
+
+> `npm run preview` serves static files only — Edge Middleware runs on Vercel (preview or production), not under Vite preview.
 
 ---
 

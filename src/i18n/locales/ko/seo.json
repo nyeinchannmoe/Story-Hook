@@ -9,5 +9,7 @@
   "aboutDescription": "Story Hook 소개 — 다국어를 지원하는 엄선된 아시아 드라마 목록.",
   "notFoundTitle": "페이지를 찾을 수 없음",
   "notFoundDescription": "찾으시는 페이지가 존재하지 않습니다.",
+  "dramaNotFoundTitle": "드라마를 찾을 수 없음",
+  "dramaNotFoundDescription": "요청한 드라마를 찾을 수 없습니다.",
   "titleTemplate": "{{title}} | {{appName}}"
 }

@@ -11,7 +11,7 @@ import {
   SearchIconLink,
   WatchedToggle,
 } from '@/components';
-import { ROUTES } from '@/constants';
+import { DEFAULT_OG_IMAGE, OG_DESCRIPTION_MAX, ROUTES } from '@/constants';
 import { useStory } from '@/hooks/useStories';
 import { useCasts } from '@/hooks/useCasts';
 import { useNetworks } from '@/hooks/useNetworks';
@@ -178,6 +178,7 @@ export default function DetailPage() {
     'errors',
     'filters',
     'a11y',
+    'seo',
   ]);
   const { story, loading, error } = useStory(uuid);
   const { castByUuid } = useCasts();
@@ -215,29 +216,42 @@ export default function DetailPage() {
 
   if (!story) {
     return (
-      <PageContainer>
-        <EmptyState
-          title={t('detail:notFoundTitle')}
-          description={t('detail:notFoundDescription')}
-          action={
-            <Link
-              to={ROUTES.HOME}
-              className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white"
-            >
-              {t('common:browseAllDramas')}
-            </Link>
-          }
+      <>
+        <SEO
+          title={t('seo:dramaNotFoundTitle')}
+          description={t('seo:dramaNotFoundDescription')}
+          image={DEFAULT_OG_IMAGE}
+          url={`${ROUTES.DETAIL}/${uuid ?? ''}`}
+          type="article"
         />
-      </PageContainer>
+        <PageContainer>
+          <EmptyState
+            title={t('detail:notFoundTitle')}
+            description={t('detail:notFoundDescription')}
+            action={
+              <Link
+                to={ROUTES.HOME}
+                className="rounded-lg gradient-accent px-6 py-2.5 text-sm font-semibold text-white"
+              >
+                {t('common:browseAllDramas')}
+              </Link>
+            }
+          />
+        </PageContainer>
+      </>
     );
   }
 
-  const description = getStoryPreview(story.story, 160);
+  const description = getStoryPreview(story.story, OG_DESCRIPTION_MAX);
   const hasWatchLink = isValidUrl(story.watchLink);
   const resolvedCast = resolveStoryCast(story, castByUuid);
   const resolvedNetworks = resolveStoryNetworks(story, networkByUuid);
   const episodeLinks = story.episodeLinks ?? [];
   const canToggleSeries = Boolean(story.uuid?.trim());
+  const shareImage =
+    story.coverPhoto?.trim() && isValidUrl(story.coverPhoto.trim())
+      ? story.coverPhoto.trim()
+      : DEFAULT_OG_IMAGE;
 
   const seriesWatchedAriaLabel = seriesWatched
     ? t('a11y:markSeriesUnwatched', { title: story.title })
@@ -248,7 +262,8 @@ export default function DetailPage() {
       <SEO
         title={story.title}
         description={description}
-        image={story.coverPhoto}
+        image={shareImage}
+        url={`${ROUTES.DETAIL}/${story.uuid}`}
         type="article"
       />
 
