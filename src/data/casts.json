@@ -74,7 +74,8 @@
     },
     {
         "uuid": "22f371eb-6592-45c2-a57b-fdd146fd3c00",
-        "name": "Dilraba Dilmurat"
+        "name": "Dilraba Dilmurat",
+        "image": "https://i.mydramalist.com/b35kje_5c.jpg"
     },
     {
         "uuid": "7327eb1d-0580-4491-870b-977911e6acff",
@@ -326,5 +327,182 @@
     {
         "uuid": "1bc7ad2b-016f-4ef1-a005-661b39a4bf5a",
         "name": "Jang Woo Young"
+    },
+    {
+        "uuid": "f2382368-c147-46e5-865a-e6b9b592835c",
+        "name": "Yang Mi",
+        "image": "https://i.mydramalist.com/oQ1Kkx_5c.jpg"
+    },
+    {
+        "uuid": "8c75dba4-1271-4e9b-b78c-3ee5004bd778",
+        "name": "Mark Chao"
+    },
+    {
+        "uuid": "0046e7f3-6788-418d-8532-2476d060d8fc",
+        "name": "Gao Wei Guang"
+    },
+    {
+        "uuid": "f5ca661d-9d08-4c70-ad76-a50e1f0b2861",
+        "name": "Ken Chang"
+    },
+    {
+        "uuid": "fe925543-2978-4b6a-8718-6791220c850e",
+        "name": "Maggie Huang"
+    },
+    {
+        "uuid": "2f2a25fb-93b9-4597-a6f8-3889c72495b0",
+        "name": "Yu Meng Long"
+    },
+    {
+        "uuid": "3e03d515-9f46-450a-b60e-37508243ba4f",
+        "name": "Zhu Xu Dan"
+    },
+    {
+        "uuid": "a0681b8e-a1c5-4df6-87d0-3d6d6a242b32",
+        "name": "Liu Rui Lin"
+    },
+    {
+        "uuid": "5248d8ee-85be-4922-aded-d3feb93263f2",
+        "name": "Lawrence Wang"
+    },
+    {
+        "uuid": "346ccebc-3996-4230-beff-cd16836cfe9f",
+        "name": "Li Dong Heng"
+    },
+    {
+        "uuid": "a139ffe3-852d-4c09-bc24-cee561fd8bb4",
+        "name": "Hummer Zhang"
+    },
+    {
+        "uuid": "3b62ff53-f59f-4849-a925-4eb0c4ac4efa",
+        "name": "Dai Si"
+    },
+    {
+        "uuid": "f6af8b0e-6fdd-440f-b18e-0727d29730b2",
+        "name": "Jiang Kai"
+    },
+    {
+        "uuid": "ada1e720-8b6f-44d4-a159-d01224c6eb97",
+        "name": "Zhang You Hao"
+    },
+    {
+        "uuid": "d16426d5-8e6d-48b5-9423-beb26e3be951",
+        "name": "Liu Xiao Ye"
+    },
+    {
+        "uuid": "7477e3b4-c77e-47d0-b44a-18c77f27ce62",
+        "name": "An Yue Xi"
+    },
+    {
+        "uuid": "918aa9f1-4b13-4849-bc02-97cf515001fa",
+        "name": "Leon Lai"
+    },
+    {
+        "uuid": "ad216082-1874-48c4-a6aa-b66a2e4d457d",
+        "name": "Zhang He"
+    },
+    {
+        "uuid": "c8cee2c5-be91-4953-800a-3f3bc96fd9f8",
+        "name": "Wang Ruo Lin"
+    },
+    {
+        "uuid": "3d6f1e83-6169-4b7f-ac92-ca299021b2be",
+        "name": "Mou Feng Bin"
+    },
+    {
+        "uuid": "4f8235ab-84a4-41af-90eb-e8862d0939b8",
+        "name": "Yang An Qi"
+    },
+    {
+        "uuid": "f1286be2-b80a-4bac-969c-669827e428fe",
+        "name": "Yu Wen Tao"
+    },
+    {
+        "uuid": "8de5524a-da5a-430c-8eab-1916a9675d65",
+        "name": "Chen Ke Fan"
+    },
+    {
+        "uuid": "6785a350-0711-4087-8cf2-4717643ab25b",
+        "name": "Yu Xuan Hong Hao"
+    },
+    {
+        "uuid": "c4757abb-65fd-4139-aef8-715277675685",
+        "name": "Song Hai Jie"
+    },
+    {
+        "uuid": "0247cd50-0231-4fb4-9883-d27263089379",
+        "name": "Veronique Zhang"
+    },
+    {
+        "uuid": "c9ddfeab-2dbc-409e-8ea6-441f72713986",
+        "name": "Yang Yi Ling"
+    },
+    {
+        "uuid": "b332ffa2-622c-4697-b776-bd9bcbcd748d",
+        "name": "Zhang Yi Shan"
+    },
+    {
+        "uuid": "e5803463-aca7-481e-ba4b-d40b84020aff",
+        "name": "Tang Yi Xin"
+    },
+    {
+        "uuid": "52152158-cac3-4ace-a5ef-b60eac42960a",
+        "name": "Zhang Tian Yang"
+    },
+    {
+        "uuid": "6a7be98c-8b17-41bb-a982-c8cb186e61b1",
+        "name": "Yang Qi Ru"
+    },
+    {
+        "uuid": "d67d5259-b777-4ee4-ae5b-e9d6ba2c4f75",
+        "name": "Guo Yang"
+    },
+    {
+        "uuid": "688521d3-7cbc-4aa9-9842-5a03f65e5b1e",
+        "name": "Guan Xin"
+    },
+    {
+        "uuid": "c26f6df9-888a-4f0c-b696-2749d66d1058",
+        "name": "Wang Yi Yao"
+    },
+    {
+        "uuid": "3bc611f1-d6e7-4df2-ba01-5a48fbc00346",
+        "name": "Zhong Li Li"
+    },
+    {
+        "uuid": "4b45c33f-b798-42ed-ab05-4f74715f8bfe",
+        "name": "Yang Zi"
+    },
+    {
+        "uuid": "a15e4110-4ed0-4795-aed0-78b58fb4eab4",
+        "name": "Hu Yi Tian"
+    },
+    {
+        "uuid": "ee740731-939d-4ea0-b16f-3088de7c807d",
+        "name": "Lee Hong Chi"
+    },
+    {
+        "uuid": "779a1a69-7592-45f3-bf3d-854e6c046fa2",
+        "name": "Li Ze Feng"
+    },
+    {
+        "uuid": "8d5e73a1-2d04-4469-864f-429eda0ab752",
+        "name": "Chen Xi Jun"
+    },
+    {
+        "uuid": "d91d045c-a70c-4a25-999b-9d9cc891633b",
+        "name": "Yu Cheng En"
+    },
+    {
+        "uuid": "8b61d266-0b57-479b-b4e1-16aaf20ea9cc",
+        "name": "Wen Yi Fan"
+    },
+    {
+        "uuid": "e1533f3d-ad15-459d-a830-da736e33a0e5",
+        "name": "Wang Zhen Er"
+    },
+    {
+        "uuid": "97b792f0-e8c6-49b7-bbee-f5d386ea7c3e",
+        "name": "Wang Le Jun"
     }
 ]

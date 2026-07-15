@@ -410,6 +410,15 @@ def merge(excel_path: Path) -> dict:
 
 if __name__ == "__main__":
     import argparse
+    import sys
+
+    # Windows consoles often default to cp1252; stats may include Myanmar text
+    # or zero-width characters from Excel that fail to encode.
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(

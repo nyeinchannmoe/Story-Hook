@@ -21,7 +21,12 @@ import {
   useIsSeriesWatched,
   useWatchedActions,
 } from '@/hooks/useWatched';
-import { getStoryPreview, isValidUrl } from '@/utils/story';
+import {
+  getLinkPlatform,
+  getStoryPreview,
+  isValidUrl,
+  type LinkPlatform,
+} from '@/utils/story';
 import { getImageSrc, handleImageError } from '@/utils/image';
 import {
   resolveStoryCast,
@@ -30,6 +35,30 @@ import {
 import { buildAdvancedSearchPath } from '@/utils/search';
 import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
 import type { EpisodeLink } from '@/types/story';
+import telegramLogo from '@/assets/telegram-logo.png';
+import facebookLogo from '@/assets/facebook-logo.png';
+import youtubeLogo from '@/assets/youtube-logo.png';
+
+const PLATFORM_LOGOS: Record<
+  LinkPlatform,
+  { src: string; alt: string; className: string }
+> = {
+  telegram: {
+    src: telegramLogo,
+    alt: 'Telegram',
+    className: 'rounded-full object-cover',
+  },
+  facebook: {
+    src: facebookLogo,
+    alt: 'Facebook',
+    className: 'rounded-full object-cover',
+  },
+  youtube: {
+    src: youtubeLogo,
+    alt: 'YouTube',
+    className: 'rounded-lg object-cover',
+  },
+};
 
 interface EpisodeLinkItemProps {
   storyUuid: string;
@@ -50,6 +79,8 @@ function EpisodeLinkItem({
   const watched = useIsEpisodeWatched(storyUuid, episode.link);
   const { toggleEpisode, markEpisode } = useWatchedActions();
   const episodeDescription = episode.description?.trim();
+  const platform = getLinkPlatform(episode.link);
+  const platformLogo = platform ? PLATFORM_LOGOS[platform] : null;
 
   const watchedAriaLabel = watched
     ? t('a11y:markEpisodeUnwatched', {
@@ -74,6 +105,13 @@ function EpisodeLinkItem({
       }`}
     >
       <div className="flex items-start gap-3 sm:gap-4">
+        {platformLogo ? (
+          <img
+            src={platformLogo.src}
+            alt={platformLogo.alt}
+            className={`mt-0.5 h-7 w-7 shrink-0 sm:h-8 sm:w-8 ${platformLogo.className}`}
+          />
+        ) : null}
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             {hasLink ? (

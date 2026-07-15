@@ -1,4 +1,4 @@
-export const SUPPORTED_LANGUAGES = ['en', 'zh', 'th', 'ko', 'my'] as const;
+export const SUPPORTED_LANGUAGES = ['en', 'my'] as const; //'zh', 'th', 'ko', 
 
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
@@ -38,24 +38,24 @@ export const LANGUAGE_META: Record<
     ogLocale: 'en_US',
     dir: 'ltr',
   },
-  zh: {
-    nativeName: '中文',
-    englishName: 'Chinese',
-    ogLocale: 'zh_CN',
-    dir: 'ltr',
-  },
-  th: {
-    nativeName: 'ไทย',
-    englishName: 'Thai',
-    ogLocale: 'th_TH',
-    dir: 'ltr',
-  },
-  ko: {
-    nativeName: '한국어',
-    englishName: 'Korean',
-    ogLocale: 'ko_KR',
-    dir: 'ltr',
-  },
+  // zh: {
+  //   nativeName: '中文',
+  //   englishName: 'Chinese',
+  //   ogLocale: 'zh_CN',
+  //   dir: 'ltr',
+  // },
+  // th: {
+  //   nativeName: 'ไทย',
+  //   englishName: 'Thai',
+  //   ogLocale: 'th_TH',
+  //   dir: 'ltr',
+  // },
+  // ko: {
+  //   nativeName: '한국어',
+  //   englishName: 'Korean',
+  //   ogLocale: 'ko_KR',
+  //   dir: 'ltr',
+  // },
   my: {
     nativeName: 'မြန်မာ',
     englishName: 'Myanmar',
@@ -77,9 +77,9 @@ export function resolveBrowserLanguage(tag: string): SupportedLanguage | null {
     return base;
   }
 
-  if (base === 'zh' || normalized.startsWith('zh')) {
-    return 'zh';
-  }
+  // if (base === 'zh' || normalized.startsWith('zh')) {
+  //   return 'zh';
+  // }
 
   return null;
 }

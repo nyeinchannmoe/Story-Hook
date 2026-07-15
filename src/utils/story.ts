@@ -145,3 +145,47 @@ export function isValidUrl(url: string): boolean {
     return false;
   }
 }
+
+export type LinkPlatform = 'telegram' | 'facebook' | 'youtube';
+
+/** Detect watch-link platform from URL hostname. */
+export function getLinkPlatform(url: string): LinkPlatform | null {
+  if (typeof url !== 'string' || !url.trim()) return null;
+
+  try {
+    const hostname = new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+
+    if (
+      hostname === 't.me' ||
+      hostname.endsWith('.t.me') ||
+      hostname === 'telegram.me' ||
+      hostname === 'telegram.org' ||
+      hostname.endsWith('.telegram.org')
+    ) {
+      return 'telegram';
+    }
+
+    if (
+      hostname === 'youtube.com' ||
+      hostname.endsWith('.youtube.com') ||
+      hostname === 'youtu.be' ||
+      hostname === 'youtube-nocookie.com'
+    ) {
+      return 'youtube';
+    }
+
+    if (
+      hostname === 'facebook.com' ||
+      hostname.endsWith('.facebook.com') ||
+      hostname === 'fb.com' ||
+      hostname === 'fb.watch' ||
+      hostname === 'm.facebook.com'
+    ) {
+      return 'facebook';
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
