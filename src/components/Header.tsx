@@ -31,21 +31,8 @@ export function Header() {
           className="flex items-center gap-1 sm:gap-2"
         >
           <Link
-            to={ROUTES.HOME}
-            className="rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary sm:px-4"
-          >
-            {t('navigation:browseDramas')}
-          </Link>
-          <Link
             to={ROUTES.SETTINGS}
-            className="hidden rounded-lg px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary sm:inline-flex sm:px-4"
-          >
-            {t('navigation:settings')}
-          </Link>
-          <SearchIconLink />
-          <Link
-            to={ROUTES.SETTINGS}
-            className="inline-flex items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:hidden"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             aria-label={t('a11y:openSettings')}
             title={t('navigation:settings')}
           >
@@ -69,6 +56,7 @@ export function Header() {
               />
             </svg>
           </Link>
+          <SearchIconLink />
         </nav>
       </div>
     </header>

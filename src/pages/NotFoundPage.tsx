@@ -12,6 +12,7 @@ export default function NotFoundPage() {
       <SEO
         title={t('seo:notFoundTitle')}
         description={t('seo:notFoundDescription')}
+        robots="noindex, follow"
       />
 
       <PageContainer>

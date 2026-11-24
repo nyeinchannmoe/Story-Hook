@@ -72,6 +72,9 @@ export default function AdvancedSearchPage() {
       <SEO
         title={t('seo:advancedSearchTitle')}
         description={t('seo:advancedSearchDescription')}
+        url="/advanced-search"
+        canonical="/advanced-search"
+        robots="noindex, follow"
       />
 
       <PageContainer>

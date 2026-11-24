@@ -16,6 +16,8 @@ export default function AboutPage() {
       <SEO
         title={t('seo:aboutTitle')}
         description={t('seo:aboutDescription')}
+        url="/about"
+        canonical="/about"
       />
 
       <PageContainer>

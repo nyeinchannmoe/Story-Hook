@@ -1,0 +1,7 @@
+# Story Hook — https://story-hook.vercel.app
+User-agent: *
+Allow: /
+
+# Do not block JS, CSS, fonts, or public images — required for rendering.
+
+Sitemap: https://story-hook.vercel.app/sitemap.xml

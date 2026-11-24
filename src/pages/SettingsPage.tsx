@@ -20,6 +20,9 @@ export default function SettingsPage() {
       <SEO
         title={t('seo:settingsTitle')}
         description={t('seo:settingsDescription')}
+        url="/settings"
+        canonical="/settings"
+        robots="noindex, follow"
       />
 
       <PageContainer>

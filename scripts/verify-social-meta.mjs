@@ -12,10 +12,11 @@ const stories = JSON.parse(
 );
 
 const ORIGIN = 'https://story-hook.vercel.app';
-const SAMPLE = 'ddb4a524-fd12-4fb0-8950-525792e2d5d4';
+const SAMPLE = '2b7121c4-ee9f-4350-89a0-38135affdb0d';
 const APP_NAME = 'Story Hook';
+const OG_DESCRIPTION_MAX = 200;
 
-function truncateForOg(text, maxLength = 200) {
+function truncateForOg(text, maxLength = OG_DESCRIPTION_MAX) {
   const cleaned = text.replace(/\s+/g, ' ').trim();
   if (cleaned.length <= maxLength) return cleaned;
   return `${cleaned.slice(0, maxLength).trim()}…`;
@@ -24,10 +25,12 @@ function truncateForOg(text, maxLength = 200) {
 function buildMeta(story) {
   const dramaTitle = story.title.trim();
   const mmTitle = story.mmTitle?.trim();
-  const synopsis = story.story || '';
+  const synopsis = (story.story || '').replace(/\s+/g, ' ').trim();
   const descriptionSource =
     mmTitle && mmTitle !== dramaTitle
-      ? `${mmTitle}. ${synopsis}`
+      ? synopsis
+        ? `${mmTitle} - ${dramaTitle}. ${synopsis}`
+        : `${mmTitle} - ${dramaTitle} drama synopsis, cast, country, rating and episode information.`
       : synopsis;
 
   return {
@@ -37,6 +40,7 @@ function buildMeta(story) {
     url: `${ORIGIN}/detail/${story.uuid}`,
     type: 'article',
     siteName: APP_NAME,
+    canonical: `${ORIGIN}/detail/${story.uuid}`,
   };
 }
 
@@ -52,8 +56,11 @@ const checks = [
   meta.description.length > 0 && meta.description.length <= 201,
   /^https?:\/\//i.test(meta.image),
   meta.url === `${ORIGIN}/detail/${SAMPLE}`,
+  meta.canonical === meta.url,
   meta.type === 'article',
   meta.siteName === APP_NAME,
+  meta.description.includes('စာချုပ်ဝင် မင်းသမီး') ||
+    meta.description.includes('Perfect Crown'),
 ];
 
 console.log(JSON.stringify(meta, null, 2));
@@ -64,12 +71,7 @@ if (checks.every(Boolean)) {
   process.exit(1);
 }
 
-const missing = buildMeta({
-  uuid: 'invalid-id',
-  title: 'Drama Not Found',
-  story: 'The requested drama could not be found.',
-  coverPhoto: `${ORIGIN}/og-default.png`,
-});
-console.log('not-found fallback title:', `${'Drama Not Found'} | ${APP_NAME}`);
-console.log('og-default present:', readFileSync(join(root, 'public/og-default.png')).length > 0);
-void missing;
+console.log(
+  'og-default present:',
+  readFileSync(join(root, 'public/og-default.png')).length > 0,
+);

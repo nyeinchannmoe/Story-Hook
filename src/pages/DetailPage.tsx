@@ -11,7 +11,7 @@ import {
   SearchIconLink,
   WatchedToggle,
 } from '@/components';
-import { DEFAULT_OG_IMAGE, OG_DESCRIPTION_MAX, ROUTES } from '@/constants';
+import { DEFAULT_OG_IMAGE, ROUTES } from '@/constants';
 import { useStory } from '@/hooks/useStories';
 import { useCasts } from '@/hooks/useCasts';
 import { useNetworks } from '@/hooks/useNetworks';
@@ -23,7 +23,6 @@ import {
 } from '@/hooks/useWatched';
 import {
   getLinkPlatform,
-  getStoryPreview,
   isValidUrl,
   type LinkPlatform,
 } from '@/utils/story';
@@ -35,6 +34,12 @@ import {
 import { buildAdvancedSearchPath } from '@/utils/search';
 import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
 import type { EpisodeLink } from '@/types/story';
+import {
+  NOINDEX_ROBOTS,
+  buildBreadcrumbJsonLd,
+  buildStoryDescription,
+  buildTvSeriesJsonLd,
+} from '../../social-meta';
 import telegramLogo from '@/assets/telegram-logo.png';
 import facebookLogo from '@/assets/facebook-logo.png';
 import youtubeLogo from '@/assets/youtube-logo.png';
@@ -181,8 +186,8 @@ export default function DetailPage() {
     'seo',
   ]);
   const { story, loading, error } = useStory(uuid);
-  const { castByUuid } = useCasts();
-  const { networkByUuid } = useNetworks();
+  const { casts, castByUuid } = useCasts();
+  const { networks, networkByUuid } = useNetworks();
   const seriesWatched = useIsSeriesWatched(story?.uuid);
   const { toggleSeries } = useWatchedActions();
   const goBack = useSmartBack();
@@ -222,7 +227,9 @@ export default function DetailPage() {
           description={t('seo:dramaNotFoundDescription')}
           image={DEFAULT_OG_IMAGE}
           url={`${ROUTES.DETAIL}/${uuid ?? ''}`}
+          canonical={`${ROUTES.DETAIL}/${uuid ?? ''}`}
           type="article"
+          robots={NOINDEX_ROBOTS}
         />
         <PageContainer>
           <EmptyState
@@ -242,7 +249,7 @@ export default function DetailPage() {
     );
   }
 
-  const description = getStoryPreview(story.story, OG_DESCRIPTION_MAX);
+  const description = buildStoryDescription(story);
   const hasWatchLink = isValidUrl(story.watchLink);
   const resolvedCast = resolveStoryCast(story, castByUuid);
   const resolvedNetworks = resolveStoryNetworks(story, networkByUuid);
@@ -252,6 +259,14 @@ export default function DetailPage() {
     story.coverPhoto?.trim() && isValidUrl(story.coverPhoto.trim())
       ? story.coverPhoto.trim()
       : DEFAULT_OG_IMAGE;
+  const detailPath = `${ROUTES.DETAIL}/${story.uuid}`;
+  const jsonLd = [
+    buildTvSeriesJsonLd(story, { casts, networks }),
+    buildBreadcrumbJsonLd([
+      { name: 'Story Hook', path: '/' },
+      { name: story.title, path: detailPath },
+    ]),
+  ];
 
   const seriesWatchedAriaLabel = seriesWatched
     ? t('a11y:markSeriesUnwatched', { title: story.title })
@@ -263,8 +278,10 @@ export default function DetailPage() {
         title={story.title}
         description={description}
         image={shareImage}
-        url={`${ROUTES.DETAIL}/${story.uuid}`}
+        url={detailPath}
+        canonical={detailPath}
         type="article"
+        jsonLd={jsonLd}
       />
 
       <section className="relative">

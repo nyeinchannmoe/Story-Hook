@@ -1,28 +1,25 @@
 /**
- * Vercel Edge Middleware — injects crawler-readable Open Graph / Twitter Card
- * metadata into the initial HTML before JavaScript runs.
+ * Vercel Edge Middleware — status handling for drama detail routes.
  *
- * Detail routes (/detail/:uuid) receive story-specific tags from stories.json.
- * All other document routes keep the generic Story Hook homepage preview.
+ * Valid `/detail/:uuid` pages are prerendered at build time with full SEO
+ * metadata and content. This middleware must not overwrite those pages.
+ *
+ * Invalid UUIDs return HTTP 404 with a noindex not-found document so crawlers
+ * do not treat missing dramas as soft 404s.
+ *
+ * Social-share meta for valid dramas lives in the prerendered HTML.
  */
 import stories from './src/data/stories.json';
 import {
-  buildDefaultSocialMeta,
   buildNotFoundSocialMeta,
-  buildStorySocialMeta,
   findStoryShareFields,
+  injectRootContent,
   injectSocialMeta,
   type StoryShareFields,
 } from './social-meta';
 
 export const config = {
-  matcher: [
-    '/',
-    '/home',
-    '/home/',
-    '/detail/:uuid',
-    '/detail/:uuid/',
-  ],
+  matcher: ['/detail/:uuid', '/detail/:uuid/'],
 };
 
 function getOrigin(request: Request): string {
@@ -43,41 +40,70 @@ function getOrigin(request: Request): string {
   return url.origin;
 }
 
+/** Continue to the filesystem / static prerendered page. */
+function passThrough(): Response {
+  return new Response(null, {
+    headers: {
+      'x-middleware-next': '1',
+    },
+  });
+}
+
+function buildNotFoundBody(): string {
+  return `<main>
+  <h1>Drama Not Found</h1>
+  <p>The requested drama could not be found.</p>
+  <p><a href="/home">Browse all dramas</a></p>
+</main>`;
+}
+
 export default async function middleware(request: Request): Promise<Response> {
   const requestUrl = new URL(request.url);
   const origin = getOrigin(request);
   const pathname = requestUrl.pathname.replace(/\/$/, '') || '/';
-
-  const indexResponse = await fetch(new URL('/index.html', origin));
-  if (!indexResponse.ok) {
-    return fetch(request);
-  }
-
-  const html = await indexResponse.text();
   const detailMatch = pathname.match(/^\/detail\/([^/]+)$/);
 
-  let meta;
-  if (detailMatch?.[1]) {
-    const uuid = decodeURIComponent(detailMatch[1]);
-    const story = findStoryShareFields(
-      stories as StoryShareFields[],
-      uuid,
-    );
-    meta = story
-      ? buildStorySocialMeta(story, origin)
-      : buildNotFoundSocialMeta(origin, uuid);
-  } else {
-    meta = buildDefaultSocialMeta(origin, pathname);
+  if (!detailMatch?.[1]) {
+    return passThrough();
   }
 
-  const body = injectSocialMeta(html, meta);
+  const uuid = decodeURIComponent(detailMatch[1]);
+  const story = findStoryShareFields(stories as StoryShareFields[], uuid);
 
-  return new Response(body, {
-    status: 200,
+  if (story) {
+    // Serve the build-time prerendered HTML (meta + content already embedded).
+    return passThrough();
+  }
+
+  const indexResponse = await fetch(new URL('/404.html', origin));
+  const fallbackResponse = indexResponse.ok
+    ? indexResponse
+    : await fetch(new URL('/index.html', origin));
+
+  if (!fallbackResponse.ok) {
+    return new Response('Drama Not Found', {
+      status: 404,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    });
+  }
+
+  let html = await fallbackResponse.text();
+  const meta = buildNotFoundSocialMeta(origin, uuid);
+
+  if (!indexResponse.ok) {
+    html = injectRootContent(injectSocialMeta(html, meta), buildNotFoundBody());
+  } else {
+    // 404.html already has noindex meta; refresh URL-specific tags.
+    html = injectSocialMeta(html, meta);
+  }
+
+  return new Response(html, {
+    status: 404,
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=600',
       'X-Content-Type-Options': 'nosniff',
+      'X-Robots-Tag': 'noindex',
     },
   });
 }

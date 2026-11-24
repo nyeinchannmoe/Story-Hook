@@ -8,6 +8,7 @@ import {
 } from '@/components';
 import { useStories } from '@/hooks/useStories';
 import { translateErrorMessage } from '@/i18n/helpers';
+import { buildWebsiteJsonLd } from '../../social-meta';
 
 export default function HomePage() {
   const { t } = useTranslation(['home', 'common', 'seo', 'errors']);
@@ -18,6 +19,9 @@ export default function HomePage() {
       <SEO
         title={t('seo:homeTitle')}
         description={t('seo:homeDescription')}
+        url="/"
+        canonical="/"
+        jsonLd={buildWebsiteJsonLd()}
       />
 
       <PageContainer>
