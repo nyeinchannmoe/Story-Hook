@@ -7,5 +7,9 @@
   "invalidCastsFormat": "รูปแบบข้อมูลนักแสดงไม่ถูกต้อง",
   "failedLoadCasts": "โหลดนักแสดงไม่สำเร็จ",
   "invalidNetworksFormat": "รูปแบบข้อมูลเครือข่ายไม่ถูกต้อง",
-  "failedLoadNetworks": "โหลดเครือข่ายไม่สำเร็จ"
+  "failedLoadNetworks": "โหลดเครือข่ายไม่สำเร็จ",
+  "invalidGenresFormat": "รูปแบบข้อมูลประเภทไม่ถูกต้อง",
+  "failedLoadGenres": "โหลดประเภทไม่สำเร็จ",
+  "invalidCountriesFormat": "รูปแบบข้อมูลประเทศไม่ถูกต้อง",
+  "failedLoadCountries": "โหลดประเทศไม่สำเร็จ"
 }

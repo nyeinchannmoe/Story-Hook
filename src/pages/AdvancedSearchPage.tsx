@@ -1,4 +1,4 @@
-import { useId, type FormEvent } from 'react';
+import { useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   PageContainer,
@@ -10,35 +10,106 @@ import {
   MultiSelectSuggestField,
 } from '@/components';
 import {
-  SEARCH_COUNTRIES,
   SEARCH_RATING_MAX,
   SEARCH_RATING_MIN,
   SEARCH_YEAR_MAX,
   SEARCH_YEAR_MIN,
   WATCHED_FILTER_OPTIONS,
-  type SearchCountry,
 } from '@/constants';
 import { useStories } from '@/hooks/useStories';
 import { useCasts } from '@/hooks/useCasts';
 import { useNetworks } from '@/hooks/useNetworks';
+import { useGenres } from '@/hooks/useGenres';
+import { useCountries } from '@/hooks/useCountries';
 import { useAdvancedSearch } from '@/hooks/useAdvancedSearch';
-import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
+import { translateErrorMessage } from '@/i18n/helpers';
 import type { WatchedFilter } from '@/types/watched';
+
+interface CollapsibleFilterSectionProps {
+  id: string;
+  title: string;
+  helpText: string;
+  expanded: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}
+
+function CollapsibleFilterSection({
+  id,
+  title,
+  helpText,
+  expanded,
+  onToggle,
+  children,
+}: CollapsibleFilterSectionProps) {
+  const contentId = `${id}-content`;
+
+  return (
+    <fieldset>
+      <legend className="sr-only">{title}</legend>
+      <button
+        type="button"
+        id={id}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-3 rounded-lg text-left text-sm font-medium text-text-primary transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        aria-expanded={expanded}
+        aria-controls={contentId}
+      >
+        <span>{title}</span>
+        <svg
+          className="h-5 w-5 shrink-0 text-text-muted"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          {expanded ? (
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 15l7-7 7 7"
+            />
+          ) : (
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          )}
+        </svg>
+      </button>
+      <p className="mt-2 text-xs text-text-muted">{helpText}</p>
+      {expanded ? (
+        <div id={contentId} className="mt-3" role="region" aria-labelledby={id}>
+          {children}
+        </div>
+      ) : null}
+    </fieldset>
+  );
+}
 
 export default function AdvancedSearchPage() {
   const { t } = useTranslation([
     'advancedSearch',
     'common',
     'seo',
-    'filters',
     'errors',
     'a11y',
   ]);
   const { stories, loading, error, refetch } = useStories();
   const { casts } = useCasts();
   const { networks } = useNetworks();
-  const { draft, results, updateDraft, search, reset } =
+  const { genres, genreByUuid } = useGenres();
+  const { countries } = useCountries();
+  const { draft, applied, results, updateDraft, search, reset } =
     useAdvancedSearch(stories);
+
+  const [countriesExpanded, setCountriesExpanded] = useState(false);
+  const [genresExpanded, setGenresExpanded] = useState(() =>
+    applied.genreUuids.some((uuid) => genreByUuid.has(uuid)),
+  );
 
   const formId = useId();
   const keywordId = `${formId}-keyword`;
@@ -46,15 +117,39 @@ export default function AdvancedSearchPage() {
   const episodesMaxId = `${formId}-episodes-max`;
   const castFieldId = `${formId}-cast`;
   const networkFieldId = `${formId}-network`;
+  const countrySectionId = `${formId}-country-section`;
+  const genreSectionId = `${formId}-genre-section`;
 
-  const toggleCountry = (country: SearchCountry) => {
-    const selected = draft.countries.includes(country);
+  const appliedGenreKey = applied.genreUuids.join('\0');
+
+  useEffect(() => {
+    const hasKnownGenre = applied.genreUuids.some((uuid) =>
+      genreByUuid.has(uuid),
+    );
+    if (hasKnownGenre) {
+      setGenresExpanded(true);
+    }
+  }, [appliedGenreKey, applied.genreUuids, genreByUuid]);
+
+  const toggleCountry = (countryUuid: string) => {
+    const selected = draft.countryUuids.includes(countryUuid);
     if (selected) {
       updateDraft({
-        countries: draft.countries.filter((c) => c !== country),
+        countryUuids: draft.countryUuids.filter((uuid) => uuid !== countryUuid),
       });
     } else {
-      updateDraft({ countries: [...draft.countries, country] });
+      updateDraft({ countryUuids: [...draft.countryUuids, countryUuid] });
+    }
+  };
+
+  const toggleGenre = (genreUuid: string) => {
+    const selected = draft.genreUuids.includes(genreUuid);
+    if (selected) {
+      updateDraft({
+        genreUuids: draft.genreUuids.filter((uuid) => uuid !== genreUuid),
+      });
+    } else {
+      updateDraft({ genreUuids: [...draft.genreUuids, genreUuid] });
     }
   };
 
@@ -150,20 +245,20 @@ export default function AdvancedSearchPage() {
               </div>
             </div>
 
-            <fieldset>
-              <legend className="mb-3 text-sm font-medium text-text-primary">
-                {t('advancedSearch:country')}
-              </legend>
-              <p className="mb-3 text-xs text-text-muted">
-                {t('advancedSearch:countryHelp')}
-              </p>
+            <CollapsibleFilterSection
+              id={countrySectionId}
+              title={t('advancedSearch:country')}
+              helpText={t('advancedSearch:countryHelp')}
+              expanded={countriesExpanded}
+              onToggle={() => setCountriesExpanded((prev) => !prev)}
+            >
               <div className="flex flex-wrap gap-3">
-                {SEARCH_COUNTRIES.map((country) => {
-                  const checked = draft.countries.includes(country);
-                  const checkboxId = `${formId}-country-${country.replace(/\s+/g, '-').toLowerCase()}`;
+                {countries.map((country) => {
+                  const checked = draft.countryUuids.includes(country.uuid);
+                  const checkboxId = `${formId}-country-${country.uuid}`;
                   return (
                     <label
-                      key={country}
+                      key={country.uuid}
                       htmlFor={checkboxId}
                       className={`inline-flex cursor-pointer items-center gap-2 rounded-xl border px-3.5 py-2.5 text-sm transition-colors ${
                         checked
@@ -175,15 +270,50 @@ export default function AdvancedSearchPage() {
                         id={checkboxId}
                         type="checkbox"
                         checked={checked}
-                        onChange={() => toggleCountry(country)}
+                        onChange={() => toggleCountry(country.uuid)}
                         className="h-4 w-4 rounded border-white/20 bg-bg-primary text-accent focus:ring-accent focus:ring-offset-0"
                       />
-                      {translateCountry(t, country)}
+                      {country.country}
                     </label>
                   );
                 })}
               </div>
-            </fieldset>
+            </CollapsibleFilterSection>
+
+            <CollapsibleFilterSection
+              id={genreSectionId}
+              title={t('advancedSearch:genres')}
+              helpText={t('advancedSearch:genresHelp')}
+              expanded={genresExpanded}
+              onToggle={() => setGenresExpanded((prev) => !prev)}
+            >
+              <div className="flex flex-wrap gap-3">
+                {genres.map((genre) => {
+                  const checked = draft.genreUuids.includes(genre.uuid);
+                  const checkboxId = `${formId}-genre-${genre.uuid}`;
+                  return (
+                    <label
+                      key={genre.uuid}
+                      htmlFor={checkboxId}
+                      className={`inline-flex cursor-pointer items-center gap-2 rounded-xl border px-3.5 py-2.5 text-sm transition-colors ${
+                        checked
+                          ? 'border-accent/40 bg-accent-muted text-text-primary'
+                          : 'border-white/10 bg-bg-secondary text-text-secondary hover:border-white/20'
+                      }`}
+                    >
+                      <input
+                        id={checkboxId}
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggleGenre(genre.uuid)}
+                        className="h-4 w-4 rounded border-white/20 bg-bg-primary text-accent focus:ring-accent focus:ring-offset-0"
+                      />
+                      {genre.name}
+                    </label>
+                  );
+                })}
+              </div>
+            </CollapsibleFilterSection>
 
             <fieldset>
               <legend className="mb-3 text-sm font-medium text-text-primary">

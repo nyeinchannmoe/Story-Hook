@@ -15,6 +15,8 @@ import { DEFAULT_OG_IMAGE, ROUTES } from '@/constants';
 import { useStory } from '@/hooks/useStories';
 import { useCasts } from '@/hooks/useCasts';
 import { useNetworks } from '@/hooks/useNetworks';
+import { useGenres } from '@/hooks/useGenres';
+import { useCountries } from '@/hooks/useCountries';
 import { useSmartBack } from '@/hooks/useSmartBack';
 import {
   useIsEpisodeWatched,
@@ -29,10 +31,12 @@ import {
 import { getImageSrc, handleImageError } from '@/utils/image';
 import {
   resolveStoryCast,
+  resolveStoryCountry,
+  resolveStoryGenres,
   resolveStoryNetworks,
 } from '@/utils/lookup';
 import { buildAdvancedSearchPath } from '@/utils/search';
-import { translateCountry, translateErrorMessage } from '@/i18n/helpers';
+import { translateErrorMessage } from '@/i18n/helpers';
 import type { EpisodeLink } from '@/types/story';
 import {
   NOINDEX_ROBOTS,
@@ -181,13 +185,14 @@ export default function DetailPage() {
     'detail',
     'common',
     'errors',
-    'filters',
     'a11y',
     'seo',
   ]);
   const { story, loading, error } = useStory(uuid);
   const { casts, castByUuid } = useCasts();
   const { networks, networkByUuid } = useNetworks();
+  const { genreByUuid } = useGenres();
+  const { countries, countryByUuid } = useCountries();
   const seriesWatched = useIsSeriesWatched(story?.uuid);
   const { toggleSeries } = useWatchedActions();
   const goBack = useSmartBack();
@@ -253,6 +258,9 @@ export default function DetailPage() {
   const hasWatchLink = isValidUrl(story.watchLink);
   const resolvedCast = resolveStoryCast(story, castByUuid);
   const resolvedNetworks = resolveStoryNetworks(story, networkByUuid);
+  const resolvedGenres = resolveStoryGenres(story, genreByUuid);
+  const resolvedCountry = resolveStoryCountry(story, countryByUuid);
+  const countryLabel = resolvedCountry?.country ?? '';
   const episodeLinks = story.episodeLinks ?? [];
   const canToggleSeries = Boolean(story.uuid?.trim());
   const shareImage =
@@ -261,7 +269,7 @@ export default function DetailPage() {
       : DEFAULT_OG_IMAGE;
   const detailPath = `${ROUTES.DETAIL}/${story.uuid}`;
   const jsonLd = [
-    buildTvSeriesJsonLd(story, { casts, networks }),
+    buildTvSeriesJsonLd(story, { casts, networks, countries }),
     buildBreadcrumbJsonLd([
       { name: 'Story Hook', path: '/' },
       { name: story.title, path: detailPath },
@@ -340,9 +348,11 @@ export default function DetailPage() {
 
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <RatingBadge rating={story.rating} size="lg" />
-                <span className="rounded-full bg-white/5 px-3 py-1 text-sm text-text-secondary">
-                  {translateCountry(t, story.country)}
-                </span>
+                {countryLabel ? (
+                  <span className="rounded-full bg-white/5 px-3 py-1 text-sm text-text-secondary">
+                    {countryLabel}
+                  </span>
+                ) : null}
                 {story.type && (
                   <span className="rounded-full bg-white/5 px-3 py-1 text-sm text-text-secondary">
                     {story.type}
@@ -365,14 +375,14 @@ export default function DetailPage() {
                   </dt>
                   <dd className="mt-1 text-text-primary">{story.aired}</dd>
                 </div>
-                <div>
-                  <dt className="text-xs font-medium uppercase tracking-wider text-text-muted">
-                    {t('detail:country')}
-                  </dt>
-                  <dd className="mt-1 text-text-primary">
-                    {translateCountry(t, story.country)}
-                  </dd>
-                </div>
+                {countryLabel ? (
+                  <div>
+                    <dt className="text-xs font-medium uppercase tracking-wider text-text-muted">
+                      {t('detail:country')}
+                    </dt>
+                    <dd className="mt-1 text-text-primary">{countryLabel}</dd>
+                  </div>
+                ) : null}
                 {story.type && (
                   <div>
                     <dt className="text-xs font-medium uppercase tracking-wider text-text-muted">
@@ -418,6 +428,24 @@ export default function DetailPage() {
                   </div>
                 )}
               </dl>
+
+              {resolvedGenres.length > 0 && (
+                <div
+                  className="mt-6 flex flex-wrap gap-2"
+                  aria-label={t('detail:genres')}
+                >
+                  {resolvedGenres.map((genre) => (
+                    <Link
+                      key={genre.uuid}
+                      to={buildAdvancedSearchPath({ genreUuid: genre.uuid })}
+                      className="inline-flex items-center rounded-lg border border-white/10 bg-bg-secondary px-3.5 py-2 text-sm font-medium text-text-secondary transition-colors hover:border-accent/40 hover:bg-accent-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      aria-label={t('a11y:searchByGenre', { name: genre.name })}
+                    >
+                      {genre.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 {hasWatchLink && (

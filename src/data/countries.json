@@ -1,0 +1,54 @@
+[
+    {
+        "uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0",
+        "country": "South Korea"
+    },
+    {
+        "uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87",
+        "country": "China"
+    },
+    {
+        "uuid": "3196c84e-5b4e-4977-9d47-350d8c058286",
+        "country": "Japan"
+    },
+    {
+        "uuid": "7225eaca-f1be-496a-9fd9-3a7dcd384ed8",
+        "country": "Thailand"
+    },
+    {
+        "uuid": "a9e5d671-f573-4e79-b804-d0191969a2b2",
+        "country": "Vietnam"
+    },
+    {
+        "uuid": "c2711615-f712-4c90-b6cd-37c566f1389f",
+        "country": "Indonesia"
+    },
+    {
+        "uuid": "f88041eb-1dd3-465a-99fe-b36184dc35e4",
+        "country": "Malaysia"
+    },
+    {
+        "uuid": "8c5418af-9040-409a-84f2-9cf2a99cbf50",
+        "country": "Philippines"
+    },
+    {
+        "uuid": "b8b62fa6-e04c-422d-8ef9-e4d99a3f6f5c",
+        "country": "Singapore"
+    },
+    {
+        "uuid": "b6213c79-444d-4fa7-b15e-f15653a2ebd0",
+        "country": "Hong Kong"
+    },
+    {
+        "uuid": "0c639eed-2f8c-411a-a678-5808c3761c59",
+        "country": "Taiwan"
+    },
+    {
+        "uuid": "e805ab49-5dad-48a8-bb5b-513f73aa8b82",
+        "country": "Macau"
+    },
+    {
+        "uuid": "785438df-b875-448b-86a8-344c6fc1d16b",
+        "country": "Myanmar"
+    }
+]

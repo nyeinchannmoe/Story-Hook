@@ -5,7 +5,6 @@ import type home from './locales/en/home.json';
 import type detail from './locales/en/detail.json';
 import type search from './locales/en/search.json';
 import type advancedSearch from './locales/en/advancedSearch.json';
-import type filters from './locales/en/filters.json';
 import type settings from './locales/en/settings.json';
 import type about from './locales/en/about.json';
 import type footer from './locales/en/footer.json';
@@ -27,7 +26,6 @@ declare module 'i18next' {
       detail: typeof detail;
       search: typeof search;
       advancedSearch: typeof advancedSearch;
-      filters: typeof filters;
       settings: typeof settings;
       about: typeof about;
       footer: typeof footer;

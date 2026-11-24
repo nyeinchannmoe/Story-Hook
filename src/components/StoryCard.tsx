@@ -4,7 +4,8 @@ import type { Story } from '@/types/story';
 import { ROUTES } from '@/constants';
 import { extractYear, getStoryPreview } from '@/utils/story';
 import { getImageSrc, handleImageError } from '@/utils/image';
-import { translateCountry } from '@/i18n/helpers';
+import { useCountries } from '@/hooks/useCountries';
+import { resolveStoryCountry } from '@/utils/lookup';
 import { useIsSeriesWatched, useWatchedActions } from '@/hooks/useWatched';
 import type { DetailLocationState } from '@/hooks/useSmartBack';
 import { RatingBadge } from './RatingBadge';
@@ -15,8 +16,9 @@ interface StoryCardProps {
 }
 
 export function StoryCard({ story }: StoryCardProps) {
-  const { t } = useTranslation(['common', 'a11y', 'filters']);
+  const { t } = useTranslation(['common', 'a11y']);
   const location = useLocation();
+  const { countryByUuid } = useCountries();
   const detailPath = `${ROUTES.DETAIL}/${story.uuid}`;
   const detailState: DetailLocationState = {
     from: `${location.pathname}${location.search}`,
@@ -26,6 +28,7 @@ export function StoryCard({ story }: StoryCardProps) {
   const watched = useIsSeriesWatched(story.uuid);
   const { toggleSeries } = useWatchedActions();
   const canToggle = Boolean(story.uuid?.trim());
+  const countryLabel = resolveStoryCountry(story, countryByUuid)?.country ?? '';
 
   const watchedAriaLabel = watched
     ? t('a11y:markSeriesUnwatched', { title: story.title })
@@ -108,12 +111,14 @@ export function StoryCard({ story }: StoryCardProps) {
 
         <div className="flex flex-wrap items-center gap-2">
           <RatingBadge rating={story.rating} size="sm" />
-          <span className="text-sm text-text-muted">
-            {translateCountry(t, story.country)}
-          </span>
-          <span className="text-sm text-text-muted" aria-hidden="true">
-            ·
-          </span>
+          {countryLabel ? (
+            <>
+              <span className="text-sm text-text-muted">{countryLabel}</span>
+              <span className="text-sm text-text-muted" aria-hidden="true">
+                ·
+              </span>
+            </>
+          ) : null}
           <span className="text-sm text-text-muted">
             {story.episodes} {t('common:episodesShort')}
           </span>

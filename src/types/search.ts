@@ -1,13 +1,13 @@
-import type { SearchCountry } from '@/constants';
 import type { WatchedFilter } from '@/types/watched';
 
 export type { WatchedFilter };
 
 export interface SearchFilters {
   keyword: string;
-  countries: SearchCountry[];
+  countryUuids: string[];
   castUuids: string[];
   networkUuids: string[];
+  genreUuids: string[];
   ratingFrom: number;
   ratingTo: number;
   episodesMin: string;

@@ -1,6 +1,4 @@
-import type { SearchCountry } from '@/constants';
-
-/** Loose adapter around i18next `t` for dynamic keys (country names, error codes). */
+/** Loose adapter around i18next `t` for dynamic keys (error codes, roles). */
 function asTranslate(
   t: unknown,
 ): (key: string, options?: Record<string, unknown>) => string {
@@ -11,15 +9,6 @@ const ROLE_KEYS: Record<string, string> = {
   'Main Role': 'common:mainRole',
   'Support Role': 'common:supportRole',
 };
-
-export function translateCountry(
-  t: unknown,
-  country: SearchCountry | string,
-): string {
-  return asTranslate(t)(`filters:countries.${country}`, {
-    defaultValue: country,
-  });
-}
 
 export function translateRole(t: unknown, role: string): string {
   const key = ROLE_KEYS[role];

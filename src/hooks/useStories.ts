@@ -27,6 +27,9 @@ function normalizeStories(data: Story[]): Story[] {
     orginalNetworks: story.orginalNetworks ?? [],
     cast: story.cast ?? [],
     photos: story.photos ?? [],
+    genres: Array.isArray(story.genres) ? story.genres : [],
+    country_uuid:
+      typeof story.country_uuid === 'string' ? story.country_uuid : '',
   }));
 }
 

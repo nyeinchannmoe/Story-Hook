@@ -7,5 +7,9 @@
   "invalidCastsFormat": "Invalid casts data format",
   "failedLoadCasts": "Failed to load casts",
   "invalidNetworksFormat": "Invalid networks data format",
-  "failedLoadNetworks": "Failed to load networks"
+  "failedLoadNetworks": "Failed to load networks",
+  "invalidGenresFormat": "Invalid genres data format",
+  "failedLoadGenres": "Failed to load genres",
+  "invalidCountriesFormat": "Invalid countries data format",
+  "failedLoadCountries": "Failed to load countries"
 }

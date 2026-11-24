@@ -13,7 +13,6 @@ export const NAMESPACES = [
   'detail',
   'search',
   'advancedSearch',
-  'filters',
   'settings',
   'about',
   'footer',

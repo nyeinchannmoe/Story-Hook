@@ -7,5 +7,9 @@
   "invalidCastsFormat": "演员数据格式无效",
   "failedLoadCasts": "加载演员失败",
   "invalidNetworksFormat": "平台数据格式无效",
-  "failedLoadNetworks": "加载平台失败"
+  "failedLoadNetworks": "加载平台失败",
+  "invalidGenresFormat": "类型数据格式无效",
+  "failedLoadGenres": "加载类型失败",
+  "invalidCountriesFormat": "国家/地区数据格式无效",
+  "failedLoadCountries": "加载国家/地区失败"
 }

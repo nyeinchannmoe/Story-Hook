@@ -1,7 +1,7 @@
 {
   "titlePrefix": "高级",
   "titleAccent": "搜索",
-  "subtitle": "按关键词、演员、原播平台、国家、评分、集数、播出年份和观看状态筛选精选剧集。",
+  "subtitle": "按关键词、演员、原播平台、国家、类型、评分、集数、播出年份和观看状态筛选精选剧集。",
   "formAriaLabel": "高级搜索筛选条件",
   "keyword": "关键词",
   "keywordPlaceholder": "搜索标题、缅甸语标题或角色…",
@@ -17,6 +17,8 @@
   "noSuggestions": "未找到匹配项",
   "country": "国家/地区",
   "countryHelp": "全部不勾选表示显示所有国家的剧集。勾选一个或多个以缩小结果。",
+  "genres": "类型",
+  "genresHelp": "全部不勾选表示显示所有类型的剧集。勾选一个或多个以缩小结果。",
   "rating": "评分",
   "airedYear": "播出年份",
   "episodes": "集数",

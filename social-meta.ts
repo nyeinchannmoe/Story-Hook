@@ -10,7 +10,7 @@ export interface StoryShareFields {
   mmTitle?: string;
   story: string;
   coverPhoto?: string;
-  country?: string;
+  country_uuid?: string;
   rating?: string;
   type?: string;
   format?: string;
@@ -34,6 +34,11 @@ export interface CastShareFields {
 export interface NetworkShareFields {
   uuid: string;
   name: string;
+}
+
+export interface CountryShareFields {
+  uuid: string;
+  country: string;
 }
 
 export interface SocialMeta {
@@ -305,6 +310,7 @@ export function buildTvSeriesJsonLd(
     origin?: string;
     casts?: CastShareFields[];
     networks?: NetworkShareFields[];
+    countries?: CountryShareFields[];
   } = {},
 ): Record<string, unknown> {
   const origin = options.origin ?? PRODUCTION_ORIGIN;
@@ -313,6 +319,9 @@ export function buildTvSeriesJsonLd(
   );
   const networkByUuid = new Map(
     (options.networks ?? []).map((network) => [network.uuid, network]),
+  );
+  const countryByUuid = new Map(
+    (options.countries ?? []).map((country) => [country.uuid, country]),
   );
 
   const jsonLd: Record<string, unknown> = {
@@ -337,10 +346,14 @@ export function buildTvSeriesJsonLd(
     jsonLd.image = image;
   }
 
-  if (story.country?.trim()) {
+  const countryUuid = story.country_uuid?.trim();
+  const countryName = countryUuid
+    ? countryByUuid.get(countryUuid)?.country?.trim()
+    : undefined;
+  if (countryName) {
     jsonLd.countryOfOrigin = {
       '@type': 'Country',
-      name: story.country.trim(),
+      name: countryName,
     };
   }
 

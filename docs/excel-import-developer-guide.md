@@ -8,12 +8,12 @@ Technical documentation for `scripts/merge_excel_into_json.py` — the increment
 
 The importer is a **single-file, offline merge pipeline**. It has no React dependency. At runtime it:
 
-1. Loads the three production JSON catalogs from `src/data/`
+1. Loads the production JSON catalogs from `src/data/` (`genres.json` / `countries.json` are created if missing)
 2. Parses the first sheet of an `.xlsx` workbook with `openpyxl`
-3. Normalizes and deduplicates entities (stories, casts, networks)
+3. Normalizes and deduplicates entities (stories, casts, networks, genres, countries)
 4. Maps relationships by UUID
 5. Asserts that every pre-existing UUID still exists
-6. Writes the three JSON files back to disk
+6. Writes the JSON catalogs back to disk
 7. Returns / prints a statistics dictionary
 
 Design principles:
@@ -23,7 +23,7 @@ Design principles:
 | Existing JSON is source of truth | Excel never replaces the catalog wholesale |
 | Append / fill only | No deletes, no full regenerations |
 | Stable identities | UUID v4 only for new entities |
-| Referential integrity | Stories reference cast/network UUIDs, never names |
+| Referential integrity | Stories reference cast/network/genre/country UUIDs, never names |
 | Fail closed on UUID loss | `assert` before write |
 
 ### Module layout
@@ -36,13 +36,13 @@ scripts/merge_excel_into_json.py
 ├── Parsing helpers
 │   ├── clean, norm_name
 │   ├── parse_urls, parse_episode_links
-│   ├── parse_networks, parse_cast_blocks
-│   └── load_json, write_json
+│   ├── parse_networks, parse_genres, parse_cast_blocks
+│   └── load_json, load_json_or_default, write_json
 ├── Merge helpers
 │   ├── find_story, fill_missing
 │   ├── merge_photos, merge_episodes
-│   ├── merge_cast_refs, merge_networks
-│   └── merge()  ← orchestration + nested get_or_create_*
+│   ├── merge_cast_refs, merge_networks, merge_genres
+│   └── merge()  ← orchestration + nested get_or_create_* (cast/network/genre/country)
 └── CLI (__main__)
 ```
 
@@ -68,13 +68,17 @@ Normalization (clean / norm_name / ROLE_MAP / URL filters)
    │
    ▼
 Deduplication
-   ├── Networks → get_or_create_network
-   ├── Casts    → get_or_create_cast
-   └── Stories  → find_story
+   ├── Countries → get_or_create_country
+   ├── Networks  → get_or_create_network
+   ├── Genres    → get_or_create_genre
+   ├── Casts     → get_or_create_cast
+   └── Stories   → find_story
    │
    ▼
 Relationship Mapping
+   ├── country_uuid: countryUuid
    ├── orginalNetworks: [networkUuid, ...]
+   ├── genres: [genreUuid, ...]
    └── cast: [{ castUuid, characterName, role }, ...]
    │
    ▼
@@ -90,22 +94,26 @@ Validation
 Output Files
    ├── src/data/stories.json            (indent=2)
    ├── src/data/casts.json              (indent=4)
-   └── src/data/original_network.json   (indent=4)
+   ├── src/data/original_network.json   (indent=4)
+   ├── src/data/genres.json             (indent=4; created if missing)
+   └── src/data/countries.json          (indent=4; created if missing)
 ```
 
 ### Entity relationship model
 
 ```text
-original_network.json          casts.json
-        │                           │
-        │ uuid                      │ uuid
-        ▼                           ▼
+original_network.json   casts.json   genres.json   countries.json
+        │                    │             │              │
+        │ uuid               │ uuid        │ uuid         │ uuid
+        ▼                    ▼             ▼              ▼
 stories.json
+  country_uuid: string          ← country UUID
   orginalNetworks: string[]     ← network UUIDs
+  genres: string[]              ← genre UUIDs
   cast: [{ castUuid, characterName, role }]
 ```
 
-The React app resolves display names via `useCasts` / `useNetworks` and lookup helpers.
+The React app resolves display names via `useCasts` / `useNetworks` / `useGenres` / `useCountries` and lookup helpers.
 
 ---
 
@@ -129,7 +137,7 @@ The React app resolves display names via `useCasts` / `useNetworks` and lookup h
 
 ### `norm_name(s) -> str`
 
-**Purpose:** Canonical key for cast, network, and title comparisons.
+**Purpose:** Canonical key for cast, network, genre, and title comparisons.
 
 **Inputs:** Any value (passed through `clean`).
 
@@ -180,6 +188,18 @@ The React app resolves display names via `useCasts` / `useNetworks` and lookup h
 
 ---
 
+### `parse_genres(text) -> list[str]`
+
+**Purpose:** Split `Genres` into genre name strings.
+
+**Inputs:** Delimited text such as `"Historical, Romance"`.
+
+**Delimiters:** `,` `;` `/` `|`
+
+**Outputs:** Trimmed non-empty names, de-duplicated by `norm_name` within the cell (not yet UUID-resolved).
+
+---
+
 ### `parse_cast_blocks(text) -> list[dict]`
 
 **Purpose:** Parse `CastName,CharacterName and CastImage` into structured cast rows.
@@ -225,6 +245,8 @@ The React app resolves display names via `useCasts` / `useNetworks` and lookup h
 | `stories.json` | 2 |
 | `casts.json` | 4 |
 | `original_network.json` | 4 |
+| `genres.json` | 4 |
+| `countries.json` | 4 |
 
 ---
 
@@ -297,6 +319,16 @@ The React app resolves display names via `useCasts` / `useNetworks` and lookup h
 
 ---
 
+### `merge_genres(story, genre_uuids) -> int`
+
+**Purpose:** Append genre UUID strings to `genres`.
+
+**Dedup:** Exact UUID string membership.
+
+**Returns:** Count of newly appended UUIDs (exposed as `genre_refs_added` for existing-story updates).
+
+---
+
 ### Nested: `get_or_create_cast(name, image="") -> (uuid, created)`
 
 Defined inside `merge()`.
@@ -316,22 +348,40 @@ Defined inside `merge()`.
 
 ---
 
+### Nested: `get_or_create_genre(name) -> (uuid, created)`
+
+Defined inside `merge()`.
+
+- Lookup by `norm_name(name)`
+- Reuse or append `{ uuid, name }`
+
+---
+
+### Nested: `get_or_create_country(name) -> (uuid, created)`
+
+Defined inside `merge()`.
+
+- Lookup by `norm_name(name)` against the `country` field
+- Reuse or append `{ uuid, country }`
+
+---
+
 ### `merge(excel_path: Path) -> dict`
 
 **Purpose:** Orchestrate the full import.
 
 **Steps:**
 
-1. Load the three JSON files
+1. Load `stories.json`, `casts.json`, `original_network.json`, `genres.json`, and `countries.json` (create empty genres/countries lists if missing)
 2. Snapshot original UUID sets and counts
-3. Build `cast_by_name` / `network_by_name` indexes
+3. Build `cast_by_name` / `network_by_name` / `genre_by_name` / `country_by_name` indexes
 4. Open workbook (`data_only=True`), read first sheet headers
 5. For each data row with a non-empty `Title`:
-   - Parse fields (note Excel keys: `Epiosodes`, `EpiosodeLinks`, `Orginal Networks`, …)
-   - Resolve networks and casts
+   - Parse fields (note Excel keys: `Epiosodes`, `EpiosodeLinks`, `Orginal Networks`, `Genres`, `Country`, …)
+   - Resolve country, networks, genres, and casts
    - `find_story` → create or update
 6. Assert UUID preservation
-7. Write JSON files
+7. Write JSON files (including `genres.json` and `countries.json`)
 8. Return statistics dict
 
 **CLI:** `argparse` optional positional `excel` (default `ROOT / "docs" / "Story Hook Raw Data.xlsx"`), prints `json.dumps(stats)`.
@@ -345,19 +395,21 @@ Defined inside `merge()`.
 | Story | No match from `find_story` | Matched story keeps its UUID; never regenerated |
 | Cast | No name match in `casts.json` (+ in-run index) | Name matches via `norm_name` |
 | Network | No name match in `original_network.json` | Name matches via `norm_name` |
+| Genre | No name match in `genres.json` (+ in-run index) | Name matches via `norm_name` |
+| Country | No name match in `countries.json` (+ in-run index) | Name matches via `norm_name` on `country` |
 
 ### Referential integrity guarantees
 
-- New stories only store cast/network UUIDs obtained from `get_or_create_*`
-- Existing stories receive additional UUID refs via `merge_cast_refs` / `merge_networks`
-- After processing, `orig_story_uuids ⊆ {s["uuid"] for s in stories}` (and the same for casts/networks)
+- New stories only store cast/network/genre/country UUIDs obtained from `get_or_create_*`
+- Existing stories receive additional UUID refs via `merge_cast_refs` / `merge_networks` / `merge_genres`, and `country_uuid` via `fill_missing`
+- After processing, `orig_story_uuids ⊆ {s["uuid"] for s in stories}` (and the same for casts/networks/genres/countries)
 - Detail routes (`/detail/:uuid`) remain stable for existing dramas
 
 ### What is never done
 
 - Regenerating UUIDs for matched entities
-- Deleting UUID entries from the three arrays
-- Storing network or actor **names** inside `stories.json` relationship fields
+- Deleting UUID entries from the catalog arrays
+- Storing network, genre, country, or actor **names** inside `stories.json` relationship fields
 
 ---
 
@@ -368,24 +420,25 @@ Defined inside `merge()`.
 When `find_story` returns `None`, append a complete object:
 
 ```text
-uuid, title, mmTitle, story, country, rating, type, format,
+uuid, title, mmTitle, story, country_uuid, rating, type, format,
 watchLink, episodes, episodeLinks, aired, duration,
-orginalNetworks, cast, photos, coverPhoto
+orginalNetworks, cast, photos, coverPhoto, genres
 ```
 
-Defaults: `type` → `"Drama"`, `format` → `"Standard Series"`, `episodes` → `0` if unparseable.
+Defaults: `type` → `"Drama"`, `format` → `"Standard Series"`, `episodes` → `0` if unparseable, `genres` → `[]` when Excel has no genres, `country_uuid` → `""` when Excel has no country.
 
 ### Existing story
 
 | Field / collection | Strategy |
 |--------------------|----------|
-| `mmTitle`, `story`, `country`, `rating`, `type`, `format`, `watchLink`, `aired`, `duration` | `fill_missing` only |
+| `mmTitle`, `story`, `country_uuid`, `rating`, `type`, `format`, `watchLink`, `aired`, `duration` | `fill_missing` only |
 | `episodes` | Set only if Excel has a value and current episodes is falsy |
 | `coverPhoto` | Set only if current value is missing/empty |
 | `photos` | `merge_photos` (append unique URLs) |
 | `episodeLinks` | `merge_episodes` |
 | `cast` | `merge_cast_refs` |
 | `orginalNetworks` | `merge_networks` |
+| `genres` | `merge_genres` |
 
 Existing non-empty scalars are left untouched.
 
@@ -395,12 +448,12 @@ Existing non-empty scalars are left untouched.
 - Fill `image` only when absent and Excel provides a URL
 - Never rename the stored `name` field on match
 
-### Existing network
+### Existing network / genre / country
 
 - Reuse UUID
-- Never rename the stored `name` field on match
+- Never rename the stored `name` / `country` field on match
 
-### New cast / network
+### New cast / network / genre / country
 
 Append to the respective JSON array with a fresh UUID v4.
 
@@ -414,6 +467,8 @@ Append to the respective JSON array with a fresh UUID v4.
 assert orig_story_uuids.issubset({s["uuid"] for s in stories})
 assert orig_cast_uuids.issubset({c["uuid"] for c in casts})
 assert orig_network_uuids.issubset({n["uuid"] for n in networks})
+assert orig_genre_uuids.issubset({g["uuid"] for g in genres})
+assert orig_country_uuids.issubset({c["uuid"] for c in countries})
 ```
 
 Runs **before** `write_json`. Failure raises `AssertionError` and leaves files unchanged.
@@ -425,15 +480,21 @@ Runs **before** `write_json`. Failure raises `AssertionError` and leaves files u
 | Stories | Match before create |
 | Casts | Name index (`norm_name`) |
 | Networks | Name index (`norm_name`) |
+| Genres | Name index (`norm_name`) |
+| Countries | Name index (`norm_name` on `country`) |
 | Photos | Exact URL set |
 | Episodes | Title+link pair and link-only check |
 | Cast refs | `(castUuid, characterName)` |
 | Network refs | UUID membership |
+| Genre refs | UUID membership |
+| Country ref | Single `country_uuid` via `fill_missing` |
 
 ### Relationship consistency
 
 - Cast refs always point at UUIDs present in the in-memory `casts` list (created or reused in the same pass)
 - Network refs always point at UUIDs present in the in-memory `networks` list
+- Genre refs always point at UUIDs present in the in-memory `genres` list
+- `country_uuid` always points at a UUID present in the in-memory `countries` list when set
 - Typo field `orginalNetworks` is intentional and must stay aligned with `src/types/story.ts`
 
 ### Excel column contract
@@ -457,6 +518,7 @@ Orginal Networks
 CastName,CharacterName and CastImage
 Photos
 Cover Photo
+Genres
 ```
 
 ---
@@ -493,7 +555,7 @@ No `requirements.txt` entry is required for the web app; treat `openpyxl` as a *
 ### Maintenance checklist
 
 1. Keep Excel header names in sync with `merge()` `row.get(...)` keys.
-2. Keep written story shape aligned with `src/types/story.ts` (`Story`, `EpisodeLink`, `CastMember`).
+2. Keep written story shape aligned with `src/types/story.ts` (`Story`, `EpisodeLink`, `CastMember`, `Genre`, `Country`).
 3. Prefer extending merge helpers over rewriting JSON wholesale.
 4. After structural changes, run a dry merge against a copy of `src/data/` and diff.
 5. Commit JSON and script changes together when an import ships with code updates.
@@ -502,6 +564,7 @@ No `requirements.txt` entry is required for the web app; treat `openpyxl` as a *
 
 - Import a row that matches an existing title → expect `stories_updated`, stable UUID
 - Import a new title with a known cast name → expect cast UUID reuse
+- Import `Genres` like `Historical, Romance` → create missing genres, reuse known ones, write UUIDs on the story
 - Re-run the same Excel twice → second run should show updates with zero (or minimal) creates
 - Corrupt JSON deliberately → expect load failure before any write
 
@@ -526,20 +589,20 @@ No `requirements.txt` entry is required for the web app; treat `openpyxl` as a *
 
 ### Supporting additional relationship types
 
-Example: genres, tags, or directors as separate UUID directories.
+Example: tags or directors as separate UUID directories (genres already follow this pattern).
 
 1. Add `src/data/<entity>.json` and a TypeScript interface.
-2. Mirror `get_or_create_network` / `get_or_create_cast` for the new entity.
+2. Mirror `get_or_create_network` / `get_or_create_cast` / `get_or_create_genre` for the new entity.
 3. Store UUID arrays or ref objects on the story.
 4. Extend UUID snapshot assertions for the new file.
-5. Add hooks/lookup utilities in the React app similar to `useCasts` / `useNetworks`.
+5. Add hooks/lookup utilities in the React app similar to `useCasts` / `useNetworks` / `useGenres`.
 
 ### Extending validation rules
 
 Ideas that fit the current style:
 
 - Schema check: required keys on every story after merge
-- Orphan detection: every `castUuid` / network UUID referenced by stories exists in directories
+- Orphan detection: every `castUuid` / network / genre UUID referenced by stories exists in directories
 - Dry-run mode: compute stats without writing
 - Stricter episode title requirements (reject orphan URLs)
 

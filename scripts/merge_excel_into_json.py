@@ -92,6 +92,22 @@ def parse_networks(text) -> list[str]:
     return names
 
 
+def parse_genres(text) -> list[str]:
+    """Split Genres cell (e.g. \"Historical, Romance\") into genre names."""
+    names: list[str] = []
+    seen: set[str] = set()
+    for part in re.split(r"[,;/|]+", clean(text)):
+        name = part.strip()
+        if not name:
+            continue
+        key = norm_name(name)
+        if key in seen:
+            continue
+        seen.add(key)
+        names.append(name)
+    return names
+
+
 def parse_cast_blocks(text) -> list[dict]:
     text = clean(text)
     if not text:
@@ -129,6 +145,12 @@ def parse_cast_blocks(text) -> list[dict]:
 def load_json(path: Path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_json_or_default(path: Path, default):
+    if not path.exists():
+        return default
+    return load_json(path)
 
 
 def write_json(path: Path, data, indent: int = 2) -> None:
@@ -231,20 +253,56 @@ def merge_networks(story: dict, network_uuids: list[str]) -> int:
     return added
 
 
+def merge_genres(story: dict, genre_uuids: list[str]) -> int:
+    existing = story.setdefault("genres", [])
+    seen = set(existing)
+    added = 0
+    for uid in genre_uuids:
+        if uid not in seen:
+            existing.append(uid)
+            seen.add(uid)
+            added += 1
+    return added
+
+
 def merge(excel_path: Path) -> dict:
     stories = load_json(DATA / "stories.json")
     casts = load_json(DATA / "casts.json")
     networks = load_json(DATA / "original_network.json")
+    genres_path = DATA / "genres.json"
+    genres = load_json_or_default(genres_path, [])
+    if not isinstance(genres, list):
+        raise ValueError(f"Invalid genres data format in {genres_path}")
+    countries_path = DATA / "countries.json"
+    countries = load_json_or_default(countries_path, [])
+    if not isinstance(countries, list):
+        raise ValueError(f"Invalid countries data format in {countries_path}")
 
     orig_story_uuids = {s["uuid"] for s in stories}
     orig_cast_uuids = {c["uuid"] for c in casts}
     orig_network_uuids = {n["uuid"] for n in networks}
+    orig_genre_uuids = {g["uuid"] for g in genres if isinstance(g, dict) and "uuid" in g}
+    orig_country_uuids = {
+        c["uuid"] for c in countries if isinstance(c, dict) and "uuid" in c
+    }
     orig_story_count = len(stories)
     orig_cast_count = len(casts)
     orig_network_count = len(networks)
+    orig_genre_count = len(genres)
+    orig_country_count = len(countries)
 
     cast_by_name = {norm_name(c["name"]): c for c in casts}
     network_by_name = {norm_name(n["name"]): n for n in networks}
+    genre_by_name = {
+        norm_name(g["name"]): g
+        for g in genres
+        if isinstance(g, dict) and g.get("name")
+    }
+    country_by_name = {
+        norm_name(c["country"]): c
+        for c in countries
+        if isinstance(c, dict) and c.get("country")
+    }
 
     def get_or_create_cast(name: str, image: str = "") -> tuple[str, bool]:
         key = norm_name(name)
@@ -269,19 +327,42 @@ def merge(excel_path: Path) -> dict:
         network_by_name[key] = new
         return new["uuid"], True
 
+    def get_or_create_genre(name: str) -> tuple[str, bool]:
+        key = norm_name(name)
+        if key in genre_by_name:
+            return genre_by_name[key]["uuid"], False
+        new = {"uuid": str(uuid.uuid4()), "name": name}
+        genres.append(new)
+        genre_by_name[key] = new
+        return new["uuid"], True
+
+    def get_or_create_country(name: str) -> tuple[str, bool]:
+        key = norm_name(name)
+        if key in country_by_name:
+            return country_by_name[key]["uuid"], False
+        new = {"uuid": str(uuid.uuid4()), "country": name}
+        countries.append(new)
+        country_by_name[key] = new
+        return new["uuid"], True
+
     stats = {
         "rows": 0,
         "stories_created": 0,
         "stories_updated": 0,
         "casts_created": 0,
         "networks_created": 0,
+        "genres_created": 0,
+        "countries_created": 0,
         "photos_added": 0,
         "episodes_added": 0,
         "cast_refs_added": 0,
+        "genre_refs_added": 0,
         "created_titles": [],
         "updated_titles": [],
         "new_casts": [],
         "new_networks": [],
+        "new_genres": [],
+        "new_countries": [],
     }
 
     wb = openpyxl.load_workbook(excel_path, data_only=True)
@@ -297,7 +378,7 @@ def merge(excel_path: Path) -> dict:
 
         mm_title = clean(row.get("MMTitle"))
         story_text = clean(row.get("Story"))
-        country = clean(row.get("Country"))
+        country_name = clean(row.get("Country"))
         rating = clean(row.get("Rating"))
         stype = clean(row.get("Type")) or "Drama"
         sformat = clean(row.get("Format")) or "Standard Series"
@@ -313,11 +394,19 @@ def merge(excel_path: Path) -> dict:
         aired = clean(row.get("Aired"))
         duration = clean(row.get("Duration"))
         network_names = parse_networks(row.get("Orginal Networks"))
+        genre_names = parse_genres(row.get("Genres"))
         cast_blocks = parse_cast_blocks(
             row.get("CastName,CharacterName and CastImage")
         )
         photos = parse_urls(row.get("Photos"))
         cover = clean(row.get("Cover Photo"))
+
+        country_uuid = ""
+        if country_name:
+            country_uuid, country_created = get_or_create_country(country_name)
+            if country_created:
+                stats["countries_created"] += 1
+                stats["new_countries"].append(country_name)
 
         network_uuids: list[str] = []
         for nname in network_names:
@@ -326,6 +415,14 @@ def merge(excel_path: Path) -> dict:
             if created:
                 stats["networks_created"] += 1
                 stats["new_networks"].append(nname)
+
+        genre_uuids: list[str] = []
+        for gname in genre_names:
+            uid, created = get_or_create_genre(gname)
+            genre_uuids.append(uid)
+            if created:
+                stats["genres_created"] += 1
+                stats["new_genres"].append(gname)
 
         cast_refs: list[dict] = []
         for cb in cast_blocks:
@@ -349,7 +446,7 @@ def merge(excel_path: Path) -> dict:
                     "title": title,
                     "mmTitle": mm_title,
                     "story": story_text,
-                    "country": country,
+                    "country_uuid": country_uuid,
                     "rating": rating,
                     "type": stype,
                     "format": sformat,
@@ -362,6 +459,7 @@ def merge(excel_path: Path) -> dict:
                     "cast": cast_refs,
                     "photos": photos,
                     "coverPhoto": cover,
+                    "genres": genre_uuids,
                 }
             )
             stats["stories_created"] += 1
@@ -371,7 +469,7 @@ def merge(excel_path: Path) -> dict:
             stats["updated_titles"].append(existing.get("title", title))
             fill_missing(existing, "mmTitle", mm_title)
             fill_missing(existing, "story", story_text)
-            fill_missing(existing, "country", country)
+            fill_missing(existing, "country_uuid", country_uuid)
             fill_missing(existing, "rating", rating)
             fill_missing(existing, "type", stype)
             fill_missing(existing, "format", sformat)
@@ -386,23 +484,36 @@ def merge(excel_path: Path) -> dict:
             stats["episodes_added"] += merge_episodes(existing, episode_links)
             stats["cast_refs_added"] += merge_cast_refs(existing, cast_refs)
             merge_networks(existing, network_uuids)
+            stats["genre_refs_added"] += merge_genres(existing, genre_uuids)
 
     assert orig_story_uuids.issubset({s["uuid"] for s in stories})
     assert orig_cast_uuids.issubset({c["uuid"] for c in casts})
     assert orig_network_uuids.issubset({n["uuid"] for n in networks})
+    assert orig_genre_uuids.issubset(
+        {g["uuid"] for g in genres if isinstance(g, dict) and "uuid" in g}
+    )
+    assert orig_country_uuids.issubset(
+        {c["uuid"] for c in countries if isinstance(c, dict) and "uuid" in c}
+    )
 
     write_json(DATA / "stories.json", stories, indent=2)
     write_json(DATA / "casts.json", casts, indent=4)
     write_json(DATA / "original_network.json", networks, indent=4)
+    write_json(genres_path, genres, indent=4)
+    write_json(countries_path, countries, indent=4)
 
     stats.update(
         {
             "stories_before": orig_story_count,
             "casts_before": orig_cast_count,
             "networks_before": orig_network_count,
+            "genres_before": orig_genre_count,
+            "countries_before": orig_country_count,
             "stories_total": len(stories),
             "casts_total": len(casts),
             "networks_total": len(networks),
+            "genres_total": len(genres),
+            "countries_total": len(countries),
         }
     )
     return stats

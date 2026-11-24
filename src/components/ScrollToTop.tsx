@@ -10,7 +10,14 @@ const RESTORE_ON_REVISIT = new Set<string>([
 
 const savedPositions = new Map<string, number>();
 
+/**
+ * Browse/search list routes share one scroll key per pathname so query-param
+ * updates (filter sync) do not look like a new navigation and reset scroll.
+ */
 function scrollKey(pathname: string, search: string): string {
+  if (RESTORE_ON_REVISIT.has(pathname)) {
+    return pathname;
+  }
   return `${pathname}${search}`;
 }
 
@@ -36,6 +43,7 @@ function writeScrollY(y: number) {
 /**
  * Saves and restores window scroll across SPA navigations.
  * List routes restore on revisit; other routes restore on history POP only.
+ * Same-path query updates do not reset scroll.
  */
 export function ScrollToTop() {
   const { pathname, search } = useLocation();
@@ -43,6 +51,7 @@ export function ScrollToTop() {
   const key = scrollKey(pathname, search);
   const keyRef = useRef(key);
   const scrollYRef = useRef(readScrollY());
+  const hasLaidOutRef = useRef(false);
 
   useLayoutEffect(() => {
     if ('scrollRestoration' in history) {
@@ -68,11 +77,18 @@ export function ScrollToTop() {
 
   useLayoutEffect(() => {
     const previousKey = keyRef.current;
+    const keyChanged = previousKey !== key;
 
-    if (previousKey !== key) {
+    if (keyChanged) {
       savedPositions.set(previousKey, scrollYRef.current);
       keyRef.current = key;
     }
+
+    // Query-only / REPLACE updates keep the same scroll key — leave scroll alone.
+    if (hasLaidOutRef.current && !keyChanged) {
+      return;
+    }
+    hasLaidOutRef.current = true;
 
     const saved = savedPositions.get(key);
     const shouldRestore =

@@ -6,7 +6,7 @@
  *   --sitemap          Write public/sitemap.xml only
  *   --prerender        Prerender static HTML into dist/ (requires vite build output)
  *
- * Data source: src/data/stories.json (+ casts.json, original_network.json for JSON-LD).
+ * Data source: src/data/stories.json (+ casts.json, original_network.json, countries.json for JSON-LD).
  */
 import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -325,10 +325,13 @@ function buildBreadcrumbJsonLd(items) {
   };
 }
 
-function buildTvSeriesJsonLd(story, casts, networks) {
+function buildTvSeriesJsonLd(story, casts, networks, countries) {
   const castByUuid = new Map(casts.map((cast) => [cast.uuid, cast]));
   const networkByUuid = new Map(
     networks.map((network) => [network.uuid, network]),
+  );
+  const countryByUuid = new Map(
+    countries.map((country) => [country.uuid, country]),
   );
 
   const jsonLd = {
@@ -348,10 +351,14 @@ function buildTvSeriesJsonLd(story, casts, networks) {
 
   jsonLd.image = resolveShareImage(story.coverPhoto);
 
-  if (story.country?.trim()) {
+  const countryUuid = story.country_uuid?.trim();
+  const countryName = countryUuid
+    ? countryByUuid.get(countryUuid)?.country?.trim()
+    : undefined;
+  if (countryName) {
     jsonLd.countryOfOrigin = {
       '@type': 'Country',
-      name: story.country.trim(),
+      name: countryName,
     };
   }
 
@@ -470,17 +477,25 @@ function buildAboutRootHtml() {
 </main>`;
 }
 
-function buildDetailRootHtml(story, casts, networks) {
+function resolveCountryName(story, countries) {
+  const countryUuid = story.country_uuid?.trim();
+  if (!countryUuid) return '';
+  const match = countries.find((country) => country.uuid === countryUuid);
+  return match?.country?.trim() || '';
+}
+
+function buildDetailRootHtml(story, casts, networks, countries) {
   const cover = resolveShareImage(story.coverPhoto);
   const mmTitle = story.mmTitle?.trim() || '';
   const synopsis = (story.story || '').trim();
   const castMembers = resolveCastNames(story, casts);
   const networkNames = resolveNetworkNames(story, networks);
+  const countryName = resolveCountryName(story, countries);
 
   const metaRows = [];
-  if (story.country?.trim()) {
+  if (countryName) {
     metaRows.push(
-      `<div><dt>Country</dt><dd>${escapeHtmlText(story.country.trim())}</dd></div>`,
+      `<div><dt>Country</dt><dd>${escapeHtmlText(countryName)}</dd></div>`,
     );
   }
   if (story.rating?.trim()) {
@@ -596,6 +611,7 @@ function prerender(stories) {
   const template = readFileSync(templatePath, 'utf8');
   const casts = loadJson('src/data/casts.json');
   const networks = loadJson('src/data/original_network.json');
+  const countries = loadJson('src/data/countries.json');
 
   const homeMeta = {
     title: APP_NAME,
@@ -663,7 +679,7 @@ function prerender(stories) {
     };
 
     const jsonLd = [
-      buildTvSeriesJsonLd(story, casts, networks),
+      buildTvSeriesJsonLd(story, casts, networks, countries),
       buildBreadcrumbJsonLd([
         { name: APP_NAME, url: buildCanonicalHomeUrl() },
         {
@@ -675,7 +691,7 @@ function prerender(stories) {
 
     const html = injectRoot(
       injectHead(template, meta, jsonLd),
-      buildDetailRootHtml(story, casts, networks),
+      buildDetailRootHtml(story, casts, networks, countries),
     );
 
     writeHtmlFile(

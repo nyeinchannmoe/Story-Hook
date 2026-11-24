@@ -1,12 +1,10 @@
 import {
   ROUTES,
-  SEARCH_COUNTRIES,
   SEARCH_RATING_MAX,
   SEARCH_RATING_MIN,
   SEARCH_YEAR_MAX,
   SEARCH_YEAR_MIN,
   WATCHED_FILTER_OPTIONS,
-  type SearchCountry,
 } from '@/constants';
 import type { SearchFilters, StorySortMode } from '@/types/search';
 import type { WatchedFilter } from '@/types/watched';
@@ -22,9 +20,10 @@ export { parseRatingValue } from '@/utils/story';
 export function createDefaultFilters(): SearchFilters {
   return {
     keyword: '',
-    countries: [],
+    countryUuids: [],
     castUuids: [],
     networkUuids: [],
+    genreUuids: [],
     ratingFrom: SEARCH_RATING_MIN,
     ratingTo: SEARCH_RATING_MAX,
     episodesMin: '',
@@ -161,9 +160,12 @@ function matchesKeyword(story: Story, keyword: string): boolean {
 }
 
 /** Empty selection means all countries. */
-function matchesCountry(story: Story, countries: SearchCountry[]): boolean {
-  if (countries.length === 0) return true;
-  return countries.includes(story.country as SearchCountry);
+function matchesCountryUuids(story: Story, countryUuids: string[]): boolean {
+  if (countryUuids.length === 0) return true;
+  const storyCountry =
+    typeof story.country_uuid === 'string' ? story.country_uuid.trim() : '';
+  if (!storyCountry) return false;
+  return countryUuids.includes(storyCountry);
 }
 
 /** Story must include at least one selected cast UUID (OR). */
@@ -178,6 +180,13 @@ function matchesNetworkUuids(story: Story, networkUuids: string[]): boolean {
   if (networkUuids.length === 0) return true;
   const storyNetworks = new Set(story.orginalNetworks);
   return networkUuids.some((uuid) => storyNetworks.has(uuid));
+}
+
+/** Story must include at least one selected genre UUID (OR). */
+function matchesGenreUuids(story: Story, genreUuids: string[]): boolean {
+  if (genreUuids.length === 0) return true;
+  const storyGenres = new Set(story.genres ?? []);
+  return genreUuids.some((uuid) => storyGenres.has(uuid));
 }
 
 function matchesRating(
@@ -247,9 +256,10 @@ export function filterStories(
   return stories.filter(
     (story) =>
       matchesKeyword(story, filters.keyword) &&
-      matchesCountry(story, filters.countries) &&
+      matchesCountryUuids(story, filters.countryUuids) &&
       matchesCastUuids(story, filters.castUuids) &&
       matchesNetworkUuids(story, filters.networkUuids) &&
+      matchesGenreUuids(story, filters.genreUuids) &&
       matchesRating(story, filters.ratingFrom, filters.ratingTo) &&
       matchesEpisodes(story, filters.episodesMin, filters.episodesMax) &&
       matchesAiredYear(story, filters.yearFrom, filters.yearTo) &&
@@ -280,10 +290,8 @@ export function filtersToSearchParams(filters: SearchFilters): URLSearchParams {
     params.set('q', keyword);
   }
 
-  if (filters.countries.length > 0) {
-    for (const country of filters.countries) {
-      params.append('country', country);
-    }
+  for (const uuid of uniqueUuids(filters.countryUuids)) {
+    params.append('country', uuid);
   }
 
   for (const uuid of uniqueUuids(filters.castUuids)) {
@@ -292,6 +300,10 @@ export function filtersToSearchParams(filters: SearchFilters): URLSearchParams {
 
   for (const uuid of uniqueUuids(filters.networkUuids)) {
     params.append('network', uuid);
+  }
+
+  for (const uuid of uniqueUuids(filters.genreUuids)) {
+    params.append('genre', uuid);
   }
 
   if (filters.ratingFrom !== defaults.ratingFrom) {
@@ -330,17 +342,10 @@ export function searchParamsToFilters(
   const keyword =
     params.get('q')?.trim() || params.get('keyword')?.trim() || '';
 
-  const countryParams = params.getAll('country');
-  let countries: SearchCountry[] = [];
-
-  if (countryParams.length > 0) {
-    const valid = countryParams.filter((c): c is SearchCountry =>
-      (SEARCH_COUNTRIES as readonly string[]).includes(c),
-    );
-    if (valid.length > 0) {
-      countries = [...new Set(valid)];
-    }
-  }
+  const countryUuids = uniqueUuids([
+    ...params.getAll('country'),
+    ...params.getAll('countries'),
+  ]);
 
   const castUuids = uniqueUuids([
     ...params.getAll('cast'),
@@ -350,6 +355,11 @@ export function searchParamsToFilters(
   const networkUuids = uniqueUuids([
     ...params.getAll('network'),
     ...params.getAll('networks'),
+  ]);
+
+  const genreUuids = uniqueUuids([
+    ...params.getAll('genre'),
+    ...params.getAll('genres'),
   ]);
 
   const ratingFromRaw = params.get('ratingFrom');
@@ -406,9 +416,10 @@ export function searchParamsToFilters(
 
   return {
     keyword,
-    countries,
+    countryUuids,
     castUuids,
     networkUuids,
+    genreUuids,
     ratingFrom,
     ratingTo,
     episodesMin,
@@ -422,6 +433,7 @@ export function searchParamsToFilters(
 export function buildAdvancedSearchPath(options: {
   castUuid?: string;
   networkUuid?: string;
+  genreUuid?: string;
 }): string {
   const params = new URLSearchParams();
   if (options.castUuid?.trim()) {
@@ -429,6 +441,9 @@ export function buildAdvancedSearchPath(options: {
   }
   if (options.networkUuid?.trim()) {
     params.set('network', options.networkUuid.trim());
+  }
+  if (options.genreUuid?.trim()) {
+    params.set('genre', options.genreUuid.trim());
   }
   const query = params.toString();
   return query

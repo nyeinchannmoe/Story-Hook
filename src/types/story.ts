@@ -21,6 +21,16 @@ export interface OriginalNetwork {
   name: string;
 }
 
+export interface Genre {
+  uuid: string;
+  name: string;
+}
+
+export interface Country {
+  uuid: string;
+  country: string;
+}
+
 export interface ResolvedCastMember {
   castUuid: string;
   castName: string;
@@ -34,7 +44,7 @@ export interface Story {
   title: string;
   mmTitle: string;
   story: string;
-  country: string;
+  country_uuid: string;
   rating: string;
   type: string;
   format: string;
@@ -47,4 +57,5 @@ export interface Story {
   cast: CastMember[];
   photos: string[];
   coverPhoto: string;
+  genres: string[];
 }

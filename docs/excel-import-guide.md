@@ -6,7 +6,7 @@ End-user guide for importing Story Hook drama data from Excel into the project J
 
 ## Overview
 
-Story Hook keeps its catalog in three static JSON files under `src/data/`. When you receive new drama rows in a spreadsheet, run the merge script instead of editing JSON by hand.
+Story Hook keeps its catalog in static JSON files under `src/data/` (`stories.json`, `casts.json`, `original_network.json`, `genres.json`, `countries.json`). When you receive new drama rows in a spreadsheet, run the merge script instead of editing JSON by hand.
 
 ```text
 Prepare Excel workbook
@@ -16,13 +16,16 @@ Run merge_excel_into_json.py
         │
         ▼
 Script loads existing JSON (source of truth)
+  (creates genres.json / countries.json if missing)
         │
         ▼
 For each Excel row with a Title:
+  • Resolve / create countries
   • Resolve / create networks
+  • Resolve / create genres
   • Resolve / create casts
   • Match existing story OR create new story
-  • Merge photos, episodes, cast refs, networks
+  • Merge photos, episodes, cast refs, networks, genres, country_uuid
         │
         ▼
 Validate that all previous UUIDs still exist
@@ -32,12 +35,14 @@ Write updated:
   stories.json
   casts.json
   original_network.json
+  genres.json
+  countries.json
         │
         ▼
 Print JSON statistics report
 ```
 
-**Important:** Existing JSON is the source of truth. Excel is additional data to merge. The script never deletes stories, casts, or networks.
+**Important:** Existing JSON is the source of truth. Excel is additional data to merge. The script never deletes stories, casts, networks, genres, or countries.
 
 ---
 
@@ -79,7 +84,7 @@ Use the **first worksheet** only (for example `Sheet1`). Row 1 must be headers. 
 | Title | English title (required to import the row) |
 | MMTitle | Myanmar title |
 | Story | Synopsis / long description |
-| Country | Country of origin (for example `China`) |
+| Country | Country of origin name (for example `China`); resolved to a UUID in `countries.json` and stored on the story as `country_uuid` |
 | Rating | Rating string (for example `8.2/10`) |
 | Type | Content type (defaults to `Drama` if empty) |
 | Format | Format (defaults to `Standard Series` if empty) |
@@ -92,6 +97,7 @@ Use the **first worksheet** only (for example `Sheet1`). Row 1 must be headers. 
 | CastName,CharacterName and CastImage | Cast blocks (see format below) |
 | Photos | Additional image URLs (comma or whitespace separated) |
 | Cover Photo | Main poster URL |
+| Genres | Comma-separated genre names (for example `Historical, Romance`) |
 
 > **Header spellings:** The script reads the Excel headers exactly as shown above, including `Epiosodes`, `EpiosodeLinks`, and `Orginal Networks`. Renaming those headers will cause those fields to be ignored.
 
@@ -125,6 +131,46 @@ CCTV, Tencent Video
 ```text
 Netflix; Youku
 ```
+
+### Country format (`Country`)
+
+A single country name string:
+
+```text
+China
+```
+
+```text
+South Korea
+```
+
+Rules:
+
+- Matched case-insensitively against `countries.json` → `country`
+- Unknown names are created in `countries.json` with a new UUID
+- Stories store the country **UUID** in `country_uuid` (not the display name)
+- If `countries.json` does not exist yet, the script creates it
+- Existing non-empty `country_uuid` values are never overwritten (`fill_missing`)
+
+### Genres format (`Genres`)
+
+Comma-, semicolon-, slash-, or pipe-separated genre names:
+
+```text
+Historical, Romance
+```
+
+```text
+Drama; Life
+```
+
+Rules:
+
+- Each name is trimmed and matched case-insensitively against `genres.json`
+- Unknown genre names are created in `genres.json` with a new UUID
+- Story rows store genre **UUIDs** in `stories.json` → `genres: [uuid, ...]`
+- Duplicate names in the same cell are ignored
+- If `genres.json` does not exist yet, the script creates it
 
 ### Cast format (`CastName,CharacterName and CastImage`)
 
@@ -188,7 +234,7 @@ Everything except `Title` is optional. Defaults applied on create:
 | Type | `Drama` |
 | Format | `Standard Series` |
 | Episodes count | `0` |
-| Episode links / photos / cast / networks | `[]` |
+| Episode links / photos / cast / networks / genres | `[]` |
 
 ### Supported formats
 
@@ -200,7 +246,7 @@ Everything except `Title` is optional. Defaults applied on create:
 
 | Mistake | Result |
 |---------|--------|
-| Renaming `Epiosodes` / `EpiosodeLinks` / `Orginal Networks` | Those fields are not imported |
+| Renaming `Epiosodes` / `EpiosodeLinks` / `Orginal Networks` / `Genres` | Those fields are not imported |
 | Putting data on sheet 2 | Ignored; only the first sheet is read |
 | Missing blank line between cast blocks | Actors may be merged into one block |
 | Putting role on the wrong line | Character name or role may parse incorrectly |
@@ -212,7 +258,7 @@ Everything except `Title` is optional. Defaults applied on create:
 
 1. Keep a backup or commit of `src/data/` before importing.
 2. Put only **new or incremental** rows in the spreadsheet when possible.
-3. Keep actor and network names consistent with existing JSON (spelling and spacing).
+3. Keep actor, network, and genre names consistent with existing JSON (spelling and spacing).
 4. Run the script once, review the statistics report, then spot-check the JSON and the app UI.
 
 ---
@@ -280,9 +326,11 @@ On success, the script prints a JSON object to stdout. Example:
   "stories_updated": 0,
   "casts_created": 5,
   "networks_created": 0,
+  "genres_created": 1,
   "photos_added": 0,
   "episodes_added": 0,
   "cast_refs_added": 0,
+  "genre_refs_added": 2,
   "created_titles": [
     "The Tale of Rose (2024)"
   ],
@@ -292,12 +340,17 @@ On success, the script prints a JSON object to stdout. Example:
     "Wan Qian"
   ],
   "new_networks": [],
+  "new_genres": [
+    "Historical"
+  ],
   "stories_before": 5,
   "casts_before": 22,
   "networks_before": 8,
+  "genres_before": 3,
   "stories_total": 6,
   "casts_total": 27,
-  "networks_total": 8
+  "networks_total": 8,
+  "genres_total": 4
 }
 ```
 
@@ -310,19 +363,22 @@ On success, the script prints a JSON object to stdout. Example:
 | `stories_updated` | Existing stories matched and merged |
 | `casts_created` | New actors appended to `casts.json` |
 | `networks_created` | New networks appended to `original_network.json` |
+| `genres_created` | New genres appended to `genres.json` |
 | `photos_added` | Photo URLs appended to **existing** stories during update |
 | `episodes_added` | Episode links appended to **existing** stories during update |
 | `cast_refs_added` | Cast relationship entries appended to **existing** stories during update |
+| `genre_refs_added` | Genre UUID entries appended to **existing** stories during update |
 | `created_titles` | Titles of newly created stories |
 | `updated_titles` | Titles of matched existing stories |
 | `new_casts` | Names of newly created cast records |
 | `new_networks` | Names of newly created network records |
-| `stories_before` / `casts_before` / `networks_before` | Counts before merge |
-| `stories_total` / `casts_total` / `networks_total` | Counts after merge |
+| `new_genres` | Names of newly created genre records |
+| `stories_before` / `casts_before` / `networks_before` / `genres_before` | Counts before merge |
+| `stories_total` / `casts_total` / `networks_total` / `genres_total` | Counts after merge |
 
 Notes:
 
-- For **newly created** stories, photos and episodes are included in the new object; they are **not** counted in `photos_added` / `episodes_added` (those counters only track appends during updates).
+- For **newly created** stories, photos, episodes, and genres are included in the new object; they are **not** counted in `photos_added` / `episodes_added` / `genre_refs_added` (those counters only track appends during updates).
 - Network UUID appends on existing stories are merged silently (no separate counter in the report).
 
 ---
@@ -336,12 +392,13 @@ The importer is designed for production catalog files:
 | Never deletes existing stories | Only appends or in-place field fills |
 | Never deletes casts | Only appends new actors or fills a missing `image` |
 | Never deletes networks | Only appends new networks |
-| Never regenerates existing UUIDs | Matched cast/network/story UUIDs stay stable |
+| Never deletes genres | Only appends new genres |
+| Never regenerates existing UUIDs | Matched cast/network/genre/story UUIDs stay stable |
 | Never overwrites valid scalar fields | `fill_missing` only writes when the current value is empty |
 | Never overwrites a valid cover photo | Sets `coverPhoto` only if missing or empty |
 | Never removes photos | Appends URLs not already present |
 | Never removes episode links | Appends non-duplicate links only |
-| Never removes cast or network relations | Appends missing UUID references only |
+| Never removes cast, network, or genre relations | Appends missing UUID references only |
 | Post-merge UUID assertion | Aborts write path if any pre-existing UUID disappeared |
 
 If an assertion fails, the process raises and you should not treat the run as successful. (Writes occur after assertions; if an assert fails, files are not updated.)
@@ -394,12 +451,24 @@ NETFLIX
 
 Matched networks reuse their existing UUID inside `orginalNetworks` on the story.
 
+### Genre matching
+
+Genre names use the same `norm_name` rules. Examples treated as the same genre:
+
+```text
+Romance
+romance
+ Romance
+```
+
+Matched genres reuse their existing UUID inside `genres` on the story. Unknown names create a new `{ uuid, name }` entry in `genres.json`.
+
 ---
 
 ## After Import
 
 1. Review the statistics report for unexpected `stories_updated` or duplicate-looking titles.
-2. Open `src/data/stories.json`, `casts.json`, and `original_network.json` and spot-check the new entries.
+2. Open `src/data/stories.json`, `casts.json`, `original_network.json`, and `genres.json` and spot-check the new entries.
 3. Run the app (`npm run dev`) and open `/detail/<new-uuid>`.
 4. Commit the JSON changes when ready.
 

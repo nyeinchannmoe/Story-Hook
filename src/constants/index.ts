@@ -20,28 +20,13 @@ export const OG_DESCRIPTION_MAX = 200;
 
 export const SKELETON_CARD_COUNT = 6;
 
-export const SEARCH_COUNTRIES = [
-  'South Korea',
-  'China',
-  'Japan',
-  'Thailand',
-  'Vietnam',
-  'Indonesia',
-  'Malaysia',
-  'Philippines',
-  'Singapore',
-  'Hong Kong',
-  'Taiwan',
-  'Macau',
-  'Myanmar',
-] as const;
-
-export type SearchCountry = (typeof SEARCH_COUNTRIES)[number];
-
 export const SEARCH_RATING_MIN = 0;
 export const SEARCH_RATING_MAX = 10;
 export const SEARCH_YEAR_MIN = 1980;
 export const SEARCH_YEAR_MAX = new Date().getFullYear();
+
+/** Inactivity delay before Advanced Search auto-applies draft filters. */
+export const ADVANCED_SEARCH_DEBOUNCE_MS = 1000;
 
 /** Sentinel used when a cast UUID cannot be resolved; translate via common:unknownCast. */
 export const UNKNOWN_CAST_SENTINEL = '__unknown_cast__';

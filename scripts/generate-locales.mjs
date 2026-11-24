@@ -5,84 +5,6 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..', 'src', 'i18n', 'locales');
 
-const countries = {
-  en: {
-    'South Korea': 'South Korea',
-    China: 'China',
-    Japan: 'Japan',
-    Thailand: 'Thailand',
-    Vietnam: 'Vietnam',
-    Indonesia: 'Indonesia',
-    Malaysia: 'Malaysia',
-    Philippines: 'Philippines',
-    Singapore: 'Singapore',
-    'Hong Kong': 'Hong Kong',
-    Taiwan: 'Taiwan',
-    Macau: 'Macau',
-    Myanmar: 'Myanmar',
-  },
-  zh: {
-    'South Korea': '韩国',
-    China: '中国',
-    Japan: '日本',
-    Thailand: '泰国',
-    Vietnam: '越南',
-    Indonesia: '印度尼西亚',
-    Malaysia: '马来西亚',
-    Philippines: '菲律宾',
-    Singapore: '新加坡',
-    'Hong Kong': '香港',
-    Taiwan: '台湾',
-    Macau: '澳门',
-    Myanmar: '缅甸',
-  },
-  th: {
-    'South Korea': 'เกาหลีใต้',
-    China: 'จีน',
-    Japan: 'ญี่ปุ่น',
-    Thailand: 'ไทย',
-    Vietnam: 'เวียดนาม',
-    Indonesia: 'อินโดนีเซีย',
-    Malaysia: 'มาเลเซีย',
-    Philippines: 'ฟิลิปปินส์',
-    Singapore: 'สิงคโปร์',
-    'Hong Kong': 'ฮ่องกง',
-    Taiwan: 'ไต้หวัน',
-    Macau: 'มาเก๊า',
-    Myanmar: 'เมียนมา',
-  },
-  ko: {
-    'South Korea': '대한민국',
-    China: '중국',
-    Japan: '일본',
-    Thailand: '태국',
-    Vietnam: '베트남',
-    Indonesia: '인도네시아',
-    Malaysia: '말레이시아',
-    Philippines: '필리핀',
-    Singapore: '싱가포르',
-    'Hong Kong': '홍콩',
-    Taiwan: '대만',
-    Macau: '마카오',
-    Myanmar: '미얀마',
-  },
-  my: {
-    'South Korea': 'တောင်ကိုရီးယား',
-    China: 'တရုတ်',
-    Japan: 'ဂျပန်',
-    Thailand: 'ထိုင်း',
-    Vietnam: 'ဗီယက်နမ်',
-    Indonesia: 'အင်ဒိုနီးရှား',
-    Malaysia: 'မလေးရှား',
-    Philippines: 'ဖိလစ်ပိုင်',
-    Singapore: 'စင်္ကာပူ',
-    'Hong Kong': 'ဟောင်ကောင်',
-    Taiwan: 'ထိုင်ဝမ်',
-    Macau: 'မကာအို',
-    Myanmar: 'မြန်မာ',
-  },
-};
-
 const locales = {
   en: {
     common: {
@@ -171,9 +93,6 @@ const locales = {
       emptyTitle: 'No dramas found',
       emptyDescription: 'Try adjusting your filters',
       failedTitle: 'Failed to Load Dramas',
-    },
-    filters: {
-      countries: countries.en,
     },
     settings: {
       title: 'Settings',
@@ -342,7 +261,6 @@ const locales = {
       emptyDescription: '请尝试调整筛选条件',
       failedTitle: '加载剧集失败',
     },
-    filters: { countries: countries.zh },
     settings: {
       title: '设置',
       subtitle: '自定义您的 Story Hook 体验。',
@@ -505,7 +423,6 @@ const locales = {
       emptyDescription: 'ลองปรับตัวกรองของคุณ',
       failedTitle: 'โหลดซีรีส์ไม่สำเร็จ',
     },
-    filters: { countries: countries.th },
     settings: {
       title: 'การตั้งค่า',
       subtitle: 'ปรับแต่งประสบการณ์ Story Hook ของคุณ',
@@ -671,7 +588,6 @@ const locales = {
       emptyDescription: '필터를 조정해 보세요',
       failedTitle: '드라마를 불러오지 못했습니다',
     },
-    filters: { countries: countries.ko },
     settings: {
       title: '설정',
       subtitle: 'Story Hook 환경을 맞춤 설정하세요.',
@@ -839,7 +755,6 @@ const locales = {
       emptyDescription: 'စစ်ထုတ်မှုများကို ချိန်ညှိကြည့်ပါ',
       failedTitle: 'ဒရာမာများဖွင့်၍မရပါ',
     },
-    filters: { countries: countries.my },
     settings: {
       title: 'ဆက်တင်များ',
       subtitle: 'သင့် Story Hook အတွေ့အကြုံကို စိတ်ကြိုက်ပြင်ဆင်ပါ။',

@@ -7,5 +7,9 @@
   "invalidCastsFormat": "သရုပ်ဆောင်ဒေတာပုံစံ မမှန်ကန်ပါ",
   "failedLoadCasts": "သရုပ်ဆောင်များဖွင့်၍မရပါ",
   "invalidNetworksFormat": "ကွန်ရက်ဒေတာပုံစံ မမှန်ကန်ပါ",
-  "failedLoadNetworks": "ကွန်ရက်များဖွင့်၍မရပါ"
+  "failedLoadNetworks": "ကွန်ရက်များဖွင့်၍မရပါ",
+  "invalidGenresFormat": "အမျိုးအစားဒေတာပုံစံ မမှန်ကန်ပါ",
+  "failedLoadGenres": "အမျိုးအစားများဖွင့်၍မရပါ",
+  "invalidCountriesFormat": "နိုင်ငံဒေတာပုံစံ မမှန်ကန်ပါ",
+  "failedLoadCountries": "နိုင်ငံများဖွင့်၍မရပါ"
 }
