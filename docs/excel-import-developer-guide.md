@@ -334,7 +334,7 @@ Defined inside `merge()`.
 7. Write JSON files
 8. Return statistics dict
 
-**CLI:** `argparse` optional positional `excel` (default `~/Downloads/Story Hook Raw Data.xlsx`), prints `json.dumps(stats)`.
+**CLI:** `argparse` optional positional `excel` (default `ROOT / "docs" / "Story Hook Raw Data.xlsx"`), prints `json.dumps(stats)`.
 
 ---
 
@@ -477,15 +477,15 @@ source .venv/bin/activate
 pip install openpyxl
 ```
 
-Run from the repository root. On Windows, the Excel file is under the user Downloads folder (not `C:\Downloads\`):
+Run from the repository root. The workbook ships in `docs/`:
 
 ```powershell
-python scripts/merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
+python scripts/merge_excel_into_json.py "docs/Story Hook Raw Data.xlsx"
 ```
 
 ```bash
 # macOS / Linux
-python scripts/merge_excel_into_json.py ~/Downloads/Story\ Hook\ Raw\ Data.xlsx
+python scripts/merge_excel_into_json.py "docs/Story Hook Raw Data.xlsx"
 ```
 
 No `requirements.txt` entry is required for the web app; treat `openpyxl` as a **dev/content-ops** dependency.

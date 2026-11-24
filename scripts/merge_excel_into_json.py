@@ -424,9 +424,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "excel",
         nargs="?",
-        default=str(
-            Path.home() / "Downloads" / "Story Hook Raw Data.xlsx"
-        ),
+        default=str(ROOT / "docs" / "Story Hook Raw Data.xlsx"),
         help="Path to Story Hook Raw Data.xlsx",
     )
     args = parser.parse_args()

@@ -488,7 +488,8 @@ Story-Hook/
 ├── docs/
 │   ├── seo/                     # Technical SEO docs (start at docs/seo/README.md)
 │   ├── excel-import-guide.md    # End-user import guide
-│   └── excel-import-developer-guide.md
+│   ├── excel-import-developer-guide.md
+│   └── Story Hook Raw Data.xlsx # Excel source for the merge script
 ├── dist/                        # Production build output (gitignored)
 ├── eslint.config.js
 ├── index.html
@@ -716,11 +717,11 @@ Story Hook stores its catalog as static JSON (`stories.json`, `casts.json`, `ori
 # One-time dependency
 pip install openpyxl
 
-# From the repository root (Windows example)
-python scripts/merge_excel_into_json.py "C:\Downloads\Story Hook Raw Data.xlsx"
+# From the repository root
+python scripts/merge_excel_into_json.py "docs/Story Hook Raw Data.xlsx"
 ```
 
-Default Excel path if omitted: `~/Downloads/Story Hook Raw Data.xlsx`.
+Default Excel path if omitted: `docs/Story Hook Raw Data.xlsx` (repository root).
 
 ## Documentation
 

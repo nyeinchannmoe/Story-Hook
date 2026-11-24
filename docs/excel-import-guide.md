@@ -46,7 +46,7 @@ Print JSON statistics report
 - Python 3.10+ (3.11–3.13 recommended)
 - `openpyxl` package
 - A Story Hook repository checkout with writable `src/data/` files
-- An `.xlsx` workbook whose **first sheet** uses the expected column headers
+- The workbook at `docs/Story Hook Raw Data.xlsx` (or another `.xlsx` with the same headers on the **first sheet**)
 
 ### Install openpyxl
 
@@ -219,50 +219,48 @@ Everything except `Title` is optional. Defaults applied on create:
 
 ## Running the Import Script
 
-Always run from a context where paths resolve correctly. The script locates JSON relative to the repository root (`scripts/` → parent → `src/data/`).
+Always run from a context where paths resolve correctly. The script locates JSON relative to the repository root (`scripts/` → parent → `src/data/`). The Excel workbook lives at `docs/Story Hook Raw Data.xlsx` in the repository. Quote the path because the filename contains spaces.
 
 ### Windows
-
-Downloads lives under your user profile (`%USERPROFILE%\Downloads\`), not `C:\Downloads\`. Quote the path because the filename contains spaces.
 
 ```powershell
 cd C:\NCM\React\Story-Hook
 .\.venv\Scripts\Activate.ps1
-python scripts\merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
+python scripts\merge_excel_into_json.py "docs\Story Hook Raw Data.xlsx"
 ```
 
-Or with an explicit user path (replace the username if needed):
+Or with an absolute path:
 
 ```powershell
-python scripts\merge_excel_into_json.py "C:\Users\KTZ Myanmar Group 2\Downloads\Story Hook Raw Data.xlsx"
+python scripts\merge_excel_into_json.py "C:\NCM\React\Story-Hook\docs\Story Hook Raw Data.xlsx"
 ```
 
 Without activating the venv:
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\merge_excel_into_json.py "$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx"
+.\.venv\Scripts\python.exe scripts\merge_excel_into_json.py "docs\Story Hook Raw Data.xlsx"
 ```
 
 ### macOS
 
 ```bash
 cd ~/projects/Story-Hook
-python3 scripts/merge_excel_into_json.py ~/Downloads/Story\ Hook\ Raw\ Data.xlsx
+python3 scripts/merge_excel_into_json.py "docs/Story Hook Raw Data.xlsx"
 ```
 
 ### Linux
 
 ```bash
 cd ~/projects/Story-Hook
-python3 scripts/merge_excel_into_json.py ~/Downloads/Story\ Hook\ Raw\ Data.xlsx
+python3 scripts/merge_excel_into_json.py "docs/Story Hook Raw Data.xlsx"
 ```
 
 ### Default path
 
-If you omit the argument, the script uses:
+If you omit the argument, the script uses the workbook under `docs/` relative to the repository root:
 
 ```text
-~/Downloads/Story Hook Raw Data.xlsx
+docs/Story Hook Raw Data.xlsx
 ```
 
 ```bash
@@ -424,13 +422,13 @@ If you use a virtual environment, activate it first, or call that environment’
 ### Excel file not found
 
 ```text
-FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Downloads\\Story Hook Raw Data.xlsx'
+FileNotFoundError: [Errno 2] No such file or directory: '...\\docs\\Story Hook Raw Data.xlsx'
 ```
 
-- Confirm the path exists and quoting is correct (paths with spaces need quotes).
-- On Windows, do **not** use `C:\Downloads\...`. Use `%USERPROFILE%\Downloads\...` or `C:\Users\<YourName>\Downloads\...`.
-- In PowerShell, `$env:USERPROFILE\Downloads\Story Hook Raw Data.xlsx` resolves to the correct folder.
-- If you relied on the default `~/Downloads/...` path, verify the file name is exactly `Story Hook Raw Data.xlsx`.
+- Confirm the file exists at `docs/Story Hook Raw Data.xlsx` under the repository root.
+- Confirm quoting is correct (paths with spaces need quotes).
+- Run the script from the repository root, or pass an absolute path to the workbook.
+- If you relied on the default path, verify the file name is exactly `Story Hook Raw Data.xlsx` under `docs/`.
 
 ### Invalid or renamed column names
 
