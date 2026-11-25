@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants';
+import { BrandLogo } from './BrandLogo';
 import { SearchIconLink } from './SearchIconLink';
 
 export function Header() {
@@ -12,15 +13,13 @@ export function Header() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           to={ROUTES.HOME}
-          className="group flex items-center gap-2 transition-opacity hover:opacity-90"
+          className="group flex items-center gap-2.5 transition-opacity hover:opacity-90"
           aria-label={t('navigation:goHome', { appName })}
         >
-          <span
-            className="flex h-8 w-8 items-center justify-center rounded-lg gradient-accent text-sm font-bold text-white shadow-lg shadow-red-900/30"
-            aria-hidden="true"
-          >
-            {t('navigation:logoMark')}
-          </span>
+          <BrandLogo
+            size="md"
+            className="rounded-lg shadow-lg shadow-red-900/20"
+          />
           <span className="text-lg font-bold tracking-tight text-gradient sm:text-xl">
             {appName}
           </span>

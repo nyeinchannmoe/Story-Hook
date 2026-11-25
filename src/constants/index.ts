@@ -1,4 +1,5 @@
 export const APP_NAME = 'Story Hook';
+export const APP_SHORT_NAME = 'Story Hook';
 
 export const APP_DESCRIPTION =
   'Discover and explore curated Asian dramas.';
@@ -12,6 +13,18 @@ export const ROUTES = {
 } as const;
 
 export const PLACEHOLDER_IMAGE = '/placeholder-drama.svg';
+
+/** Public branded icon paths used by HTML metadata / splash (not Vite-bundled). */
+export const BRAND_ICONS = {
+  faviconIco: '/favicon.ico',
+  favicon16: '/favicon-16x16.png',
+  favicon32: '/favicon-32x32.png',
+  appleTouchIcon: '/apple-touch-icon.png',
+  splash: '/icons/app-icon-96.png',
+  pwa192: '/icons/pwa-192x192.png',
+  pwa512: '/icons/pwa-512x512.png',
+  pwa512Maskable: '/icons/pwa-512x512-maskable.png',
+} as const;
 
 /** Default absolute-path social preview image (Open Graph / Twitter). */
 export const DEFAULT_OG_IMAGE = '/og-default.png';

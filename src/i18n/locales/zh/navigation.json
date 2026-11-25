@@ -4,6 +4,5 @@
   "advancedSearch": "高级搜索",
   "settings": "设置",
   "about": "关于",
-  "goHome": "{{appName}} — 返回首页",
-  "logoMark": "SH"
+  "goHome": "{{appName}} — 返回首页"
 }

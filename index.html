@@ -2,12 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/icons/pwa-192x192.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0f" />
+    <meta name="application-name" content="Story Hook" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Story Hook" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="description" content="Discover and explore curated Asian dramas." />
     <meta name="robots" content="index, follow" />
@@ -71,11 +75,12 @@
         box-sizing: border-box;
       }
 
-      #app-boot-splash .app-boot-splash__mark {
-        width: 2.5rem;
-        height: 0.25rem;
-        border-radius: 9999px;
-        background: #e50914;
+      #app-boot-splash .app-boot-splash__logo {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 0.75rem;
+        object-fit: contain;
+        display: block;
       }
 
       #app-boot-splash .app-boot-splash__title {
@@ -160,7 +165,14 @@
   <body>
     <div id="app-boot-splash" aria-hidden="true">
       <div class="app-boot-splash__inner">
-        <div class="app-boot-splash__mark"></div>
+        <img
+          class="app-boot-splash__logo"
+          src="/icons/app-icon-96.png"
+          width="56"
+          height="56"
+          alt=""
+          decoding="async"
+        />
         <p class="app-boot-splash__title">Story Hook</p>
         <div class="app-boot-splash__bar">
           <div class="app-boot-splash__bar-fill"></div>

@@ -1,5 +1,6 @@
 export { Header } from './Header';
 export { Footer } from './Footer';
+export { BrandLogo } from './BrandLogo';
 export { PageContainer } from './PageContainer';
 export { RatingBadge } from './RatingBadge';
 export { LoadingSkeleton, DetailSkeleton } from './LoadingSkeleton';

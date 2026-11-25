@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/constants';
+import { BrandLogo } from './BrandLogo';
 
 export function Footer() {
   const { t } = useTranslation(['footer', 'common', 'navigation']);
@@ -11,13 +12,8 @@ export function Footer() {
     <footer className="mt-auto border-t border-white/5 bg-bg-secondary">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <div className="flex items-center gap-2">
-            <span
-              className="flex h-7 w-7 items-center justify-center rounded-md gradient-accent text-xs font-bold text-white"
-              aria-hidden="true"
-            >
-              {t('navigation:logoMark')}
-            </span>
+          <div className="flex items-center gap-2.5">
+            <BrandLogo size="sm" className="rounded-md" />
             <span className="font-semibold text-text-primary">{appName}</span>
           </div>
           <nav

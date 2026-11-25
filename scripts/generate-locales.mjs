@@ -35,7 +35,6 @@ const locales = {
       settings: 'Settings',
       about: 'About',
       goHome: '{{appName}} — Go to home',
-      logoMark: 'SH',
     },
     home: {
       titlePrefix: 'Discover',
@@ -210,7 +209,6 @@ const locales = {
       settings: '设置',
       about: '关于',
       goHome: '{{appName}} — 返回首页',
-      logoMark: 'SH',
     },
     home: {
       titlePrefix: '发现',
@@ -368,7 +366,6 @@ const locales = {
       settings: 'การตั้งค่า',
       about: 'เกี่ยวกับ',
       goHome: '{{appName}} — ไปหน้าแรก',
-      logoMark: 'SH',
     },
     home: {
       titlePrefix: 'ค้นพบ',
@@ -533,7 +530,6 @@ const locales = {
       settings: '설정',
       about: '소개',
       goHome: '{{appName}} — 홈으로 이동',
-      logoMark: 'SH',
     },
     home: {
       titlePrefix: '드라마',
@@ -698,7 +694,6 @@ const locales = {
       settings: 'ဆက်တင်များ',
       about: 'အကြောင်း',
       goHome: '{{appName}} — ပင်မစာမျက်နှာသို့',
-      logoMark: 'SH',
     },
     home: {
       titlePrefix: 'ရှာဖွေပါ',

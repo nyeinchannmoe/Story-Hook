@@ -1,8 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import { PageContainer, SEO } from '@/components';
+import { BrandLogo, PageContainer, SEO } from '@/components';
 
 export default function AboutPage() {
-  const { t } = useTranslation(['about', 'seo']);
+  const { t } = useTranslation(['about', 'seo', 'common']);
+  const appName = t('common:appName');
 
   const features = [
     t('about:featureBrowse'),
@@ -22,6 +23,12 @@ export default function AboutPage() {
 
       <PageContainer>
         <header className="mb-8 sm:mb-10">
+          <div className="mb-4 flex items-center gap-3">
+            <BrandLogo size="xl" className="rounded-xl" />
+            <span className="text-lg font-semibold tracking-tight text-gradient sm:text-xl">
+              {appName}
+            </span>
+          </div>
           <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
             {t('about:title')}
           </h1>

@@ -4,6 +4,5 @@
   "advancedSearch": "Advanced search",
   "settings": "Settings",
   "about": "About",
-  "goHome": "{{appName}} — Go to home",
-  "logoMark": "SH"
+  "goHome": "{{appName}} — Go to home"
 }

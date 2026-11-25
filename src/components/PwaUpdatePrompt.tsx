@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { PwaUpdatePhase } from '@/hooks/usePwaUpdate';
+import { BrandLogo } from './BrandLogo';
 
 interface PwaUpdatePromptProps {
   visible: boolean;
@@ -33,12 +34,7 @@ export function PwaUpdatePrompt({
     >
       <div className="glass w-full max-w-md rounded-2xl border border-white/10 p-4 shadow-2xl shadow-black/50 sm:p-5">
         <div className="flex items-start gap-3">
-          <span
-            className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg gradient-accent text-sm font-bold text-white"
-            aria-hidden="true"
-          >
-            ↑
-          </span>
+          <BrandLogo size="lg" className="mt-0.5 rounded-lg" />
           <div className="min-w-0 flex-1">
             <h2
               id="pwa-update-title"
