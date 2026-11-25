@@ -1,161 +1,232 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import {
+  PWA_INTERACTION_EVENTS,
+  isSafeToApplyPwaUpdate,
+} from '@/utils/pwaUpdateSafety';
 
 const UPDATE_CHECK_INTERVAL_MS = 60 * 60 * 1000;
-const DISMISS_SESSION_KEY = 'story-hook-pwa-update-dismissed';
-
-export type PwaUpdatePhase = 'idle' | 'ready' | 'updating' | 'failed';
+const UPDATE_CHECK_DEBOUNCE_MS = 10_000;
+const SAFE_APPLY_POLL_MS = 1_000;
 
 export interface PwaUpdateState {
-  needRefresh: boolean;
   offlineReady: boolean;
-  phase: PwaUpdatePhase;
-  updateError: string | null;
-  updateNow: () => Promise<void>;
-  dismiss: () => void;
   checkForUpdates: () => void;
 }
 
-function readDismissedFingerprint(): string | null {
-  try {
-    return sessionStorage.getItem(DISMISS_SESSION_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function writeDismissedFingerprint(value: string): void {
-  try {
-    sessionStorage.setItem(DISMISS_SESSION_KEY, value);
-  } catch {
-    // Ignore quota / private-mode failures.
-  }
-}
-
-function clearDismissedFingerprint(): void {
-  try {
-    sessionStorage.removeItem(DISMISS_SESSION_KEY);
-  } catch {
-    // Ignore storage failures.
-  }
-}
-
 /**
- * Service worker registration + user-prompted deployment update lifecycle.
- * New workers stay waiting until the user chooses Update Now.
+ * Automatic background PWA updates with safe activation.
+ *
+ * Keeps vite-plugin-pwa `registerType: 'prompt'` + `skipWaiting: false` so the
+ * new worker finishes installing/precaching while the current version stays
+ * active. Activation (SKIP_WAITING) and reload run only at a safe point —
+ * never via the old Update Now dialog, and not via blind `autoUpdate` reloads.
  */
 export function usePwaUpdate(): PwaUpdateState {
-  const [phase, setPhase] = useState<PwaUpdatePhase>('idle');
-  const [updateError, setUpdateError] = useState<string | null>(null);
-  const [dismissed, setDismissed] = useState(false);
   const registrationRef = useRef<ServiceWorkerRegistration | null>(null);
-  const waitingFingerprintRef = useRef<string | null>(null);
   const intervalRef = useRef<number | null>(null);
+  const pollRef = useRef<number | null>(null);
+  const checkInFlightRef = useRef(false);
+  const lastCheckAtRef = useRef(0);
+  const updateReadyRef = useRef(false);
+  const activatingRef = useRef(false);
+  const pendingReloadRef = useRef(false);
+  const lastInteractionAtRef = useRef(Date.now());
+  const updateServiceWorkerRef = useRef<(reloadPage?: boolean) => Promise<void>>(
+    async () => undefined,
+  );
+  const tryApplyRef = useRef<() => void>(() => undefined);
+
+  const stopPolling = useCallback(() => {
+    if (pollRef.current != null) {
+      window.clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+  }, []);
+
+  const ensurePolling = useCallback(() => {
+    if (pollRef.current != null) return;
+    if (!updateReadyRef.current && !pendingReloadRef.current) return;
+
+    pollRef.current = window.setInterval(() => {
+      tryApplyRef.current();
+    }, SAFE_APPLY_POLL_MS);
+  }, []);
+
+  const tryApply = useCallback(() => {
+    const safe = isSafeToApplyPwaUpdate({
+      lastInteractionAt: lastInteractionAtRef.current,
+    });
+
+    if (pendingReloadRef.current) {
+      if (!safe) {
+        ensurePolling();
+        return;
+      }
+      pendingReloadRef.current = false;
+      stopPolling();
+      window.location.reload();
+      return;
+    }
+
+    if (!updateReadyRef.current || activatingRef.current) {
+      if (!updateReadyRef.current && !pendingReloadRef.current) {
+        stopPolling();
+      }
+      return;
+    }
+
+    if (!safe) {
+      ensurePolling();
+      return;
+    }
+
+    activatingRef.current = true;
+    ensurePolling();
+
+    void updateServiceWorkerRef
+      .current()
+      .catch((error: unknown) => {
+        activatingRef.current = false;
+        console.warn(
+          '[pwa-update] Failed to activate waiting service worker; keeping current version.',
+          error,
+        );
+      });
+  }, [ensurePolling, stopPolling]);
+
+  tryApplyRef.current = tryApply;
 
   const {
-    offlineReady: [offlineReady, setOfflineReady],
-    needRefresh: [needRefresh, setNeedRefresh],
+    offlineReady: [offlineReady],
     updateServiceWorker,
   } = useRegisterSW({
     immediate: true,
-    onRegisteredSW(_swUrl, registration) {
-      registrationRef.current = registration ?? null;
-
-      if (!registration) return;
-
-      const check = () => {
-        if (typeof navigator !== 'undefined' && !navigator.onLine) return;
-        void registration.update().catch(() => {
-          // Keep the installed version; retry on next opportunity.
-        });
-      };
-
-      check();
-      intervalRef.current = window.setInterval(check, UPDATE_CHECK_INTERVAL_MS);
-    },
-    onRegisterError() {
-      setUpdateError('registerFailed');
-      setPhase('failed');
+    onNeedReload() {
+      // New worker already controlling (this tab or a sibling activated it).
+      pendingReloadRef.current = true;
+      updateReadyRef.current = false;
+      activatingRef.current = false;
+      tryApplyRef.current();
     },
     onNeedRefresh() {
-      const fingerprint =
-        registrationRef.current?.waiting?.scriptURL ??
-        `need-refresh-${Date.now()}`;
-      waitingFingerprintRef.current = fingerprint;
-
-      const dismissedFingerprint = readDismissedFingerprint();
-      if (dismissedFingerprint && dismissedFingerprint === fingerprint) {
-        setDismissed(true);
-        setPhase('idle');
-        return;
-      }
-
-      setDismissed(false);
-      setUpdateError(null);
-      setPhase('ready');
+      // Waiting worker finished install/precache; activate when safe.
+      updateReadyRef.current = true;
+      activatingRef.current = false;
+      tryApplyRef.current();
     },
-    onOfflineReady() {
-      setOfflineReady(true);
+    onRegisteredSW(_swUrl, registration) {
+      registrationRef.current = registration ?? null;
+      if (!registration) return;
+
+      const runUpdateCheck = () => {
+        if (typeof navigator !== 'undefined' && !navigator.onLine) return;
+        if (checkInFlightRef.current) return;
+
+        const now = Date.now();
+        if (now - lastCheckAtRef.current < UPDATE_CHECK_DEBOUNCE_MS) return;
+
+        checkInFlightRef.current = true;
+        lastCheckAtRef.current = now;
+
+        void registration
+          .update()
+          .catch((error: unknown) => {
+            console.warn(
+              '[pwa-update] Update check failed; will retry later.',
+              error,
+            );
+          })
+          .finally(() => {
+            checkInFlightRef.current = false;
+          });
+      };
+
+      runUpdateCheck();
+      intervalRef.current = window.setInterval(
+        runUpdateCheck,
+        UPDATE_CHECK_INTERVAL_MS,
+      );
+    },
+    onRegisterError(error) {
+      console.warn(
+        '[pwa-update] Service worker registration failed; app continues without SW updates.',
+        error,
+      );
     },
   });
 
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current != null) {
-        window.clearInterval(intervalRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (needRefresh && !dismissed) {
-      setPhase((current) => (current === 'updating' ? current : 'ready'));
-    }
-  }, [needRefresh, dismissed]);
+  updateServiceWorkerRef.current = updateServiceWorker;
 
   const checkForUpdates = useCallback(() => {
     const registration = registrationRef.current;
     if (!registration) return;
     if (typeof navigator !== 'undefined' && !navigator.onLine) return;
-    void registration.update().catch(() => {
-      // Preserve last good version; connectivity may return later.
-    });
+    if (checkInFlightRef.current) return;
+
+    const now = Date.now();
+    if (now - lastCheckAtRef.current < UPDATE_CHECK_DEBOUNCE_MS) return;
+
+    checkInFlightRef.current = true;
+    lastCheckAtRef.current = now;
+
+    void registration
+      .update()
+      .catch((error: unknown) => {
+        console.warn(
+          '[pwa-update] Update check failed; will retry later.',
+          error,
+        );
+      })
+      .finally(() => {
+        checkInFlightRef.current = false;
+      });
   }, []);
 
-  const updateNow = useCallback(async () => {
-    setPhase('updating');
-    setUpdateError(null);
-    clearDismissedFingerprint();
+  useEffect(() => {
+    const markInteraction = () => {
+      lastInteractionAtRef.current = Date.now();
+    };
 
-    try {
-      await updateServiceWorker(true);
-    } catch {
-      setUpdateError('updateFailed');
-      setPhase('failed');
+    for (const eventName of PWA_INTERACTION_EVENTS) {
+      window.addEventListener(eventName, markInteraction, {
+        capture: true,
+        passive: true,
+      });
     }
-  }, [updateServiceWorker]);
 
-  const dismiss = useCallback(() => {
-    const fingerprint =
-      waitingFingerprintRef.current ??
-      registrationRef.current?.waiting?.scriptURL ??
-      'dismissed';
-    writeDismissedFingerprint(fingerprint);
-    setDismissed(true);
-    setNeedRefresh(false);
-    setPhase('idle');
-    setUpdateError(null);
-  }, [setNeedRefresh]);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        checkForUpdates();
+        tryApplyRef.current();
+      }
+    };
 
-  const showPrompt = needRefresh && !dismissed && phase !== 'idle';
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        checkForUpdates();
+        tryApplyRef.current();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      for (const eventName of PWA_INTERACTION_EVENTS) {
+        window.removeEventListener(eventName, markInteraction, true);
+      }
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('pageshow', handlePageShow);
+      if (intervalRef.current != null) {
+        window.clearInterval(intervalRef.current);
+      }
+      stopPolling();
+    };
+  }, [checkForUpdates, stopPolling]);
 
   return {
-    needRefresh: showPrompt || phase === 'updating' || phase === 'failed',
     offlineReady,
-    phase: showPrompt || phase === 'updating' || phase === 'failed' ? phase : 'idle',
-    updateError,
-    updateNow,
-    dismiss,
     checkForUpdates,
   };
 }

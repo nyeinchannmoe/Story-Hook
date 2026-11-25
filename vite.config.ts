@@ -9,6 +9,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      // Keep prompt + skipWaiting:false so clients decide when to activate.
+      // Blind autoUpdate would reload without the safe-activation gate in
+      // usePwaUpdate (typing, dialogs, filter UI, multi-tab coordination).
       registerType: 'prompt',
       injectRegister: false,
       includeAssets: [

@@ -22,6 +22,6 @@
   "markSeriesUnwatched": "Remove already watched status from {{title}}",
   "markEpisodeWatched": "Mark episode {{index}} ({{title}}) as watched",
   "markEpisodeUnwatched": "Mark episode {{index}} ({{title}}) as not watched",
-  "offlineStatus": "Application is offline. Cached content remains available.",
-  "pwaUpdateAvailable": "A new application version is ready to install."
+  "offlineStatus": "Application is offline. Cached content remains available."
 }
+
