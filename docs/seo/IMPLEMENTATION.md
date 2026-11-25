@@ -40,7 +40,7 @@ This document describes the **final implemented** SEO work in Story Hook, not a 
 
 1. **Stay on Vite SPA** — no Next.js migration.
 2. **Build-time prerender** after `vite build` — injects meta + semantic `#root` HTML using the built asset template so script/link hashes stay correct.
-3. **`createRoot` (not `hydrateRoot`)** — prerender is a crawler-oriented HTML snapshot; React replaces `#root` for the interactive UI. This avoids brittle hydration mismatches while still shipping meaningful first HTML.
+3. **`createRoot` (not `hydrateRoot`)** — prerender is a crawler-oriented HTML snapshot; React replaces `#root` for the interactive UI. This avoids brittle hydration mismatches while still shipping meaningful first HTML. Prerender roots use `class="sr-only"` (plus critical CSS clip) so sighted users see the boot splash, not raw text, until `html.app-mounted`.
 4. **Canonical homepage is `/`** — `/home` is prerendered for direct hits but canonicalizes to `/` to prevent duplicates.
 5. **Production origin for canonicals** — always `https://story-hook.vercel.app` so preview hosts do not become preferred URLs.
 6. **Middleware narrowed to `/detail/:uuid`** — only enforces 404 for missing dramas; valid pages are served from static prerender files.

@@ -515,6 +515,26 @@ export function injectSocialMeta(
   return `${tags}\n${stripped}`;
 }
 
+/**
+ * Class on prerendered root landmarks: crawlable/accessible text stays in the
+ * DOM while sighted users see the boot splash until React mounts.
+ * Mirrored by scripts/generate-seo-assets.mjs builders.
+ */
+export const PRERENDER_ROOT_CLASS = 'sr-only';
+
+/** Not-found body injected by Edge Middleware when 404.html is unavailable. */
+export function buildNotFoundRootHtml(): string {
+  return `<main class="${PRERENDER_ROOT_CLASS}">
+  <h1>Drama Not Found</h1>
+  <p>The requested drama could not be found.</p>
+  <p><a href="/home">Browse all dramas</a></p>
+</main>`;
+}
+
+/**
+ * Replace `#root` inner HTML only. Sibling boot splash / failed-load nodes
+ * outside `#root` are preserved (same contract as generate-seo-assets injectRoot).
+ */
 export function injectRootContent(html: string, rootInnerHtml: string): string {
   if (/<div id="root"><\/div>/i.test(html)) {
     return html.replace(

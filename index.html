@@ -27,9 +27,180 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>Story Hook</title>
+    <style id="app-boot-critical">
+      html {
+        background: #0a0a0f;
+      }
+
+      /* Visually hide prerendered SEO content before Tailwind loads (clip, not display:none). */
+      #root > main {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      #app-boot-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483646;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        background: #0a0a0f;
+        color: #f4f4f5;
+        font-family: Inter, system-ui, sans-serif;
+        pointer-events: none;
+      }
+
+      #app-boot-splash .app-boot-splash__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: min(16rem, 80vw);
+        padding: 1.75rem 1.5rem;
+        border-radius: 0.75rem;
+        background: #1a1a24;
+        box-sizing: border-box;
+      }
+
+      #app-boot-splash .app-boot-splash__mark {
+        width: 2.5rem;
+        height: 0.25rem;
+        border-radius: 9999px;
+        background: #e50914;
+      }
+
+      #app-boot-splash .app-boot-splash__title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.2;
+      }
+
+      #app-boot-splash .app-boot-splash__bar {
+        width: 100%;
+        height: 0.25rem;
+        overflow: hidden;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      #app-boot-splash .app-boot-splash__bar-fill {
+        width: 40%;
+        height: 100%;
+        border-radius: inherit;
+        background: #e50914;
+        transform-origin: left center;
+        animation: app-boot-bar 1.1s ease-in-out infinite;
+      }
+
+      @keyframes app-boot-bar {
+        0% {
+          transform: translateX(-30%) scaleX(0.55);
+        }
+        50% {
+          transform: translateX(120%) scaleX(1);
+        }
+        100% {
+          transform: translateX(230%) scaleX(0.55);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #app-boot-splash .app-boot-splash__bar-fill {
+          width: 100%;
+          animation: none;
+          opacity: 0.85;
+        }
+      }
+
+      html.app-mounted #app-boot-splash,
+      html.app-boot-failed #app-boot-splash,
+      html:has(#root > :not(main)) #app-boot-splash {
+        display: none !important;
+      }
+
+      html.app-boot-failed #root > main {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+      }
+
+      #app-boot-failed {
+        display: none;
+        box-sizing: border-box;
+        max-width: 36rem;
+        margin: 2rem auto;
+        padding: 1.25rem 1.5rem;
+        border-radius: 0.75rem;
+        background: #1a1a24;
+        color: #f4f4f5;
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.5;
+      }
+
+      html.app-boot-failed #app-boot-failed {
+        display: block;
+      }
+    </style>
   </head>
   <body>
+    <div id="app-boot-splash" aria-hidden="true">
+      <div class="app-boot-splash__inner">
+        <div class="app-boot-splash__mark"></div>
+        <p class="app-boot-splash__title">Story Hook</p>
+        <div class="app-boot-splash__bar">
+          <div class="app-boot-splash__bar-fill"></div>
+        </div>
+      </div>
+    </div>
+    <div id="app-boot-failed" role="status">
+      <p><strong>Story Hook</strong> could not finish loading. Check your connection and refresh the page.</p>
+      <p><a href="/home" style="color: #e50914">Browse dramas</a></p>
+    </div>
     <div id="root"></div>
+    <noscript>
+      <style>
+        #app-boot-splash {
+          display: none !important;
+        }
+        #root > main {
+          position: static !important;
+          width: auto !important;
+          height: auto !important;
+          margin: 0 !important;
+          overflow: visible !important;
+          clip: auto !important;
+          white-space: normal !important;
+        }
+        #app-boot-failed {
+          display: none !important;
+        }
+      </style>
+    </noscript>
+    <script>
+      (function () {
+        var BOOT_FAIL_MS = 12000;
+        window.setTimeout(function () {
+          var root = document.documentElement;
+          if (root.classList.contains('app-mounted')) return;
+          root.classList.add('app-boot-failed');
+        }, BOOT_FAIL_MS);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

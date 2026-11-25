@@ -60,14 +60,10 @@ function ensureStoriesCache(): StoriesCache {
 }
 
 export function useStories(): UseStoriesResult {
-  const hasCache = storiesCache !== null;
-  const [stories, setStories] = useState<Story[]>(
-    () => storiesCache?.stories ?? [],
-  );
-  const [loading, setLoading] = useState(!hasCache);
-  const [error, setError] = useState<string | null>(
-    () => storiesCache?.error ?? null,
-  );
+  const initial = ensureStoriesCache();
+  const [stories, setStories] = useState<Story[]>(initial.stories);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(initial.error);
 
   const applyCache = useCallback((cache: StoriesCache) => {
     storiesCache = cache;
@@ -83,18 +79,11 @@ export function useStories(): UseStoriesResult {
   }, [applyCache]);
 
   useEffect(() => {
-    if (storiesCache) {
-      applyCache(storiesCache);
-      return;
-    }
-
-    // First visit only: brief skeleton for catalog UX.
-    const timer = window.setTimeout(() => {
-      applyCache(ensureStoriesCache());
-    }, 400);
-
-    return () => window.clearTimeout(timer);
-  }, [applyCache]);
+    const cache = ensureStoriesCache();
+    setStories(cache.stories);
+    setError(cache.error);
+    setLoading(false);
+  }, []);
 
   return { stories, loading, error, refetch: loadStories };
 }

@@ -60,8 +60,8 @@ flowchart TD
 2. `generate-seo-assets.mjs --prerender` reads `dist/index.html` as a template.
 3. For each public route it:
    - injects route-specific `<title>`, description, robots, canonical, Open Graph, Twitter, JSON-LD
-   - injects meaningful semantic HTML into `#root` (titles, synopsis, cover, cast, metadata)
-4. React still mounts with `createRoot` and replaces `#root` for the interactive app. Crawlers that do not execute JS still receive the prerendered content and metadata.
+   - injects meaningful semantic HTML into `#root` (titles, synopsis, cover, cast, metadata), wrapped in `<main class="sr-only">` so crawlers/screen readers keep the text while sighted users see the boot splash
+4. React still mounts with `createRoot` and replaces `#root` for the interactive app. Crawlers that do not execute JS still receive the prerendered content and metadata. A critical CSS boot splash outside `#root` covers the gap until `html.app-mounted` is set by `DocumentLanguage` after the app shell mounts (with a timed failed-load fallback, `:has(#root > :not(main))` CSS fallback, and `noscript` unhide).
 
 **Pages prerendered**
 
@@ -181,7 +181,7 @@ npm run lint
 | Social preview stale | Platform cache | Rescrape in Facebook/LinkedIn debuggers |
 | Preview deploy wrong host in tags | Expected for absolute production canonicals | Canonicals intentionally prefer production origin |
 | `verify:seo` warns dist missing | Preview without build | Run `npm run build` first |
-| React flash of prerender HTML | `createRoot` replaces `#root` | Expected; not hydration mismatch from SSR |
+| Flash of unstyled prerender text | Prerender lacked visual hide / splash | Prerender root uses `sr-only` + boot splash outside `#root` until `app-mounted` |
 
 ## Manual steps outside the repo
 

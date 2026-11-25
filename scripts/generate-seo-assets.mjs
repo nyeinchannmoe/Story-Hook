@@ -281,6 +281,7 @@ function injectHead(html, meta, jsonLdObjects = []) {
   return `${tags}\n${stripped}`;
 }
 
+/** Replace `#root` inner HTML only; keep boot splash siblings outside `#root`. */
 function injectRoot(html, rootInnerHtml) {
   if (/<div id="root"><\/div>/i.test(html)) {
     return html.replace(
@@ -450,7 +451,7 @@ function buildHomeRootHtml(stories) {
     })
     .join('\n');
 
-  return `<main>
+  return `<main class="sr-only">
   <header>
     <h1>${escapeHtmlText(APP_NAME)}</h1>
     <p>${escapeHtmlText(DEFAULT_SITE_DESCRIPTION)}</p>
@@ -468,7 +469,7 @@ ${items}
 }
 
 function buildAboutRootHtml() {
-  return `<main>
+  return `<main class="sr-only">
   <article>
     <h1>About ${escapeHtmlText(APP_NAME)}</h1>
     <p>Story Hook is a curated catalog of Asian dramas with English and Myanmar titles, synopses, cast information, and episode details.</p>
@@ -557,7 +558,8 @@ ${castMembers
 </section>`
       : '';
 
-  return `<article>
+  return `<main class="sr-only">
+  <article>
   <nav aria-label="Breadcrumb">
     <a href="/">${escapeHtmlText(APP_NAME)}</a>
     <span aria-hidden="true"> / </span>
@@ -583,11 +585,12 @@ ${castMembers
   }
   ${castHtml}
   <p><a href="/home">Back to catalog</a></p>
-</article>`;
+</article>
+</main>`;
 }
 
 function buildNotFoundRootHtml() {
-  return `<main>
+  return `<main class="sr-only">
   <h1>Drama Not Found</h1>
   <p>The requested drama could not be found.</p>
   <p><a href="/home">Browse all dramas</a></p>

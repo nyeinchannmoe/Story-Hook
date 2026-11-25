@@ -75,7 +75,7 @@ Landing (/) ──redirect──► Home (/home)
                      Watch Now (external)    preference
 ```
 
-1. **Browse** — Open `/home`, wait for the short loading skeleton, then scan drama cards.
+1. **Browse** — Open `/home`, then scan drama cards (catalog JSON loads from the module cache; skeletons still appear for real async paths and refetch).
 2. **Open details** — Click a card or “View Details” to load `/detail/:uuid`.
 3. **Search** — Use `/advanced-search` to filter by keyword, cast, original network, country, rating, episodes, year, and watched status. Clicking a cast or network on a detail page opens Advanced Search with that UUID filter preselected.
 4. **Explore media** — Read the synopsis, review cast roles, open stills in the lightbox.
@@ -168,7 +168,7 @@ HomePage / DetailPage / AdvancedSearchPage
        StoryGrid → StoryCard
 ```
 
-`useStories` simulates async loading with a **400ms** `setTimeout` on the **first** catalog load (loading skeleton UX), then keeps a module-level in-memory cache so returning from detail does not reload JSON or flash the skeleton. `useStory` reuses `useStories` and finds one item by `uuid`. `useCasts` / `useNetworks` likewise cache static JSON after the first read.
+`useStories` reads the static catalog synchronously into a module-level in-memory cache on first use so returning from detail does not reload JSON or flash the skeleton. `loading` / `refetch` remain on the public API for real async paths. `useStory` reuses `useStories` and finds one item by `uuid`. `useCasts` / `useNetworks` / `useGenres` / `useCountries` likewise cache static JSON after the first read.
 
 ## Component organization
 
@@ -741,7 +741,7 @@ Story Hook is a **static-data SPA**. There is no HTTP service layer, authenticat
 | Concern | Status |
 |---------|--------|
 | API architecture | Local JSON module import |
-| Request flow | Sync read after artificial delay in `useStories` |
+| Request flow | Sync read via module cache in `useStories` |
 | Authentication | None |
 | Error handling | Try/catch around JSON shape checks; UI `EmptyState` + refetch on home |
 | Service layer | None (`hooks/useStories.ts` is the data boundary) |
@@ -752,11 +752,11 @@ Story Hook is a **static-data SPA**. There is no HTTP service layer, authenticat
 Mount HomePage or DetailPage
         │
         ▼
-useStories() — if module cache hit → stories immediately, loading=false
+useStories() — ensure module cache → stories immediately, loading=false
         │
-        └─ else first load: loading=true → setTimeout(400ms) → cache + state
+        └─ refetch → loading=true → re-read JSON into cache → loading=false
                 ├─ success → stories state, loading=false
-                └─ throw   → error message, stories=[], loading=false
+                └─ invalid shape → error message, stories=[], loading=false
 ```
 
 Home exposes `refetch` (re-reads JSON into the module cache). Detail uses `useStory(uuid)` and shows not-found UI when the UUID is absent after load.

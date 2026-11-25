@@ -11,6 +11,7 @@
  */
 import stories from './src/data/stories.json';
 import {
+  buildNotFoundRootHtml,
   buildNotFoundSocialMeta,
   findStoryShareFields,
   injectRootContent,
@@ -49,14 +50,6 @@ function passThrough(): Response {
   });
 }
 
-function buildNotFoundBody(): string {
-  return `<main>
-  <h1>Drama Not Found</h1>
-  <p>The requested drama could not be found.</p>
-  <p><a href="/home">Browse all dramas</a></p>
-</main>`;
-}
-
 export default async function middleware(request: Request): Promise<Response> {
   const requestUrl = new URL(request.url);
   const origin = getOrigin(request);
@@ -91,7 +84,10 @@ export default async function middleware(request: Request): Promise<Response> {
   const meta = buildNotFoundSocialMeta(origin, uuid);
 
   if (!indexResponse.ok) {
-    html = injectRootContent(injectSocialMeta(html, meta), buildNotFoundBody());
+    html = injectRootContent(
+      injectSocialMeta(html, meta),
+      buildNotFoundRootHtml(),
+    );
   } else {
     // 404.html already has noindex meta; refresh URL-specific tags.
     html = injectSocialMeta(html, meta);
