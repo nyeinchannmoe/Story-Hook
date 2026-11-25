@@ -427,25 +427,26 @@ export default function DetailPage() {
                     </dd>
                   </div>
                 )}
+                {resolvedGenres.length > 0 && (
+                  <div>
+                    <dt className="text-xs font-medium uppercase tracking-wider text-text-muted">
+                      {t('detail:genres')}
+                    </dt>
+                    <dd className="mt-1 flex flex-wrap gap-2">
+                      {resolvedGenres.map((genre) => (
+                        <Link
+                          key={genre.uuid}
+                          to={buildAdvancedSearchPath({ genreUuid: genre.uuid })}
+                          className="text-accent transition-colors hover:text-accent/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                          aria-label={t('a11y:searchByGenre', { name: genre.name })}
+                        >
+                          {genre.name}
+                        </Link>
+                      ))}
+                    </dd>
+                  </div>
+                )}
               </dl>
-
-              {resolvedGenres.length > 0 && (
-                <div
-                  className="mt-6 flex flex-wrap gap-2"
-                  aria-label={t('detail:genres')}
-                >
-                  {resolvedGenres.map((genre) => (
-                    <Link
-                      key={genre.uuid}
-                      to={buildAdvancedSearchPath({ genreUuid: genre.uuid })}
-                      className="inline-flex items-center rounded-lg border border-white/10 bg-bg-secondary px-3.5 py-2 text-sm font-medium text-text-secondary transition-colors hover:border-accent/40 hover:bg-accent-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                      aria-label={t('a11y:searchByGenre', { name: genre.name })}
-                    >
-                      {genre.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
 
               <div className="mt-6 flex flex-wrap items-center gap-3">
                 {hasWatchLink && (

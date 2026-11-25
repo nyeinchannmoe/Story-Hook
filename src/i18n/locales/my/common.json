@@ -18,5 +18,7 @@
   "unknownCast": "မသိသော သရုပ်ဆောင်",
   "rangeSeparator": "–",
   "watched": "ကြည့်ပြီး",
-  "markWatched": "ကြည့်ပြီးအဖြစ် မှတ်ရန်"
+  "markWatched": "ကြည့်ပြီးအဖြစ် မှတ်ရန်",
+  "offlineBannerTitle": "အင်တာနက်မရှိပါ",
+  "offlineBannerBody": "ကက်ရှ်ထားသော ဇာတ်လမ်းများနှင့် ကြည့်ပြီးစာရင်းကို ဆက်သုံးနိုင်ပါသည်။"
 }

@@ -14,3 +14,6 @@ export { DualRangeSlider } from './DualRangeSlider';
 export { MultiSelectSuggestField } from './MultiSelectSuggestField';
 export { SearchIconLink } from './SearchIconLink';
 export { WatchedToggle } from './WatchedToggle';
+export { OfflineIndicator } from './OfflineIndicator';
+export { PwaUpdatePrompt } from './PwaUpdatePrompt';
+export { PwaProvider } from './PwaProvider';

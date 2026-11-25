@@ -2,5 +2,13 @@
   "photoLightbox": "Photo lightbox",
   "closeLightbox": "Close lightbox",
   "previousPhoto": "Previous photo",
-  "nextPhoto": "Next photo"
+  "nextPhoto": "Next photo",
+  "pwaUpdateTitle": "A new version is available!",
+  "pwaUpdateBody": "New features and updated story information are ready.",
+  "pwaUpdateNow": "Update Now",
+  "pwaUpdateLater": "Later",
+  "pwaUpdateUpdating": "Updating…",
+  "pwaUpdateFailed": "Update could not finish. Your current version remains available.",
+  "pwaUpdateRetry": "Try Again",
+  "pwaUpdateRetryHint": "Check your connection and try again when you are back online."
 }

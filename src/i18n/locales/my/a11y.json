@@ -21,5 +21,7 @@
   "markSeriesWatched": "{{title}} ကို ကြည့်ပြီးအဖြစ် မှတ်ရန်",
   "markSeriesUnwatched": "{{title}} ၏ ကြည့်ပြီး အခြေအနေကို ဖယ်ရှားရန်",
   "markEpisodeWatched": "အပိုင်း {{index}} ({{title}}) ကို ကြည့်ပြီးအဖြစ် မှတ်ရန်",
-  "markEpisodeUnwatched": "အပိုင်း {{index}} ({{title}}) ကို မကြည့်ရသေးအဖြစ် မှတ်ရန်"
+  "markEpisodeUnwatched": "အပိုင်း {{index}} ({{title}}) ကို မကြည့်ရသေးအဖြစ် မှတ်ရန်",
+  "offlineStatus": "အက်ပ်သည် အော့ဖ်လိုင်းဖြစ်နေသည်။ ကက်ရှ်ထားသော အကြောင်းအရာများ ဆက်လက်ရရှိနိုင်ပါသည်။",
+  "pwaUpdateAvailable": "အက်ပ်ဗားရှင်းအသစ် ထည့်သွင်းရန် အဆင်သင့်ဖြစ်ပါပြီ။"
 }

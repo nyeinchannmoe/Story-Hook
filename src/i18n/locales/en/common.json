@@ -18,5 +18,7 @@
   "unknownCast": "Unknown Cast",
   "rangeSeparator": "–",
   "watched": "Watched",
-  "markWatched": "Mark watched"
+  "markWatched": "Mark watched",
+  "offlineBannerTitle": "You're offline",
+  "offlineBannerBody": "Browsing cached stories and your watched list still works."
 }
