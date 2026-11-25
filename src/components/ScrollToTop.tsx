@@ -5,6 +5,7 @@ import { ROUTES } from '@/constants';
 /** Paths that keep a shared scroll position across revisits (browse / search). */
 const RESTORE_ON_REVISIT = new Set<string>([
   ROUTES.HOME,
+  '/home',
   ROUTES.ADVANCED_SEARCH,
 ]);
 

@@ -4,7 +4,7 @@ export const APP_DESCRIPTION =
   'Discover and explore curated Asian dramas.';
 
 export const ROUTES = {
-  HOME: '/home',
+  HOME: '/',
   DETAIL: '/detail',
   ADVANCED_SEARCH: '/advanced-search',
   SETTINGS: '/settings',

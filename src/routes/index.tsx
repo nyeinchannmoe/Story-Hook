@@ -1,12 +1,10 @@
 import { lazy, Suspense } from 'react';
 import {
   createBrowserRouter,
-  Navigate,
   RouterProvider,
 } from 'react-router-dom';
 import { MainLayout } from '@/layouts/MainLayout';
 import { LoadingSkeleton } from '@/components';
-import { ROUTES } from '@/constants';
 
 const HomePage = lazy(() => import('@/pages/HomePage'));
 const DetailPage = lazy(() => import('@/pages/DetailPage'));
@@ -31,6 +29,8 @@ function withSuspense(Component: React.ComponentType) {
   );
 }
 
+const homeElement = withSuspense(HomePage);
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -38,11 +38,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to={ROUTES.HOME} replace />,
+        element: homeElement,
       },
       {
         path: 'home',
-        element: withSuspense(HomePage),
+        element: homeElement,
       },
       {
         path: 'detail/:uuid',

@@ -14,5 +14,13 @@
     {
         "uuid": "3ddaa4a7-aba2-4f53-9b92-121a8a26059d",
         "name": "Historical"
+    },
+    {
+        "uuid": "29a5b7e7-25b7-4241-bfc9-9a69e10b010a",
+        "name": "Comedy"
+    },
+    {
+        "uuid": "402f80a3-609b-4893-b27a-7f19fbd49cf6",
+        "name": "Melodrama"
     }
 ]
