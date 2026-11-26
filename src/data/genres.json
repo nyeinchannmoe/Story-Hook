@@ -22,5 +22,21 @@
     {
         "uuid": "402f80a3-609b-4893-b27a-7f19fbd49cf6",
         "name": "Melodrama"
+    },
+    {
+        "uuid": "4692e596-d83c-494a-bb23-030967733cf5",
+        "name": "Mystery"
+    },
+    {
+        "uuid": "ff6f6b35-70c6-47cc-a953-ad6751bb5e6d",
+        "name": "Horror"
+    },
+    {
+        "uuid": "67e291e7-016c-4ac5-8249-20fc1a5eebd2",
+        "name": "Fantasy"
+    },
+    {
+        "uuid": "6699cefb-d260-481a-9ecc-8c2776fbe5a9",
+        "name": "Supernatural"
     }
 ]

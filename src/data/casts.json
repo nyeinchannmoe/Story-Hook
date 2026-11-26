@@ -2,7 +2,7 @@
     {
         "uuid": "b4c24c32-acb7-4387-a9bb-46af243301b6",
         "name": "Crystal Liu / Liu Yifei",
-        "image": "https://i.mydramalist.com/g0Rm5X_5c.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662371/g0Rm5X_5c_pmbbbj.jpg"
     },
     {
         "uuid": "7cec0a4a-8221-4f59-a5ec-782f8b39b7f0",
@@ -75,7 +75,7 @@
     {
         "uuid": "22f371eb-6592-45c2-a57b-fdd146fd3c00",
         "name": "Dilraba Dilmurat",
-        "image": "https://i.mydramalist.com/b35kje_5c.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662428/b35kje_5c_qiuw5c.jpg"
     },
     {
         "uuid": "7327eb1d-0580-4491-870b-977911e6acff",
@@ -92,7 +92,7 @@
     {
         "uuid": "a8eeca82-7d3c-4af9-a541-1b17ef4bc06e",
         "name": "Tong Da Wei",
-        "image": "https://i.mydramalist.com/jV7ybc.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662664/jV7ybc_yudlcc.jpg"
     },
     {
         "uuid": "1fa485e4-d12b-4710-b222-2f298a06facd",
@@ -189,7 +189,7 @@
     {
         "uuid": "33c0f188-c25b-4a11-bcf0-757fff5a8662",
         "name": "IU",
-        "image": "https://i.mydramalist.com/73R8zn_5c.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795663441/73R8zn_5c_k7toqf.jpg"
     },
     {
         "uuid": "53f21dfb-d62a-4b8a-b687-31260caf066c",
@@ -314,7 +314,7 @@
     {
         "uuid": "459c8657-25f6-4e6c-8ac0-4975d3ed000e",
         "name": "Bae Suzy",
-        "image": "https://i.mydramalist.com/rPL27_5c.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795663486/rPL27_5c_wnj2ob.jpg"
     },
     {
         "uuid": "0f8b996e-afc5-4709-88e5-da50a825b88d",
@@ -331,7 +331,7 @@
     {
         "uuid": "f2382368-c147-46e5-865a-e6b9b592835c",
         "name": "Yang Mi",
-        "image": "https://i.mydramalist.com/oQ1Kkx_5c.jpg"
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795663586/oQ1Kkx_5c_cgb6p7.jpg"
     },
     {
         "uuid": "8c75dba4-1271-4e9b-b78c-3ee5004bd778",
@@ -524,5 +524,33 @@
     {
         "uuid": "083df554-7c03-45cc-a7f7-3c2e94197062",
         "name": "Zhang Xi Lin"
+    },
+    {
+        "uuid": "1b37cef4-58b7-4371-9e8c-69fa85ebbe75",
+        "name": "Yang Shi Han"
+    },
+    {
+        "uuid": "9197deab-d09c-4372-96c7-c6e0b15991ae",
+        "name": "Yuan Zhuo"
+    },
+    {
+        "uuid": "5f2b3b88-9877-465f-aaec-2254fcc259af",
+        "name": "Wen Zhu"
+    },
+    {
+        "uuid": "b97a31eb-57cf-4f37-8515-7fddb0ad10ac",
+        "name": "Ke Ying"
+    },
+    {
+        "uuid": "1a077de2-a4f4-468a-b734-9ad60d78d8b7",
+        "name": "Kay Song"
+    },
+    {
+        "uuid": "dc2e1738-ed71-47b2-9350-573d84999e79",
+        "name": "Ryan Cheng"
+    },
+    {
+        "uuid": "d1477af3-783f-4e0b-9007-5b62cf655c87",
+        "name": "Wang Ze Xuan"
     }
 ]

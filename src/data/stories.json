@@ -44,12 +44,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/l065Xv_3f.jpg",
-      "https://i.mydramalist.com/YY6x2P_3f.jpg",
-      "https://image.tmdb.org/t/p/original/3ANlSZCEbkM7RsTyYeddWTBqdrB.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/dPk5e_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660536/dPk5e_4f_tmtyln.jpg",
     "genres": [
       "123e4567-e89b-12d3-a456-426614174000",
       "123e4567-e89b-12d3-a456-426614174001",
@@ -94,11 +90,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/RB3v4x_3f.jpg",
-      "https://i.mydramalist.com/Bd3ey6_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/XeN1Zf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660602/XeN1Zf_jinj42.jpg",
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
   {
@@ -139,12 +132,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/JB51ww_3f.jpg",
-      "https://i.mydramalist.com/ABj11g_3f.jpg",
-      "https://i.mydramalist.com/zBqwwJ_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/AB0rJ8_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660672/AB0rJ8_4f_lljcxt.jpg",
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
   {
@@ -194,12 +183,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/g0ddOn_3f.jpg",
-      "https://i.mydramalist.com/3oWWvd_3f.jpg",
-      "https://i.mydramalist.com/Lwoo25_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/jQjBPJ_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660724/jQjBPJ_4f_kp1hs8.jpg",
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
   {
@@ -240,12 +225,8 @@
         "role": "Main Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/pd37Kr_3f.jpg",
-      "https://i.mydramalist.com/wJ3AWJ_3f.jpg",
-      "https://i.mydramalist.com/Z8Q7z1_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/AzoLEf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660775/AzoLEf_dzofde.jpg",
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
   {
@@ -313,11 +294,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/WP73dO_3f.jpg",
-      "https://tse2.mm.bing.net/th/id/OIP.cBb0tsDhe9uLrj64M98WqwHaFj?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/0wRw07_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660829/0wRw07_4f_b2aq0z.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -385,12 +363,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://images-na.ssl-images-amazon.com/images/S/pv-target-images/d8468cabf73b734a59ecc5951ea369109d7f4377060c3e76315b988cd4f60c89._RI_V_TTW_.jpg",
-      "https://i.mydramalist.com/YYRkNA_3f.jpg",
-      "https://i.mydramalist.com/JB6NrX_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/Ee4Jz_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660877/Ee4Jz_4f_ruul2k.jpg",
     "genres": [
       "3ddaa4a7-aba2-4f53-9b92-121a8a26059d",
       "123e4567-e89b-12d3-a456-426614174000"
@@ -459,12 +433,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/pdv4BD_3f.jpg",
-      "https://i.mydramalist.com/1wpLdz_3f.jpg",
-      "https://i.mydramalist.com/4ep31w_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/abbjaf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660928/abbjaf_tlhgzh.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -532,14 +502,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/JB8WNw_3f.jpg",
-      "https://i.mydramalist.com/l0bqR4_3f.jpg",
-      "https://i.mydramalist.com/EyYrW_3f.jpg",
-      "https://i.mydramalist.com/Xy4rJ_3f.jpg",
-      "https://i.mydramalist.com/Ryerz_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/YEvpef.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795660974/YEvpef_ej8z7z.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -607,10 +571,8 @@
         "role": "Main Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/9x4jXf.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/9x4jXf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661017/9x4jXf_glbild.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -733,12 +695,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/AB8B13_3f.jpg",
-      "https://i.mydramalist.com/NdqdYn_3f.jpg",
-      "https://i.mydramalist.com/nOQOw8_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/JBmnzj_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795659432/JBmnzj_4f_byha3l.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -871,10 +829,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/Dkr1NN_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/5v8b2y_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661071/5v8b2y_4f_gnj3dw.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -1007,10 +963,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/6RdRp_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/RApq6f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661134/RApq6f_pjapil.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -1143,12 +1097,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/2w4kod_3f.jpg",
-      "https://i.mydramalist.com/60yKv0_3f.jpg",
-      "https://i.mydramalist.com/x4En43_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/2lb8k_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661175/2lb8k_4f_l9gljp.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -1301,10 +1251,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/XobzX_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/jWJxbf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661225/jWJxbf_ocdhtv.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -1417,11 +1365,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/EYxmWf.jpg",
-      "https://i.mydramalist.com/AzrKLf.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/qVY4Bf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661269/qVY4Bf_jr5svb.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -1554,10 +1499,8 @@
         "role": "Main Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/e55pq_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/5vpNAf.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661315/5vpNAf_qw4isp.jpg",
     "genres": [],
     "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0"
   },
@@ -2016,10 +1959,8 @@
         "role": "Support Role"
       }
     ],
-    "photos": [
-      "https://i.mydramalist.com/0k3AY_3f.jpg"
-    ],
-    "coverPhoto": "https://i.mydramalist.com/2ZlLE_4f.jpg",
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795661392/2ZlLE_4f_jflkjv.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -2540,7 +2481,7 @@
       }
     ],
     "photos": [],
-    "coverPhoto": "https://i.mydramalist.com/B5zEV_4f.jpg",
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662170/B5zEV_4f_b6k0ei.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -2646,7 +2587,7 @@
       }
     ],
     "photos": [],
-    "coverPhoto": "https://i.mydramalist.com/RAVoof.jpg",
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662214/RAVoof_fcnlpw.jpg",
     "genres": [],
     "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87"
   },
@@ -2703,12 +2644,114 @@
       }
     ],
     "photos": [],
-    "coverPhoto": "https://i.mydramalist.com/jZRe8_3f.jpg",
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795659909/exXvQ_4f_fsghej.jpg",
     "genres": [
       "29a5b7e7-25b7-4241-bfc9-9a69e10b010a",
       "123e4567-e89b-12d3-a456-426614174000",
       "123e4567-e89b-12d3-a456-426614174002",
       "402f80a3-609b-4893-b27a-7f19fbd49cf6"
+    ]
+  },
+  {
+    "uuid": "5b7732bf-c4ce-49df-9d5d-eb010a1eeb87",
+    "title": "Demon Out of Chang An",
+    "mmTitle": "ချန်အန်းမှ နတ်ဆိုး",
+    "story": "Demon out of Chang An\n\nCriminal ကိုကြိုက်နှစ်သက်ကြတဲ့ပရိသတ်ကြီးကို Martial World Myanmarကနေ စုံစမ်းရေးကားလေးတစ်ကားနဲ့ထပ်မံပြီး မိတ်ဆက်ပေးချင်ပါတယ် ဒီတစ်ခေါက်ကတော့ history ဘက်ပါ \nအညွှန်းလေးကတော့\nချန်အန်းမြို့မှာ လူသတ်မှုတွေဆင့်ကာဆင့်ကာ ပေါ်ပေါက်နေပါတယ်  ကွင်းဆက်တွေရှိနေပေမယ့်လည်း လျှို့ဝှက်ဆန်းကြယ်တဲ့လူသတ်သမားကိုတစ်ယောက်မှ မဖမ်းနိုင်ခဲ့ပါဘူး \nသူတို့တစ်ယောက်မှဖမ်းမိအောင် မစွမ်းဆောင်နိုင်ခဲ့တဲ့ လူသတ်သမားကရော ရိုးရိုးသာမာန်လူမဟုတ်ဘဲ မိစ္ဆာတစ်ကောင်များဖြစ်နေမလား \nနောက်ကွယ်မှာ ဘယ်လိုနက်နဲတဲ့အကြောင်းအရာရှိတွေနေသလဲ  ဒီအမှုကိုစစုံစမ်းနေတဲ့ ရှန့်ရို နဲ့ ဝေ့ရင့်ဝုတို့ သူငယ်ချင်းနှစ်ယောက်ကရော လူသတ်သမားကို ဖမ်းဆီးနိုင်မလားဆိုတာ ရှုစားရမယ့် ဇာတ်ကားတစ်ကားဖြစ်ပါတယ် \nအပိုင်းအနေနဲ့ကတော့ \n၁၂ပိုင်းသာပါရှိမှာဖြစ်ပါတယ်",
+    "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87",
+    "rating": "6.6",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://www.youtube.com/playlist?list=PLDvC3rTFTO1CBx48aKXn2keHC-bjt47UC",
+    "episodes": 12,
+    "episodeLinks": [
+      {
+        "title": "Demon Out of Chang An Playlist",
+        "description": "",
+        "link": "https://www.youtube.com/playlist?list=PLDvC3rTFTO1CBx48aKXn2keHC-bjt47UC"
+      }
+    ],
+    "aired": "Nov 15, 2016 - Jan 26, 2017",
+    "duration": "20min",
+    "orginalNetworks": [
+      "b22104be-932a-4069-bb27-f6c820096a20"
+    ],
+    "cast": [
+      {
+        "castUuid": "1b37cef4-58b7-4371-9e8c-69fa85ebbe75",
+        "characterName": "Shen You",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "9197deab-d09c-4372-96c7-c6e0b15991ae",
+        "characterName": "Wei Ying Wu",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "5f2b3b88-9877-465f-aaec-2254fcc259af",
+        "characterName": "Su Yu",
+        "role": "Main Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662258/Qd7nvf_mjovbl.jpg",
+    "genres": [
+      "3ddaa4a7-aba2-4f53-9b92-121a8a26059d",
+      "4692e596-d83c-494a-bb23-030967733cf5",
+      "ff6f6b35-70c6-47cc-a953-ad6751bb5e6d",
+      "67e291e7-016c-4ac5-8249-20fc1a5eebd2"
+    ]
+  },
+  {
+    "uuid": "1ada902f-9a65-4d8e-8a21-6d47ed2aabc4",
+    "title": "A familiar stranger",
+    "mmTitle": "ပန်းနှစ်ပွင့်၏မာယာမျက်နှာဖုံး",
+    "story": "A familiar stranger (2022)\n< ပန်းနှစ်ပွင့်၏မာယာမျက်နှာဖုံး >\n\nHello! Hello! ဒီနေ့မှာတော့ ဇာတ်လမ်းလှည့်ကွက်ရှုပ်ရှုပ်ထွေးထွေးလေးတွေကို နှစ်သက်သဘောကျတဲ့ Soulerလေးတို့အတွက် \" ပန်းနှစ်ပွင့်၏မာယာမျက်နှာဖုံး \"ဆိုတဲ့ မီနီဇာတ်လမ်းလေးတစ်ခုနဲ့ မိတ်ဆက်ပေးပါရစေနော်\n\nရှန်ချင့် :\nနိုင်ငံရေးလှည့်ကွက်ပရိယာယ်တွေကြား လက်နက်ကိရိယာသဖွယ် အသုံးချခံနေရပြီး မိမိ၏မင်္ဂလာပွဲကိုပင် ရွေးချယ်ခွင့်မရှိခဲ့‌သောမိန်းကလေး\n\nရှီချီး :\nပဟေဠိဆန်‌သော အပေါင်ဆိုင်ပိုင်ရှင်ဆိုသည့် အယောင်ဆောင်သရုပ်၏နောက်ကွယ်၌ ပုန်းလျှိုနေသော သိုင်းလောကအဆင့်တစ်လူသတ်သမား\n\nဒီလိုနဲ့ပဲ လွတ်လပ်မှုကိုတောင့်တနေတဲ့မိန်းမပျိုနဲ့ ပရိယာယ်များလှတဲ့လူသတ်သမားတို့နှစ်ဦးဟာ ကိုယ်စီရည်ရွယ်ချက်တွေကြောင့် နှစ်ဦးသဘောတူမျက်နှာလဲလှယ်ခဲ့ပါတယ်\n\nသို့ပေမဲ့ကံကြမ္မာရဲ့ကျီစားမှုကြောင့် လိုက်လံသတ်ဖြတ်သူတွေလက်က ရှောင်ပြေးနေရတဲ့ ရှီချီးအနေနဲ့ရှင်သန်နေရတဲ့ ရှန်ချင့်တစ်ယောက် မိမိအဖြစ်နဲ့ရှင်သန်နေတဲ့ ရှီချီးရဲ့အစေခံအဖြစ်နဲ့ စစ်သူကြီးအိမ်တော်ထဲကို ဝင်ရောက်ဖို့ရာဖြစ်လာတဲ့အခါ....\n\nအန္တရာယ်များလှတဲ့ကျားဂူထဲမှာ နှစ်ဦးသားကြားကလျှို့ဝှက်ချက်ကို မပေါက်ကြားအောင် ဘယ်လိုကာကွယ်ကြမလဲ\n\nရှီချီးကရော ဘယ်လိုအကြံအစည်ကြောင့် စစ်သူကြီးအိမ်တော်ထဲကို လက်ထပ်ဝင်ခဲ့တာလဲဆိုတာကို \" A familiar stranger <ပန်းနှစ်ပွင့်၏မာယာမျက်နှာဖုံး> \" ဆိုတဲ့ဇာတ်လမ်းလေးမှာ ကြည့်ရှုခံစားကြည့်ကြပါစို့နော်",
+    "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87",
+    "rating": "8.3",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://www.youtube.com/playlist?list=PLDvC3rTFTO1BtS3n699_xrbDQ0m56Nbvf",
+    "episodes": 18,
+    "episodeLinks": [
+      {
+        "title": "A Familiar Stranger (Playlist)",
+        "description": "",
+        "link": "https://www.youtube.com/playlist?list=PLDvC3rTFTO1BtS3n699_xrbDQ0m56Nbvf"
+      }
+    ],
+    "aired": "Sep 23, 2022 - Oct 3, 2022",
+    "duration": "12",
+    "orginalNetworks": [
+      "18ddb832-ddae-4433-9718-3946327bf7b4"
+    ],
+    "cast": [
+      {
+        "castUuid": "b97a31eb-57cf-4f37-8515-7fddb0ad10ac",
+        "characterName": "Shi Qi",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "1a077de2-a4f4-468a-b734-9ad60d78d8b7",
+        "characterName": "Shen Qin",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "dc2e1738-ed71-47b2-9350-573d84999e79",
+        "characterName": "Xiao Han Sheng",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "d1477af3-783f-4e0b-9007-5b62cf655c87",
+        "characterName": "Prince Ning",
+        "role": "Main Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795662302/JBADzm_4c_ifuddp.jpg",
+    "genres": [
+      "3ddaa4a7-aba2-4f53-9b92-121a8a26059d",
+      "123e4567-e89b-12d3-a456-426614174000",
+      "6699cefb-d260-481a-9ecc-8c2776fbe5a9"
     ]
   }
 ]
