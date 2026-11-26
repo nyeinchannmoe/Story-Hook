@@ -475,7 +475,8 @@
     },
     {
         "uuid": "a15e4110-4ed0-4795-aed0-78b58fb4eab4",
-        "name": "Hu Yi Tian"
+        "name": "Hu Yi Tian",
+        "image": "https://res.cloudinary.com/knxx3idf/image/upload/v1795696043/vP7OW_5c_yu1nc9.jpg"
     },
     {
         "uuid": "ee740731-939d-4ea0-b16f-3088de7c807d",
@@ -552,5 +553,105 @@
     {
         "uuid": "d1477af3-783f-4e0b-9007-5b62cf655c87",
         "name": "Wang Ze Xuan"
+    },
+    {
+        "uuid": "38a8d507-43f0-4d48-9292-2763c6c6980a",
+        "name": "Li Li"
+    },
+    {
+        "uuid": "636b7834-e807-4663-83db-40f7de6942e0",
+        "name": "Huo Si Yan"
+    },
+    {
+        "uuid": "6aebd3bf-f5aa-41b8-9249-1be583bf33ad",
+        "name": "Feng Shao Feng"
+    },
+    {
+        "uuid": "b7ae546b-b17e-4151-90be-0789d2dd9913",
+        "name": "Yuan Wen Kang"
+    },
+    {
+        "uuid": "e8a1921c-ea2c-44e2-8221-b035da39ab43",
+        "name": "Ru Ping"
+    },
+    {
+        "uuid": "5a5ced5b-68e1-424c-ac1e-3c29020a0c83",
+        "name": "Bowie Tsang"
+    },
+    {
+        "uuid": "440bb91d-751f-4a17-9906-222aa88faddc",
+        "name": "Purba Rgyal"
+    },
+    {
+        "uuid": "572b46ca-004d-4a39-b64b-37c11434cfde",
+        "name": "Liu Yi Han"
+    },
+    {
+        "uuid": "ee8bbdbb-1ab0-4d0d-9aa0-55dec032540d",
+        "name": "Xiong Nai Jin"
+    },
+    {
+        "uuid": "d3da3482-bc24-4ac1-8f3b-ea285865de23",
+        "name": "Liu Yu Qiao"
+    },
+    {
+        "uuid": "3517a874-4679-4385-b0cf-4cd9359c11a6",
+        "name": "Jenny Zhang"
+    },
+    {
+        "uuid": "d2ce6d49-eb49-4417-a441-0f01be3ad949",
+        "name": "Yan Yi Kuan"
+    },
+    {
+        "uuid": "0ad558cc-5d16-41fe-96fc-b779a8a8a37a",
+        "name": "Li Qian"
+    },
+    {
+        "uuid": "83a2b4c2-27b0-4651-b511-fa3905ce5c85",
+        "name": "Xu Hai Huan"
+    },
+    {
+        "uuid": "a3327f2a-9060-4aca-8426-ceac1b0e401b",
+        "name": "Zhou Yi Wei"
+    },
+    {
+        "uuid": "4932aa01-cf36-411b-be69-5b7e3aeb1eed",
+        "name": "Wang Yan Su"
+    },
+    {
+        "uuid": "87c22e8b-927d-41e2-bea8-e8a0dd20b0ee",
+        "name": "He Ming Han"
+    },
+    {
+        "uuid": "a55b0e80-410b-421f-ab78-fc5b9c1d2b5b",
+        "name": "Shen Yue"
+    },
+    {
+        "uuid": "773d90e5-946b-40d1-bc66-2c833a4ed5c4",
+        "name": "Gao Zhi Ting"
+    },
+    {
+        "uuid": "3f615536-b7ce-40fe-9d68-5446fc142ef3",
+        "name": "Wang Zi Wei"
+    },
+    {
+        "uuid": "89c7327c-b3bb-434b-bb6f-dcc02a098523",
+        "name": "Sun Ning"
+    },
+    {
+        "uuid": "4a8f676c-2667-4270-ac97-0af632a8a81f",
+        "name": "Guo Zhen Ni"
+    },
+    {
+        "uuid": "fd32a3ac-2c1b-42d5-bdec-179dddcd79ce",
+        "name": "Waise Lee"
+    },
+    {
+        "uuid": "3d87d860-3875-4d45-83fd-4bea68832971",
+        "name": "Sally Chen"
+    },
+    {
+        "uuid": "2b7b35c9-1389-44dd-8a32-33944ce28a66",
+        "name": "Zhao Jin Tao"
     }
 ]

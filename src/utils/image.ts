@@ -13,3 +13,23 @@ export function handleImageError(
     img.src = PLACEHOLDER_IMAGE;
   }
 }
+
+let imageProtectionInstalled = false;
+
+/** Blocks image context menus and drag-out; does not affect non-image UI. */
+export function installImageProtection(): void {
+  if (imageProtectionInstalled || typeof document === 'undefined') return;
+  imageProtectionInstalled = true;
+
+  document.addEventListener('contextmenu', (event) => {
+    if (event.target instanceof HTMLImageElement) {
+      event.preventDefault();
+    }
+  });
+
+  document.addEventListener('dragstart', (event) => {
+    if (event.target instanceof HTMLImageElement) {
+      event.preventDefault();
+    }
+  });
+}
