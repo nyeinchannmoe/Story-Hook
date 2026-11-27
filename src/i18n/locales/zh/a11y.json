@@ -11,6 +11,7 @@
   "removeNetworkFilter": "移除原播平台筛选 {{name}}",
   "photoGallery": "{{title}} 剧照库",
   "viewPhoto": "查看第 {{current}} 张，共 {{total}} 张",
+  "viewCoverPhoto": "查看 {{title}} 封面照片",
   "photoStill": "{{title}} 剧照 {{index}}",
   "ratingOutOf": "评分：{{value}} / {{max}}",
   "sliderMinimum": "{{label}} 最小值",

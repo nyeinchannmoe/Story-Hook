@@ -11,6 +11,7 @@
   "removeNetworkFilter": "မူရင်းကွန်ရက် စစ်ထုတ်မှု {{name}} ဖယ်ရှားရန်",
   "photoGallery": "{{title}} ဓာတ်ပုံပြခန်း",
   "viewPhoto": "ဓာတ်ပုံ {{current}} / {{total}} ကြည့်ရန်",
+  "viewCoverPhoto": "{{title}} ကာဗာဓာတ်ပုံ ကြည့်ရန်",
   "photoStill": "{{title}} စတီး {{index}}",
   "ratingOutOf": "အဆင့်: {{value}} / {{max}}",
   "sliderMinimum": "{{label}} အနည်းဆုံး",

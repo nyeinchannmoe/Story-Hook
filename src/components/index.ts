@@ -9,6 +9,7 @@ export { StoryCard } from './StoryCard';
 export { StoryGrid } from './StoryGrid';
 export { CastCard } from './CastCard';
 export { PhotoGallery } from './PhotoGallery';
+export { PhotoLightbox } from './PhotoLightbox';
 export { SEO } from './SEO';
 export { ScrollToTop } from './ScrollToTop';
 export { DualRangeSlider } from './DualRangeSlider';

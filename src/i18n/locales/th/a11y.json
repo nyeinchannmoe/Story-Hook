@@ -11,6 +11,7 @@
   "removeNetworkFilter": "ลบตัวกรองเครือข่ายต้นฉบับ {{name}}",
   "photoGallery": "แกลเลอรีภาพ {{title}}",
   "viewPhoto": "ดูภาพ {{current}} จาก {{total}}",
+  "viewCoverPhoto": "ดูภาพปกของ {{title}}",
   "photoStill": "ภาพนิ่ง {{title}} หมายเลข {{index}}",
   "ratingOutOf": "คะแนน: {{value}} จาก {{max}}",
   "sliderMinimum": "{{label}} ขั้นต่ำ",

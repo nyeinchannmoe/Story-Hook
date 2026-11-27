@@ -11,6 +11,7 @@
   "removeNetworkFilter": "원작 방송사 필터 {{name}} 제거",
   "photoGallery": "{{title}} 사진 갤러리",
   "viewPhoto": "{{total}}장 중 {{current}}번째 사진 보기",
+  "viewCoverPhoto": "{{title}} 표지 사진 보기",
   "photoStill": "{{title}} 스틸 {{index}}",
   "ratingOutOf": "평점: {{value}} / {{max}}",
   "sliderMinimum": "{{label}} 최소",

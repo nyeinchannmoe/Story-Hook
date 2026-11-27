@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -6,6 +7,7 @@ import {
   RatingBadge,
   CastCard,
   PhotoGallery,
+  PhotoLightbox,
   DetailSkeleton,
   EmptyState,
   SearchIconLink,
@@ -196,6 +198,7 @@ export default function DetailPage() {
   const seriesWatched = useIsSeriesWatched(story?.uuid);
   const { toggleSeries } = useWatchedActions();
   const goBack = useSmartBack();
+  const [coverLightboxOpen, setCoverLightboxOpen] = useState(false);
 
   if (loading) {
     return (
@@ -323,18 +326,34 @@ export default function DetailPage() {
 
           <div className="flex flex-col gap-8 lg:flex-row">
             <div className="relative shrink-0">
-              <img
-                src={getImageSrc(story.coverPhoto)}
-                alt={t('common:coverAlt', { title: story.title })}
-                className={`mx-auto w-48 rounded-2xl border shadow-2xl shadow-black/50 sm:w-56 lg:mx-0 lg:w-64 ${
-                  seriesWatched ? 'border-emerald-500/40' : 'border-white/10'
-                }`}
-                onError={handleImageError}
-              />
+              <button
+                type="button"
+                onClick={() => setCoverLightboxOpen(true)}
+                className="mx-auto block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary lg:mx-0"
+                aria-label={t('a11y:viewCoverPhoto', { title: story.title })}
+              >
+                <img
+                  src={getImageSrc(story.coverPhoto)}
+                  alt={t('common:coverAlt', { title: story.title })}
+                  className={`w-48 rounded-2xl border shadow-2xl shadow-black/50 transition-opacity hover:opacity-90 sm:w-56 lg:w-64 ${
+                    seriesWatched ? 'border-emerald-500/40' : 'border-white/10'
+                  }`}
+                  onError={handleImageError}
+                />
+              </button>
               {seriesWatched && (
-                <span className="absolute left-1/2 top-3 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-md bg-emerald-500/90 px-2.5 py-1 text-xs font-semibold text-white shadow-sm lg:left-3 lg:translate-x-0">
+                <span className="pointer-events-none absolute left-1/2 top-3 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-md bg-emerald-500/90 px-2.5 py-1 text-xs font-semibold text-white shadow-sm lg:left-3 lg:translate-x-0">
                   {t('common:watched')}
                 </span>
+              )}
+              {coverLightboxOpen && story.coverPhoto && (
+                <PhotoLightbox
+                  photos={[story.coverPhoto]}
+                  selectedIndex={0}
+                  title={story.title}
+                  onClose={() => setCoverLightboxOpen(false)}
+                  onSelectIndex={() => undefined}
+                />
               )}
             </div>
 

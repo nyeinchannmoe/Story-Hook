@@ -42,5 +42,17 @@
     {
         "uuid": "d400bff9-3954-468c-a662-8a5d95e599bd",
         "name": "Youth"
+    },
+    {
+        "uuid": "692f5a4b-a115-4483-8826-07d8c1ab500c",
+        "name": "BTV"
+    },
+    {
+        "uuid": "14dbbe5a-75ca-4fda-b625-ee03025b3c86",
+        "name": "Hunan TV"
+    },
+    {
+        "uuid": "580cb991-1214-438f-afda-f62a46a6722d",
+        "name": "Wuxia"
     }
 ]

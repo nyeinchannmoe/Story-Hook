@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getImageSrc, handleImageError } from '@/utils/image';
+import { PhotoLightbox } from './PhotoLightbox';
 
 interface PhotoGalleryProps {
   photos: string[];
@@ -8,24 +9,10 @@ interface PhotoGalleryProps {
 }
 
 export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
-  const { t } = useTranslation(['a11y', 'dialogs']);
+  const { t } = useTranslation(['a11y']);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   if (photos.length === 0) return null;
-
-  const closeLightbox = () => setSelectedIndex(null);
-
-  const goNext = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex + 1) % photos.length);
-    }
-  };
-
-  const goPrev = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((selectedIndex - 1 + photos.length) % photos.length);
-    }
-  };
 
   return (
     <section aria-label={t('a11y:photoGallery', { title })}>
@@ -54,59 +41,13 @@ export function PhotoGallery({ photos, title }: PhotoGalleryProps) {
       </div>
 
       {selectedIndex !== null && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-label={t('dialogs:photoLightbox')}
-          onClick={closeLightbox}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') goNext();
-            if (e.key === 'ArrowLeft') goPrev();
-          }}
-        >
-          <button
-            type="button"
-            onClick={closeLightbox}
-            className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
-            aria-label={t('dialogs:closeLightbox')}
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); goPrev(); }}
-            className="absolute left-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
-            aria-label={t('dialogs:previousPhoto')}
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          <img
-            src={getImageSrc(photos[selectedIndex])}
-            alt={t('a11y:photoStill', { title, index: selectedIndex + 1 })}
-            onClick={(e) => e.stopPropagation()}
-            onError={handleImageError}
-            className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain"
-          />
-
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); goNext(); }}
-            className="absolute right-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20 sm:right-16"
-            aria-label={t('dialogs:nextPhoto')}
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+        <PhotoLightbox
+          photos={photos}
+          selectedIndex={selectedIndex}
+          title={title}
+          onClose={() => setSelectedIndex(null)}
+          onSelectIndex={setSelectedIndex}
+        />
       )}
     </section>
   );

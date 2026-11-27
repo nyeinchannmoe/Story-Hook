@@ -11,6 +11,7 @@
   "removeNetworkFilter": "Remove original network filter {{name}}",
   "photoGallery": "{{title}} photo gallery",
   "viewPhoto": "View photo {{current}} of {{total}}",
+  "viewCoverPhoto": "View cover photo for {{title}}",
   "photoStill": "{{title}} still {{index}}",
   "ratingOutOf": "Rating: {{value}} out of {{max}}",
   "sliderMinimum": "{{label}} minimum",
