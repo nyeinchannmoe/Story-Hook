@@ -3316,5 +3316,561 @@
       "123e4567-e89b-12d3-a456-426614174000",
       "580cb991-1214-438f-afda-f62a46a6722d"
     ]
+  },
+  {
+    "uuid": "e6eb4d32-dd08-4f5e-bce6-1c4dd2d29a5f",
+    "title": "Autumn in My Heart",
+    "mmTitle": "ဆောင်းဦးရွက်ကြွေ ချစ်သက်သေ 🍁🍁🍁",
+    "story": "Autumn In My Heart ( ဆောင်းဦးရွက်ကြွေ ချစ်သက်သေ ) 🍁🍁🍁\n\nIMdb မှာ 8.1 ရထားပြီး အွန်စောရယ် လို့ မြန်မာပရိတ်သတ်တွေရဲ့ ရင်ထဲကို တိုးဝင်ဖူးတဲ့ Y2K ထွက် Korea Drama Series တစ်ခုကို တင်ဆက်ပေးလိုက်ပါတယ် မြ၀တီက ထုတ်လွင့်ခဲ့တုန်းကတော့ ဆောင်းဦးရွက်ကြွေချစ်သက်သေ ဆိုတဲ့ နာမည် နဲ့ ပြသခဲ့ပါတယ် အဲ့ဒီတုန်းက လိုင်းကောင်းကောင်းမမိလို့ ဗြုတ်ထနေတဲ့ ဖန်သားပြင်နဲ့ကြည့် ရှူအားပေးခဲ့ရတာကို အားမရမိတာကြောင့် အခုတဖန် ပြန်လည်တင်ဆက်ပေးလိုက်ပါတယ် 🐱\n\nဇာတ်လမ်း အကျဉ်းလေးကတော့ ဂျွန်စော ဆိုတဲ့သောက်ကမျင်းမသားလေးကြောင့်လဲ ဒီဇာတ်လမ်းက စတင်လာခဲ့တာပါ ဆေးရုံတစ်ခုမှာ ကလေးမီးဖွားခန်းထဲမယ် ဂျွန်စောက ကလေးပီပီ နာမည်ကတ်တွေကို ဆော့ကစားလိုက်တော့ နာ့စ်မက ကတ်ချင်း မှား ချိတ်လိုက်တဲ့ အခါမှာတော့ ဘာတွေဆက် ဖြစ်ကြမလဲဆိုတာကိုတော့ 🐷",
+    "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0",
+    "rating": "7.7",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://t.me/judgefromhell204/441",
+    "episodes": 16,
+    "episodeLinks": [
+      {
+        "title": "EP 1",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/442"
+      },
+      {
+        "title": "EP 2",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/443"
+      },
+      {
+        "title": "EP 3",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/444"
+      },
+      {
+        "title": "EP 4",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/445"
+      },
+      {
+        "title": "EP 5",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/446"
+      },
+      {
+        "title": "EP 6",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/447"
+      },
+      {
+        "title": "EP 7",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/448"
+      },
+      {
+        "title": "EP 8",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/449"
+      },
+      {
+        "title": "EP 9",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/450"
+      },
+      {
+        "title": "EP10",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/451"
+      },
+      {
+        "title": "EP 11",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/452"
+      },
+      {
+        "title": "EP 12",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/453"
+      },
+      {
+        "title": "EP 13",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/454"
+      },
+      {
+        "title": "EP 14",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/455"
+      },
+      {
+        "title": "EP 15",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/456"
+      },
+      {
+        "title": "EP 16",
+        "description": "",
+        "link": "https://t.me/judgefromhell204/457"
+      }
+    ],
+    "aired": "Sep 18, 2000 - Nov 7, 2000",
+    "duration": "54 min",
+    "orginalNetworks": [
+      "155db295-ec13-44b5-8634-606d039c9e9d"
+    ],
+    "cast": [
+      {
+        "castUuid": "502d2902-6b1a-4c02-ac62-05cc212327f7",
+        "characterName": "Yun Jun Seo",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "66ee47c7-93d3-45ea-bcb2-9320de031e34",
+        "characterName": "Yun Eun Seo / Choi Eun Seo",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "661ca6a8-a5d9-40eb-89b8-e1848d593122",
+        "characterName": "Han Tae Suk",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "06039c85-28c2-4abc-ac1f-65c84be525fc",
+        "characterName": "Shin Yoo Mi",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "c99073ec-e63d-44f8-a22e-47b2d98cda35",
+        "characterName": "Choi Shin Ae / Yoon Shin Ae",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "0f3c1703-bfcb-4b2a-8a48-6269aacf8b48",
+        "characterName": "Yun Jun Seo [Young]",
+        "role": "Support Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795866655/Ebmym_4c_z3teuf.jpg",
+    "genres": [
+      "123e4567-e89b-12d3-a456-426614174000",
+      "123e4567-e89b-12d3-a456-426614174002",
+      "402f80a3-609b-4893-b27a-7f19fbd49cf6"
+    ]
+  },
+  {
+    "uuid": "b3b5afeb-9ce4-474a-bf63-3025f80665c0",
+    "title": "🏡Hotelier",
+    "mmTitle": "ဟိုတယ်ချစ်သူ 🏡",
+    "story": "Hotelier - ဟိုတယ်ချစ်သူ (SM)\n\nငယ်ငယ်ကအရမ်းကြိုက်ခဲ့ရတဲ့ကားလေးကို quality ကောင်းကောင်းလေးနဲ့ပြန်တင်ပေးလိုက်ပါတယ်...\n\nဇာတ်လမ်းလေးကတော့\n\nဆိုးလ်ဟိုတယ်ကြီးဟာဆိုရင် နှစ်ပေါင်းသုံးဆယ်ကြာ ဂုဏ်သတင်းမွှေးတဲ့ ပထမတန်းစားဟိုတယ်ကြီးအနေနဲ့ ရပ်တည်လာခဲ့တာဖြစ်ပါတယ်။\n\nဒါပေမယ့်လည်း ဟိုတယ်ပိုင်ရှင် ဥက္ကဋ္ဌ ချွဲသေဆုံးပြီးတဲ့နောက်မှာတော့ အချိန်တွေကြာလာတာနဲ့အမျှ ဟိုတယ်ရဲ့ စီမံခန့်ခွဲမှုဟာ ယိုယွင်းပျက်စီးလာခဲ့ပြီး အလုပ်သမားတွေပါထွက်ကြတဲ့အပြင် လာတည်းမယ့်သူတွေပါတစ်စတစ်စနည်းလာခဲ့ပါတယ်။\n\nဒီလိုနဲ့ ဒီဟိုတယ်ကြီးကို ပြန်ပြီးနာမည်ကောင်းရအောင် ဘယ်လိုတွေကြိုးစားကြမလဲ?\n\nဒီဟိုတယ်ကြီးကိုခြယ်လှယ်ချင်တဲ့လူတွေကရော ဘယ်လိုတွေယုတ်မာကြမလဲ?\n\n၂၀၀၀ ခုနှစ်တွေရဲ့အကောင်းဆုံးကိုရီးယားကားတွေထဲ အပါအဝင်ဖြစ်တဲ့ \"Hotelier - ဟိုတယ်ချစ်သူ\" ကို ဆက်လက်စောင့်ကြည့်ပေးပါဦးနော်",
+    "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0",
+    "rating": "7.5",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://t.me/sEmpiire/4762",
+    "episodes": 20,
+    "episodeLinks": [
+      {
+        "title": "EP 1",
+        "description": "",
+        "link": "https://t.me/paanndorra/245"
+      },
+      {
+        "title": "EP 2",
+        "description": "",
+        "link": "https://t.me/paanndorra/246"
+      },
+      {
+        "title": "EP 3",
+        "description": "",
+        "link": "https://t.me/paanndorra/247"
+      },
+      {
+        "title": "EP 4",
+        "description": "",
+        "link": "https://t.me/paanndorra/248"
+      },
+      {
+        "title": "EP 5",
+        "description": "",
+        "link": "https://t.me/paanndorra/249"
+      },
+      {
+        "title": "EP 6",
+        "description": "",
+        "link": "https://t.me/paanndorra/250"
+      },
+      {
+        "title": "EP 7",
+        "description": "",
+        "link": "https://t.me/paanndorra/251"
+      },
+      {
+        "title": "EP 8",
+        "description": "",
+        "link": "https://t.me/paanndorra/252"
+      },
+      {
+        "title": "EP 9",
+        "description": "",
+        "link": "https://t.me/paanndorra/253"
+      },
+      {
+        "title": "EP 10",
+        "description": "",
+        "link": "https://t.me/paanndorra/254"
+      },
+      {
+        "title": "EP 11",
+        "description": "",
+        "link": "https://t.me/paanndorra/255"
+      },
+      {
+        "title": "EP 12",
+        "description": "",
+        "link": "https://t.me/paanndorra/256"
+      },
+      {
+        "title": "EP 13",
+        "description": "",
+        "link": "https://t.me/paanndorra/257"
+      },
+      {
+        "title": "EP 14",
+        "description": "",
+        "link": "https://t.me/paanndorra/258"
+      },
+      {
+        "title": "EP 15",
+        "description": "",
+        "link": "https://t.me/paanndorra/259"
+      },
+      {
+        "title": "EP 16",
+        "description": "",
+        "link": "https://t.me/paanndorra/260"
+      },
+      {
+        "title": "EP 17",
+        "description": "",
+        "link": "https://t.me/paanndorra/261"
+      },
+      {
+        "title": "EP 18",
+        "description": "",
+        "link": "https://t.me/paanndorra/262"
+      },
+      {
+        "title": "EP 19",
+        "description": "",
+        "link": "https://t.me/paanndorra/263"
+      },
+      {
+        "title": "EP 20",
+        "description": "",
+        "link": "https://t.me/paanndorra/264"
+      }
+    ],
+    "aired": "Apr 4, 2001 - Jun 7, 2001",
+    "duration": "1 hr 5 min",
+    "orginalNetworks": [
+      "f280f569-62ea-44a8-ac71-f4169af6a663"
+    ],
+    "cast": [
+      {
+        "castUuid": "eee94049-3050-4099-ba5e-e83d2c401d44",
+        "characterName": "Seo Jin Young",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "c750a4e4-b8d3-4217-8622-1c2aa6890a49",
+        "characterName": "Han Tae Jun",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "fee60687-4939-4dee-aba3-9e3b4bced844",
+        "characterName": "Shin Dong Hyuk / Frank",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "66ee47c7-93d3-45ea-bcb2-9320de031e34",
+        "characterName": "Kim Yun Hee",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "cc94d23b-aad1-401b-978e-5d32973ad61c",
+        "characterName": "Choi Young Jae",
+        "role": "Support Role"
+      },
+      {
+        "castUuid": "6021e3e8-608b-4515-ba90-b9e6edd1afdd",
+        "characterName": "Lee Soon Jung",
+        "role": "Support Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795867374/02qdN_5c_itcgi2.jpg",
+    "genres": [
+      "624b54ad-e630-4e47-87ac-f3808a367032",
+      "123e4567-e89b-12d3-a456-426614174000",
+      "123e4567-e89b-12d3-a456-426614174002"
+    ]
+  },
+  {
+    "uuid": "d2a52f0d-03a4-46d6-a35a-40aa26ba80ea",
+    "title": "All In",
+    "mmTitle": "All In",
+    "story": "💫All In   (2003) mmsub 💫 \n✨✨✨✨✨✨✨✨\nလီဗြောင်ဟွန်းကို ကျွန်တော်တို့ မြန်မာလူငယ်တွေ\n\nအထူးသတိထားမိတဲ့ စီးရီးဆိုလည်းမမှားပါဘူး..\n\nAll In ဆိုတာကျွန်တော်တို့ ငယ်ဘဝကို အတော်လွှမ်းမိုးမှုရှိခဲ့တဲ့စီးရီးတစ်ခုပါ..\n\nအခွေခေတ်က ဝိုးတဝါးနဲ့တောင် မက်မက်မောမော ကြည့်ခဲ့ရသလို\n\nဖဲဝိုင်းတွေမှာ ဂင်အင်ဟာကွဆိုပြီး ကိုယ့်ကိုကိုယ် နာမည်ပေးတဲ့အထိဖြစ်ခဲ့သလို\n\nဆိုးတူ ကောင်းဘက် သူတို့သူငယ်ချင်း Squad ကြီးကိုလည်း အားကျခဲ့ရပါတယ်..\n\nဒီစီးရီးက ၂၄ ပိုင်းရှိပြီး ဇာတ်လမ်း ဇာတ်အိမ် အရမ်းစိတ်ဝင်စားစရာကောင်းပါတယ်..\n\nအင်ဟာတို့ ကာစီနိုကြီးကိုရောက်တဲ့အချိန်ကစလို့ပေါ့..\n\nလောင်းကစားတွေနဲ့ပတ်သက်တာတွေအသေးစိတ်ပါသလို\n\nကလေးဘဝကတည်းက ဒီလောင်းကစားတွေနဲ့ရင်းနှီးကြိုးစားပြီး\n\nပါရမီပါတဲ့ ဂင်အင်ဟာရဲ့  စွန့်စားခန်းတွေကလည်း ဒီဘက်ခေတ်\n\nဇာတ်လမ်းတွဲတွေကို အေးဆေးယှဉ်လို့ရပါတယ်..\n\n၂၀၀၃ ခုနှစ်ကဖြစ်လို့ အခုချိန်ပြန်ကြည့်အဆင်ပြေမလားဆိုပြီး\n\nစိုးရိမ်မနေပါနဲ့..တကယ်ကြည့်ရတာတန်ပါတယ်..",
+    "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0",
+    "rating": "7.5",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://t.me/sEmpiire/4951",
+    "episodes": 24,
+    "episodeLinks": [
+      {
+        "title": "Ep1.  Ep2.  Ep3.  Ep4.",
+        "description": "",
+        "link": "https://t.me/doctor_22222/386"
+      },
+      {
+        "title": "Ep5.  Ep6.  Ep7.  Ep8.",
+        "description": "",
+        "link": "https://t.me/doctor_22222/390"
+      },
+      {
+        "title": "Ep9.  Ep10.  Ep11.  Ep12.",
+        "description": "",
+        "link": "https://t.me/doctor_22222/394"
+      },
+      {
+        "title": "Ep13.  Ep14.  Ep15.  Ep16.",
+        "description": "",
+        "link": "https://t.me/doctor_22222/398"
+      },
+      {
+        "title": "Ep17. Ep18. Ep19. Ep20.",
+        "description": "",
+        "link": "https://t.me/doctor_22222/402"
+      },
+      {
+        "title": "Ep21. Ep22. Ep23. Ep24 end",
+        "description": "",
+        "link": "https://t.me/doctor_22222/406"
+      }
+    ],
+    "aired": "Jan 15, 2003 - Apr 3, 2003",
+    "duration": "60 min",
+    "orginalNetworks": [
+      "22f70d25-5e06-4e3a-92cd-451edd35dc5a"
+    ],
+    "cast": [
+      {
+        "castUuid": "66ee47c7-93d3-45ea-bcb2-9320de031e34",
+        "characterName": "Angela / Min Soo Yun",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "2ef20bd2-7b6c-4039-a4d2-8abbe294a65e",
+        "characterName": "Kim In Ha",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "5043067b-b2b9-4f12-906f-bd104d3bec21",
+        "characterName": "Seo Jin Hee",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "0c7cd971-6c6f-4066-898a-aa374bf544d1",
+        "characterName": "Choi Jung Won",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "7ba7dc90-2330-44b9-9000-77d12391f988",
+        "characterName": "Rie Ochida",
+        "role": "Support Role"
+      },
+      {
+        "castUuid": "dd1be2e4-cbc6-4924-aa3d-4e2339085759",
+        "characterName": "Kim Chi Soo",
+        "role": "Support Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795872524/h05ugNCArYmfnQ6BvdV29HEfitK_md4k2f.webp",
+    "genres": [
+      "123e4567-e89b-12d3-a456-426614174000",
+      "021ca804-6f79-4f43-8622-57883e0b4a3d",
+      "123e4567-e89b-12d3-a456-426614174002",
+      "402f80a3-609b-4893-b27a-7f19fbd49cf6"
+    ]
+  },
+  {
+    "uuid": "0e8913e7-ae81-4e4b-9037-3bd04a72546f",
+    "title": "Full House",
+    "mmTitle": "ချစ်စံအိမ်",
+    "story": "အွန်စောနဲ့ ရိန်းတို့ရဲ့ ဟာသ ROMANCE ဇာတ်လမ်းတွဲလေး \n\n             Full House (2004)\n\n              မြန်မာစာတန်းထိုး စဆုံး\n\n\nတစ်ခေတ်တစ်ခါတုန်းက အရမ်းနာမည်ကြီးခဲ့တဲ့ ချစ်စံအိမ်ကားလေးကို ပြန်လည်ကြည့်ရှုခံစားကြရအောင်။\n\nချစ်စံအိမ်ဆိုရင် လူတိုင်းသိပြီးသားဇာတ်ကားဖြစ်မှာပါ။\n\nJung Ji Hoon (Rain) နဲ့ Song Hye Kyo တို့က အဓိကပါဝင်သရုပ်ဆောင်ထားပါတယ်။\n\nဇာတ်လမ်းအညွှန်းကတော့ ဟန်ဂျီအွန်းဟာ စာရေးဆရာမဖြစ်ဖို့ကြိုးစားနေတဲ့သူဖြစ်ပြီး\n\nသူ့မိဘတွေအမွေချန်ထားပေးခဲ့တဲ့အိမ်ကြီးမှာနေထိုင်ပါတယ်။\n\nဖြစ်ချင်တော့ သူခရီးသွားနေတဲ့အချိန်မှာ သူ့သူငယ်ချင်းနှစ်ယောက်က သူ့အိမ်ကို\n\nအီယောင်ဂျယ်ဆိုတဲ့ နာမည်ကြီးသရုပ်ဆောင်မင်းသားတစ်ယောက်ကိုရောင်းပစ်လိုက်ပါတယ်။\n\nခရီးကပြန်ရောက်ပြီး ဂျီအွန်းအိမ်ကိုပြန်ရောက်လာတဲ့အခါမှာ ယောင်ဂျယ်နဲ့ထိပ်တိုက်တွေ့ကြပါတော့တယ်။\n\nနှစ်ယောက်သားက တစ်စက်မှမတည့်ပေမဲ့ အဲဒီအိမ်မှာပဲ အတူတူနေဖို့ဆုံးဖြတ်လိုက်ကြပါတယ်။\n\nဟန်ဂျီအွန်းက အိမ်မှုကိစ္စတွေအားလုံးလုပ်ပေးရမယ်ဆိုတဲ့အကြောင်းပြချက်နဲ့ပါ။\n\nအတူတူနေရင်းနဲ့ အကြောင်းတစ်ခုကြောင့် နှစ်ယောက်သားဟန်ဆောင်လက်ထပ်ဖို့ဖြစ်လာကြတဲ့အခါ\n\nမတည့်အတူနေနှစ်ယောက်ရဲ့ တကျက်ကျက်ရန်ဖြစ်ရင်းနဲ့ သံယောဇဥ်တွယ်လာကြတာကို ကြည့်ရှုရမှာပါ။",
+    "country_uuid": "2e9a6f69-4ab1-443b-b260-adadfe2acd87",
+    "rating": "7.7",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://t.me/moviemyanmarserie/272",
+    "episodes": 16,
+    "episodeLinks": [
+      {
+        "title": "Channel အရင်Joinပါ 👇👇",
+        "description": "",
+        "link": "https://t.me/+L9TykWBLeHMyNTI1"
+      },
+      {
+        "title": "ဇာတ်ကားလင့်👇👇",
+        "description": "",
+        "link": "https://t.me/c/2718746222/4153"
+      },
+      {
+        "title": "EP1 EP2 EP3 EP4",
+        "description": "",
+        "link": "https://t.me/c/2718746222/4154"
+      },
+      {
+        "title": "EP5 EP6 EP7 EP8",
+        "description": "",
+        "link": "https://t.me/c/2718746222/4158"
+      },
+      {
+        "title": "EP9 EP10 EP11 EP12",
+        "description": "",
+        "link": "https://t.me/c/2718746222/4162"
+      },
+      {
+        "title": "EP13 EP14 EP15 EP16",
+        "description": "",
+        "link": "https://t.me/c/2718746222/4166"
+      }
+    ],
+    "aired": "Jul 14, 2004 - Sep 2, 2004",
+    "duration": "1 hr 10 min",
+    "orginalNetworks": [
+      "155db295-ec13-44b5-8634-606d039c9e9d"
+    ],
+    "cast": [
+      {
+        "castUuid": "1ce6b058-7efa-46db-88a1-c57abaca9e49",
+        "characterName": "Lee Yeong Jae",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "66ee47c7-93d3-45ea-bcb2-9320de031e34",
+        "characterName": "Han Ji Eun",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "2731179e-cbf0-4139-8dfa-db5e45832b07",
+        "characterName": "Yoo Min Hyeok",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "4da76fce-5fc6-4cfc-9ee4-3c19844f43cb",
+        "characterName": "Kang Hye Won",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "c547be0f-6caa-4597-a3dd-229950d28f00",
+        "characterName": "Sin Dong Uk",
+        "role": "Support Role"
+      },
+      {
+        "castUuid": "3f73ecc7-9a71-4142-bb63-a97f5d7d4e84",
+        "characterName": "Yang Hui Jin",
+        "role": "Support Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795873253/b3blwf_wri0il.jpg",
+    "genres": [
+      "29a5b7e7-25b7-4241-bfc9-9a69e10b010a",
+      "123e4567-e89b-12d3-a456-426614174000",
+      "123e4567-e89b-12d3-a456-426614174002"
+    ]
+  },
+  {
+    "uuid": "d8fc1760-b512-4e09-8e97-0a75ee967a86",
+    "title": "That Winter, the Wind Blows",
+    "mmTitle": "အနီးမှာရှိနေပေမယ့်...တစ်ယောက်ကိုတစ်ယောက် မမြင်နိုင်တဲ့ အချစ်က ပိုနာကျင်တယ်",
+    "story": "That Winter, the Wind Blows (2013)\nအပိုင်း (၁ မှ ၁၆) စ / ဆုံး\n\nအိုဆူး(Jo In Sung)ကတော့ ဒုစရိုက်ကို ခုန်မင်ကာ\nဘဝကို ပေါ့ပျက်ပျက်တွေးရင်း ရှင်သန်နေသူတစ်ဦးဖြစ်ပါတယ်။\nအိုယောင်း(Song Hye Gyo)ကတော့ မျက်မမြင်သူဌေးသမီးလေးဖြစ်ပြီး\nငယ်စဉ်အခါက ကွဲကွာသွားတဲ့ အစ်ကိုဖြစ်သူကို လိုက်လံရှာဖွေနေတဲ့ ကောင်မလေးပေါ့။\nတစ်နေ့မှာ‌တော့ အိုဆူးတစ်ယောက် ဒုစရိုက်လောကရဲ့ ထုံးစံအတိုင်း\nအရှုပ်အထွေးကြားထဲကို ကျရောက်ပြီး ပိုက်ဆံလိုလာပါတော့တယ်။\nအဲဒီအချိန်မှာပဲ အစ်ကိုဖြစ်သူကို ရှာ‌နေတဲ့ အိုယောင်းနဲ့တွေ့ပြီး\nအစ်ကိုဖြစ်သူနဲ့ နာမည်တူနေတာကို သိသွားတဲ့ အိုဆူးတစ်ယောက်\nသူ့အခက်အခဲကို ဖြေရှင်းဖို့အတွက် အိုယောင်းကို အသုံးချဖို့ကြံပါတော့တယ်...။\n\nကိုယ်စီ ကိုယ်စီ အချစ်ကို မယုံကြည်ကြတဲ့ လူနှစ်ယောက် ဆုံတွေ့ဖို့ ဖြစ်လာပြီး\nအခက်အခဲတွေကြားကနေ အချစ်စစ်ကို ဘယ်လိုရှာဖွေ့တွေ့ရှိသွားကြမလဲဆိုတာကို\nလှလှပပ ဖော်ကျူးထားတဲ့ Melodrama လေးပဲ ဖြစ်ပါတယ်။",
+    "country_uuid": "49f086f0-00ce-4b5e-a30d-90fe72b4f7b0",
+    "rating": "7.9",
+    "type": "Drama",
+    "format": "Standard Series",
+    "watchLink": "https://t.me/WatermelonTwinkling/299",
+    "episodes": 16,
+    "episodeLinks": [
+      {
+        "title": "Join",
+        "description": "",
+        "link": "https://t.me/WatermelonTwinkling"
+      },
+      {
+        "title": "EP1 EP2 EP3 EP4",
+        "description": "",
+        "link": "https://t.me/WatermelonTwinkling/300"
+      },
+      {
+        "title": "EP5 EP6 EP7 EP8",
+        "description": "",
+        "link": "https://t.me/WatermelonTwinkling/304"
+      },
+      {
+        "title": "EP9 EP10 EP11 EP12",
+        "description": "",
+        "link": "https://t.me/WatermelonTwinkling/308"
+      },
+      {
+        "title": "EP13 EP14 EP15 EP16",
+        "description": "",
+        "link": "https://t.me/WatermelonTwinkling/312"
+      }
+    ],
+    "aired": "Feb 13, 2013 - Apr 4, 2013",
+    "duration": "1 hr 5 min",
+    "orginalNetworks": [
+      "22f70d25-5e06-4e3a-92cd-451edd35dc5a"
+    ],
+    "cast": [
+      {
+        "castUuid": "7fef3c39-1a31-4f30-852c-78a6ca314658",
+        "characterName": "Oh Soo",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "66ee47c7-93d3-45ea-bcb2-9320de031e34",
+        "characterName": "Oh Young",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "2a08679b-f827-4464-86e7-4ce94293c9db",
+        "characterName": "Park Jin Sung",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "93326712-9a76-4c1a-a990-1d36da0bb2dd",
+        "characterName": "Moon Hee Sun",
+        "role": "Main Role"
+      },
+      {
+        "castUuid": "68afca75-1302-4aa1-b066-f10a8d7013b5",
+        "characterName": "Jo Moo Chul [Gangster]",
+        "role": "Support Role"
+      },
+      {
+        "castUuid": "234e99e6-1880-45df-b4a3-9e2a44d7cf7d",
+        "characterName": "Lee Myung Ho [Young's fiance]",
+        "role": "Support Role"
+      }
+    ],
+    "photos": [],
+    "coverPhoto": "https://res.cloudinary.com/knxx3idf/image/upload/v1795874406/Bdgzqf_j0j3ge.jpg",
+    "genres": [
+      "123e4567-e89b-12d3-a456-426614174000",
+      "021ca804-6f79-4f43-8622-57883e0b4a3d",
+      "402f80a3-609b-4893-b27a-7f19fbd49cf6"
+    ]
   }
 ]

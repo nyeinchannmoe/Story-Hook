@@ -33,6 +33,15 @@ export const OG_DESCRIPTION_MAX = 200;
 
 export const SKELETON_CARD_COUNT = 6;
 
+/** Default number of stories shown per page on list views. */
+export const DEFAULT_PAGE_SIZE = 30;
+
+/** Suggestions shown per page in multi-select suggest fields. */
+export const SUGGESTION_PAGE_SIZE = 15;
+
+/** Sibling page buttons on each side of the current page in pagination UI. */
+export const PAGINATION_SIBLING_COUNT = 1;
+
 export const SEARCH_RATING_MIN = 0;
 export const SEARCH_RATING_MAX = 10;
 export const SEARCH_YEAR_MIN = 1980;

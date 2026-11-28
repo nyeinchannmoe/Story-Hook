@@ -22,5 +22,9 @@
   "markSeriesWatched": "ทำเครื่องหมายว่าดู {{title}} แล้ว",
   "markSeriesUnwatched": "ยกเลิกสถานะดูแล้วของ {{title}}",
   "markEpisodeWatched": "ทำเครื่องหมายว่าดูตอนที่ {{index}} ({{title}}) แล้ว",
-  "markEpisodeUnwatched": "ทำเครื่องหมายว่ายังไม่ได้ดูตอนที่ {{index}} ({{title}})"
+  "markEpisodeUnwatched": "ทำเครื่องหมายว่ายังไม่ได้ดูตอนที่ {{index}} ({{title}})",
+  "paginationNav": "การแบ่งหน้า",
+  "paginationGoToPage": "ไปที่หน้า {{page}}",
+  "paginationPreviousPage": "ไปหน้าก่อนหน้า",
+  "paginationNextPage": "ไปหน้าถัดไป"
 }

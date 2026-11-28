@@ -22,5 +22,9 @@
   "markSeriesWatched": "将 {{title}} 标记为已看过",
   "markSeriesUnwatched": "取消 {{title}} 的已看过标记",
   "markEpisodeWatched": "将第 {{index}} 集（{{title}}）标记为已看",
-  "markEpisodeUnwatched": "将第 {{index}} 集（{{title}}）标记为未看"
+  "markEpisodeUnwatched": "将第 {{index}} 集（{{title}}）标记为未看",
+  "paginationNav": "分页",
+  "paginationGoToPage": "前往第 {{page}} 页",
+  "paginationPreviousPage": "上一页",
+  "paginationNextPage": "下一页"
 }

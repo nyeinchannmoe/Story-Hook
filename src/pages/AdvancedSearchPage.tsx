@@ -1,4 +1,12 @@
-import { useEffect, useId, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   PageContainer,
@@ -8,6 +16,7 @@ import {
   EmptyState,
   DualRangeSlider,
   MultiSelectSuggestField,
+  Pagination,
 } from '@/components';
 import {
   SEARCH_RATING_MAX,
@@ -22,7 +31,9 @@ import { useNetworks } from '@/hooks/useNetworks';
 import { useGenres } from '@/hooks/useGenres';
 import { useCountries } from '@/hooks/useCountries';
 import { useAdvancedSearch } from '@/hooks/useAdvancedSearch';
+import { usePagination } from '@/hooks/usePagination';
 import { translateErrorMessage } from '@/i18n/helpers';
+import { filtersToSearchParams } from '@/utils/search';
 import type { WatchedFilter } from '@/types/watched';
 
 interface CollapsibleFilterSectionProps {
@@ -106,10 +117,30 @@ export default function AdvancedSearchPage() {
   const { draft, applied, results, updateDraft, search, reset } =
     useAdvancedSearch(stories);
 
+  const filterResetKey = useMemo(
+    () => filtersToSearchParams(applied).toString(),
+    [applied],
+  );
+  const {
+    pageItems,
+    currentPage,
+    totalPages,
+    totalItems,
+    rangeFrom,
+    rangeTo,
+    setPage,
+    goToPrevious,
+    goToNext,
+    canGoPrevious,
+    canGoNext,
+  } = usePagination(results, { resetKey: filterResetKey });
+
   const [countriesExpanded, setCountriesExpanded] = useState(false);
   const [genresExpanded, setGenresExpanded] = useState(() =>
     applied.genreUuids.some((uuid) => genreByUuid.has(uuid)),
   );
+  const listTopRef = useRef<HTMLElement>(null);
+  const hasMountedPageRef = useRef(false);
 
   const formId = useId();
   const keywordId = `${formId}-keyword`;
@@ -130,6 +161,14 @@ export default function AdvancedSearchPage() {
       setGenresExpanded(true);
     }
   }, [appliedGenreKey, applied.genreUuids, genreByUuid]);
+
+  useEffect(() => {
+    if (!hasMountedPageRef.current) {
+      hasMountedPageRef.current = true;
+      return;
+    }
+    listTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [currentPage]);
 
   const toggleCountry = (countryUuid: string) => {
     const selected = draft.countryUuids.includes(countryUuid);
@@ -226,6 +265,7 @@ export default function AdvancedSearchPage() {
                     t('a11y:removeCastFilter', { name })
                   }
                   listboxLabel={t('advancedSearch:castSuggestions')}
+                  showAvatar
                 />
 
                 <MultiSelectSuggestField
@@ -478,7 +518,7 @@ export default function AdvancedSearchPage() {
         )}
 
         {!loading && !error && (
-          <section aria-live="polite" aria-atomic="true">
+          <section ref={listTopRef} aria-live="polite" aria-atomic="true">
             <div className="mb-6 flex items-center justify-between gap-4">
               <h2 className="text-lg font-semibold text-text-primary sm:text-xl">
                 {resultLabel}
@@ -501,7 +541,21 @@ export default function AdvancedSearchPage() {
                 }
               />
             ) : (
-              <StoryGrid stories={results} />
+              <>
+                <StoryGrid stories={pageItems} />
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalItems}
+                  rangeFrom={rangeFrom}
+                  rangeTo={rangeTo}
+                  onPageChange={setPage}
+                  canGoPrevious={canGoPrevious}
+                  canGoNext={canGoNext}
+                  onPrevious={goToPrevious}
+                  onNext={goToNext}
+                />
+              </>
             )}
           </section>
         )}

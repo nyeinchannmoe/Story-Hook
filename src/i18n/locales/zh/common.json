@@ -18,5 +18,8 @@
   "unknownCast": "未知演员",
   "rangeSeparator": "–",
   "watched": "已看过",
-  "markWatched": "标记已看"
+  "markWatched": "标记已看",
+  "paginationShowing": "显示第 {{from}}–{{to}} 部，共 {{total}} 部剧集",
+  "paginationPrevious": "上一页",
+  "paginationNext": "下一页"
 }

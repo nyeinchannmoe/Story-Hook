@@ -20,5 +20,8 @@
   "watched": "Watched",
   "markWatched": "Mark watched",
   "offlineBannerTitle": "You're offline",
-  "offlineBannerBody": "Browsing cached stories and your watched list still works."
+  "offlineBannerBody": "Browsing cached stories and your watched list still works.",
+  "paginationShowing": "Showing {{from}}–{{to}} of {{total}} stories",
+  "paginationPrevious": "Previous",
+  "paginationNext": "Next"
 }

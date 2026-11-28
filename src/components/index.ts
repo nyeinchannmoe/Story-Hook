@@ -7,6 +7,7 @@ export { LoadingSkeleton, DetailSkeleton } from './LoadingSkeleton';
 export { EmptyState } from './EmptyState';
 export { StoryCard } from './StoryCard';
 export { StoryGrid } from './StoryGrid';
+export { Pagination } from './Pagination';
 export { CastCard } from './CastCard';
 export { PhotoGallery } from './PhotoGallery';
 export { PhotoLightbox } from './PhotoLightbox';

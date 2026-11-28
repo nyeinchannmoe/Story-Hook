@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   PageContainer,
@@ -5,14 +6,39 @@ import {
   StoryGrid,
   LoadingSkeleton,
   EmptyState,
+  Pagination,
 } from '@/components';
 import { useStories } from '@/hooks/useStories';
+import { usePagination } from '@/hooks/usePagination';
 import { translateErrorMessage } from '@/i18n/helpers';
 import { buildWebsiteJsonLd } from '../../social-meta';
 
 export default function HomePage() {
   const { t } = useTranslation(['home', 'common', 'seo', 'errors']);
   const { stories, loading, error, refetch } = useStories();
+  const {
+    pageItems,
+    currentPage,
+    totalPages,
+    totalItems,
+    rangeFrom,
+    rangeTo,
+    setPage,
+    goToPrevious,
+    goToNext,
+    canGoPrevious,
+    canGoNext,
+  } = usePagination(stories);
+  const listTopRef = useRef<HTMLDivElement>(null);
+  const hasMountedPageRef = useRef(false);
+
+  useEffect(() => {
+    if (!hasMountedPageRef.current) {
+      hasMountedPageRef.current = true;
+      return;
+    }
+    listTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [currentPage]);
 
   return (
     <>
@@ -61,7 +87,21 @@ export default function HomePage() {
         )}
 
         {!loading && !error && stories.length > 0 && (
-          <StoryGrid stories={stories} />
+          <div ref={listTopRef}>
+            <StoryGrid stories={pageItems} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              rangeFrom={rangeFrom}
+              rangeTo={rangeTo}
+              onPageChange={setPage}
+              canGoPrevious={canGoPrevious}
+              canGoNext={canGoNext}
+              onPrevious={goToPrevious}
+              onNext={goToNext}
+            />
+          </div>
         )}
       </PageContainer>
     </>

@@ -54,5 +54,13 @@
     {
         "uuid": "580cb991-1214-438f-afda-f62a46a6722d",
         "name": "Wuxia"
+    },
+    {
+        "uuid": "624b54ad-e630-4e47-87ac-f3808a367032",
+        "name": "Business"
+    },
+    {
+        "uuid": "021ca804-6f79-4f43-8622-57883e0b4a3d",
+        "name": "Crime"
     }
 ]

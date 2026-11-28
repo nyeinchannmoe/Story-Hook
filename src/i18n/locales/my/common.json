@@ -20,5 +20,8 @@
   "watched": "ကြည့်ပြီး",
   "markWatched": "ကြည့်ပြီးအဖြစ် မှတ်ရန်",
   "offlineBannerTitle": "အင်တာနက်မရှိပါ",
-  "offlineBannerBody": "ကက်ရှ်ထားသော ဇာတ်လမ်းများနှင့် ကြည့်ပြီးစာရင်းကို ဆက်သုံးနိုင်ပါသည်။"
+  "offlineBannerBody": "ကက်ရှ်ထားသော ဇာတ်လမ်းများနှင့် ကြည့်ပြီးစာရင်းကို ဆက်သုံးနိုင်ပါသည်။",
+  "paginationShowing": "ဇာတ်လမ်း {{total}} ခုအနက် {{from}}–{{to}} ကို ပြသနေသည်",
+  "paginationPrevious": "ယခင်",
+  "paginationNext": "နောက်"
 }

@@ -23,4 +23,6 @@ export type StorySortMode = 'aired' | 'rating' | 'combined';
 export interface SuggestOption {
   uuid: string;
   name: string;
+  /** Optional profile image (cast); absent → letter avatar when showAvatar. */
+  image?: string;
 }

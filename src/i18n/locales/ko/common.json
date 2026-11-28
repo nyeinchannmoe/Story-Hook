@@ -18,5 +18,8 @@
   "unknownCast": "알 수 없는 배우",
   "rangeSeparator": "–",
   "watched": "시청함",
-  "markWatched": "시청함으로 표시"
+  "markWatched": "시청함으로 표시",
+  "paginationShowing": "{{total}}개 중 {{from}}–{{to}} 표시",
+  "paginationPrevious": "이전",
+  "paginationNext": "다음"
 }

@@ -23,6 +23,10 @@
   "markSeriesUnwatched": "Remove already watched status from {{title}}",
   "markEpisodeWatched": "Mark episode {{index}} ({{title}}) as watched",
   "markEpisodeUnwatched": "Mark episode {{index}} ({{title}}) as not watched",
-  "offlineStatus": "Application is offline. Cached content remains available."
+  "offlineStatus": "Application is offline. Cached content remains available.",
+  "paginationNav": "Pagination",
+  "paginationGoToPage": "Go to page {{page}}",
+  "paginationPreviousPage": "Go to previous page",
+  "paginationNextPage": "Go to next page"
 }
 

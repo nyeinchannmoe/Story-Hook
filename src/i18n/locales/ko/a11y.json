@@ -22,5 +22,9 @@
   "markSeriesWatched": "{{title}}을(를) 시청함으로 표시",
   "markSeriesUnwatched": "{{title}}의 시청함 표시 제거",
   "markEpisodeWatched": "{{index}}화 ({{title}})을(를) 시청함으로 표시",
-  "markEpisodeUnwatched": "{{index}}화 ({{title}})을(를) 미시청으로 표시"
+  "markEpisodeUnwatched": "{{index}}화 ({{title}})을(를) 미시청으로 표시",
+  "paginationNav": "페이지 탐색",
+  "paginationGoToPage": "{{page}}페이지로 이동",
+  "paginationPreviousPage": "이전 페이지로 이동",
+  "paginationNextPage": "다음 페이지로 이동"
 }

@@ -18,5 +18,8 @@
   "unknownCast": "นักแสดงไม่ทราบชื่อ",
   "rangeSeparator": "–",
   "watched": "ดูแล้ว",
-  "markWatched": "ทำเครื่องหมายว่าดูแล้ว"
+  "markWatched": "ทำเครื่องหมายว่าดูแล้ว",
+  "paginationShowing": "แสดง {{from}}–{{to}} จาก {{total}} เรื่อง",
+  "paginationPrevious": "ก่อนหน้า",
+  "paginationNext": "ถัดไป"
 }
